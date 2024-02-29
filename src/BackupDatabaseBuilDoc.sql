@@ -25,6 +25,7 @@ pk_id_cliente BIGINT (20) primary key not null,
 cliNombre varchar (45) not null,
 cliCorreo varchar (100) not null,
 cliTelefono varchar (12) not null);
+
 create table proyectos ( /* yo*/
 pk_id_proyecto BIGINT (20) primary key not null auto_increment,
 proNombre varchar (100) not null,
@@ -47,6 +48,7 @@ foreign key (fk_id_usuario) references usuarios (pk_id_usuario)
 ON DELETE CASCADE ON UPDATE CASCADE,
 foreign key (fk_id_proyecto) references proyectos (pk_id_proyecto)
 ON DELETE CASCADE ON UPDATE CASCADE);
+
 create table archivos ( /*yo*/
 pk_id_archivo BIGINT (20) primary key not null auto_increment,
 arcNombre_Original varchar (100) not null,
@@ -59,6 +61,7 @@ foreign key (fk_id_usuario) references usuarios (pk_id_usuario)
 ON DELETE CASCADE ON UPDATE CASCADE,
 foreign key (fk_id_carpeta) references carpetas (pk_id_carpeta)
 ON DELETE CASCADE ON UPDATE CASCADE);
+
 create table archivoVersiones ( /*nicolas*/
 pk_id_version bigint (20) primary key not null auto_increment,
 verArchivoOriginal bigint (20) not null,
@@ -67,15 +70,17 @@ foreign key (verArchivoOriginal) references archivos (pk_id_archivo)
 ON DELETE CASCADE ON UPDATE CASCADE,
 foreign key (verArchivoVersion) references archivos (pk_id_archivo)
 ON DELETE CASCADE ON UPDATE CASCADE);
+
 create table ciclos (
-pk_id_fase BIGINT (20) primary key not null auto_increment,
-fasNombre varchar (100) not null,
-fasFecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-fasDescripcion varchar (5000) null,
-fasEstado ENUM ("PENDIENTE","EN PROGRESO", "COMPLETADO") not null,
+pk_id_ciclo BIGINT (20) primary key not null auto_increment,
+cicNombre varchar (100) not null,
+cicFecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+cicDescripcion varchar (5000) null,
+cicEstado ENUM ("PENDIENTE","EN PROGRESO", "COMPLETADO") not null,
 fk_id_proyecto BIGINT (20) not null,
 foreign key (fk_id_proyecto) references proyectos (pk_id_proyecto)
 ON DELETE CASCADE ON UPDATE CASCADE);
+
 create table tareas (
 pk_id_tarea BIGINT (20) primary key not null auto_increment,
 tarNombre varchar (45) not null,
@@ -84,9 +89,10 @@ tarPrioridad ENUM ("ALTA","BAJA") not null,
 tarEstado ENUM ("PENDIENTE","EN PROGRESO", "COMPLETADO"),
 tarFecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 tarFecha_limite DATETIME not null,
-fk_id_fase BIGINT (20) not null,
-foreign key (fk_id_fase) references ciclos (pk_id_fase)
+fk_id_ciclo BIGINT (20) not null,
+foreign key (fk_id_ciclo) references ciclos (pk_id_ciclo)
 ON DELETE CASCADE ON UPDATE CASCADE);
+
 create table dependenciaTareas (
 pk_id_dependencia bigint (20) primary key not null auto_increment,
 depTareaPrincipal bigint (20) not null,
@@ -95,6 +101,7 @@ foreign key (depTareaPrincipal) references tareas (pk_id_tarea)
 ON DELETE CASCADE ON UPDATE CASCADE,
 foreign key (depTareaDependiente) references tareas (pk_id_tarea)
 ON DELETE CASCADE ON UPDATE CASCADE);
+
 create table comentario_tareas (
 pk_id_comentario_tareas BIGINT (20) primary key not null auto_increment,
 ctaDescripcion varchar (100) not null,
