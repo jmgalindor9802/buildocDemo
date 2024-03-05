@@ -17,4 +17,7 @@ public class Rol {
     private long idRol;
     @Column(name = "rolNombre", length = 100)
     private String nombre;
+
+    @ManytoMany(mappedBy="roles")
+    List<Usuario> usuarios;
 }

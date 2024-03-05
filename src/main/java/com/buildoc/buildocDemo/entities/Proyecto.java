@@ -34,5 +34,8 @@ public class Proyecto {
     @OneToOne(mappedBy = "proyecto", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Ciclo ciclo;
 
+    @ManytoOne(name="fk_id_usuario", insertable=false, update=false)
+    private Usuario usuario;
+
 
 }
