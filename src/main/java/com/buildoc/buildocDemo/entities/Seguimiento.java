@@ -31,4 +31,7 @@ public class Seguimiento {
 
     @Column(name = "fk_id_incidente", nullable = false)
     private Long idIncidente;
+    @ManyToOne
+    @JoinColumn(name="fk_id_incidente",insertable = false,updatable = false)
+    private Incidente incidente;
 }

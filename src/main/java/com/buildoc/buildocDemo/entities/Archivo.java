@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 public class Archivo {
     @Column (name="pk_id_archivo")
     private Long idArchivo;
-    @Column (name="arcNombre_Original")
+    @Column (name="arcNombre")
     private String nombreOriginal;
     @Column (name="arcFecha_creacion")
     private LocalDateTime fechaCreacion;
@@ -23,20 +24,18 @@ public class Archivo {
     private String tipo;
     @Column (name="arcTamaño")
     private String tamano;
-    @Column(name ="version")
     @Column (name="fk_id_usuario")
-    private Long usuario;
-    @Column (name="fk_id_carpeta")
-    private Long carpeta;
+    private Long usuario_usuario;
+    @Column (name="ruta")
+    private String ruta;
 
     @ManyToOne
     @JoinColumn(name="fk_id_usuario", insertable = false,updatable = false)
     private Usuario usuario;
-
-    @ManyToOne
-    @JoinColumn(name="fk_id_carpeta", insertable = false,updatable = false)
-    private Carpeta carpeta;
-
+    @ManyToMany(mappedBy = "archivos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TipoInspeccion> tipoInspecciones;
+    @ManyToMany(mappedBy = "archivos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Tarea> tareas;
 
 
 

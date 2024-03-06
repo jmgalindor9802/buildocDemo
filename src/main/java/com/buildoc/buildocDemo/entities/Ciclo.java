@@ -32,8 +32,15 @@ public class Ciclo {
     @JoinColumn(name="fk_id_proyecto", insertable = false,updatable = false)
     private Proyecto proyecto;
 
-    @OneToMany(mappedBy = "ciclo",cascade = CascadeType.ALL, fetch =FetchType.LAZY)
+    @OneToMany(mappedBy = "ciclo",cascade = CascadeType.ALL, fetch =FetchType.LAZY, orphanRemoval = true)
     private List<Tarea> tareas;
+    public enum EstadoCiclo {
 
+        PENDIENTE,
+        EN_PROGRESO,
+        COMPLETADO
+
+
+    }
 
 }

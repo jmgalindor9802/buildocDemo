@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.Date; /*Esta clase se utiliza para representar fechas sin hora en Java, similar altipo de dato
 DATE en SQL.*/
+import java.util.List;
 
 @Entity
 @Table(name = "incidentes")
@@ -66,4 +67,15 @@ public class Incidente {
         MEDIO,
         BAJO
     }
+
+    @OneToMany(mappedBy = "incidente",cascade = CascadeType.ALL, fetch =FetchType.LAZY)
+    private List<Seguimiento> seguimientos;
+    @OneToMany(mappedBy = "incidente",cascade = CascadeType.ALL, fetch =FetchType.LAZY)
+    private List<InvolucradoIncidente> involucradoIncidentes;
+    @ManyToOne
+    @JoinColumn(name="fk_id_proyecto",insertable = false,updatable = false)
+    private Proyecto proyecto;
+    @ManyToOne
+    @JoinColumn(name="fk_id_usuario",insertable = false,updatable = false)
+    private Usuario usuario;
 }

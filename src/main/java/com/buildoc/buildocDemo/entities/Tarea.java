@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -13,6 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table (name="tareas")
 public class Tarea {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="pk_id_tarea")
     private Long idTarea;
     @Column (name="tarNombre")
@@ -40,4 +43,12 @@ public class Tarea {
         COMPLETADO
     }
 
+    @OneToOne(mappedBy = "tarea_inspeccion",cascade = CascadeType.ALL, fetch =FetchType.LAZY, orphanRemoval = true)
+    private Inspeccion inspeccion;
+    @ManyToMany
+    @JoinTable(name = "tareas_archivos", joinColumns = @JoinColumn(name = "fk_id_tarea"),
+            inverseJoinColumns = @JoinColumn(name = "fk_id_archivo"))
+    private List<Archivo> archivos;
+    @OneToMany(mappedBy = "tarea",cascade = CascadeType.ALL, fetch =FetchType.LAZY, orphanRemoval = true)
+    private List<Comentario> comentarios;
 }

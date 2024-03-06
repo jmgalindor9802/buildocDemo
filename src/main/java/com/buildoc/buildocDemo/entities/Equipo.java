@@ -24,6 +24,7 @@ public class Equipo {
     @Column(name = "fk_id_proyecto")
     @ManyToMany(mappedBy = "equipos")
     private List<Usuario> usuarios;
-    @ManyToOne(name="fk_id_proyecto", insertable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name="fk_id_proyecto", insertable = false, updatable = false)
     private Proyecto proyecto;
 }

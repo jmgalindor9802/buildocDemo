@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "roles")
 @Data
@@ -18,6 +20,6 @@ public class Rol {
     @Column(name = "rolNombre", length = 100)
     private String nombre;
 
-    @ManytoMany(mappedBy="roles")
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<Usuario> usuarios;
 }

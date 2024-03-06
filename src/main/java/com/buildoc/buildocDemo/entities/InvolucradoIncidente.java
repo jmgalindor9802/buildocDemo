@@ -6,29 +6,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "involucrados")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Involucrado {
+public class InvolucradoIncidente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "pk_id_involucrado", columnDefinition = "BIGINT(20)")
     private Long idInvolucrado;
-
-    @Column(name = "invNombre", nullable = false, length = 280)
-    private String nombre;
-
-    @Column(name = "invApellido", nullable = false, length = 280)
-    private String apellido;
-
-    @Column(name = "invNumDocumento", nullable = false)
-    private Long numDocumento;
-
-    @Column(name = "invJustificacion", nullable = false, length = 200)
-    private String justificacion;
-
+    @Column(name = "invRelacionIncidente", nullable = false, length = 200)
+    private String relacionIncidente;
+    @Column(name = "fk_id_persona", nullable = false)
+    private Long idPersona;
     @Column(name = "fk_id_incidente", nullable = false)
     private Long idIncidente;
+    @ManyToOne
+    @JoinColumn(name = "fk_id_incidente",insertable = false,updatable = false)
+    private Incidente incidente;
 }

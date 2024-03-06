@@ -13,6 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Proyecto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 
     @Column (name="pk_id_proyecto")
     private Long id;
@@ -38,5 +40,6 @@ public class Proyecto {
     @OneToMany(mappedBy = "proyectos", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Equipo> equipos;
 
-
+    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Incidente> incidentes;
 }
