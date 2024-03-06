@@ -20,7 +20,7 @@ public class Tarea {
     @Column (name="tarDescripcion")
     private String descripcion;
     @Enumerated(EnumType.STRING)
-    @Column (name="tarPrioridad")
+    @Column (name="tarEstado")
     private EstadoTarea estado;
 
     @Column(name="tarFecha_creacion")
@@ -34,5 +34,10 @@ public class Tarea {
     @JoinColumn(name="fk_id_ciclo",insertable = false,updatable = false)
     private Ciclo ciclo;
 
+    public enum EstadoTarea {
+        PENDIENTE,
+        EN_PROGRESO,
+        COMPLETADO
+    }
 
 }

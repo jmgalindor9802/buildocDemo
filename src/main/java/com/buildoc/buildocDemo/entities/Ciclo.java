@@ -28,8 +28,8 @@ public class Ciclo {
     @Column (name="fk_id_proyecto")
     private Long idProyecto;
 
-    @OneToOne
-    @JoinColumn(name="fk_id_proyecto")
+    @ManyToOne
+    @JoinColumn(name="fk_id_proyecto", insertable = false,updatable = false)
     private Proyecto proyecto;
 
     @OneToMany(mappedBy = "ciclo",cascade = CascadeType.ALL, fetch =FetchType.LAZY)

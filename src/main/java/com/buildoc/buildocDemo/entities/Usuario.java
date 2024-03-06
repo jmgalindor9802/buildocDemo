@@ -1,5 +1,9 @@
 package com.buildoc.buildocDemo.entities;
 
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +46,10 @@ public class Usuario {
     @JoinTable(name="usuarios_roles",joinColumns=@JoinColumn(name="fk_id_usuario"),
     inverseJoinsColumns=@JoinColumn(name="fk_id_rol"))
     List<Rol> roles;
-
+    @ManyToMany
+    @JoinTable(name = "usuarios_equipos", joinColumns = @JoinColumn(name = "fk_id_usuario"),
+            inverseJoinColumns =@JoinColumn(name = "fk_id_equipo"))
+    private List<Equipo> equipos;
 
 
 
