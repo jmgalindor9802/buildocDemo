@@ -68,7 +68,7 @@ public class Incidente {
     }
 
     @OneToMany(mappedBy = "incidente",cascade = CascadeType.ALL, fetch =FetchType.LAZY)
-    private List<Seguimiento> seguimientos;
+    private List<SeguimientoIncidente> seguimientoIncidentes;
     @OneToMany(mappedBy = "incidente",cascade = CascadeType.ALL, fetch =FetchType.LAZY)
     private List<InvolucradoIncidente> involucradoIncidentes;
     @ManyToOne

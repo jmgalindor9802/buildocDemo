@@ -1,5 +1,4 @@
 package com.buildoc.buildocDemo.services.imp;
-
 import com.buildoc.buildocDemo.entities.Proyecto;
 import com.buildoc.buildocDemo.repositories.ProyectoRepository;
 import com.buildoc.buildocDemo.services.ProyectoServices;
@@ -15,24 +14,20 @@ public class ProyectoServiceImp implements ProyectoServices {
     public List<Proyecto> listarProyectos() {
         return proyectoRepository.findAll();
     }
-
     @Override
-    public Proyecto crearProyecto(Proyecto proyecto) {
-        return proyectoRepository.save(proyecto);
+    public void crearProyecto(Proyecto proyecto) {
+        proyectoRepository.save(proyecto);
     }
-
     @Override
     public Proyecto obtenerProyectoPorId(Long id) {
-        return null;
+        return proyectoRepository.getById(id);
     }
-
     @Override
-    public Proyecto actualizarProyecto(Proyecto proyecto) {
-        return null;
+    public void actualizarProyecto(Proyecto proyecto) {
+        proyectoRepository.save(proyecto);
     }
-
     @Override
-    public void eliminarProyecto(Long id) {
-
+    public void eliminarProyecto(Proyecto proyecto) {
+        proyectoRepository.delete(proyecto);
     }
 }

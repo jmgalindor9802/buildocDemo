@@ -1,9 +1,9 @@
 package com.buildoc.buildocDemo.repositories;
 
-import com.buildoc.buildocDemo.entities.Seguimiento;
+import com.buildoc.buildocDemo.entities.Tarea;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SeguimientoRepository extends JpaRepository<Seguimiento, Long> {
+public interface TareaRepository extends JpaRepository<Tarea, Long> {
 }

@@ -1,35 +1,44 @@
 package com.buildoc.buildocDemo.services.imp;
-
-import com.buildoc.buildocDemo.entities.Persona;
+import com.buildoc.buildocDemo.entities.Usuario;
+import com.buildoc.buildocDemo.repositories.UsuarioRepository;
 import com.buildoc.buildocDemo.services.UsuarioServices;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.SpringVersion;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UsuarioServiceImp implements UsuarioServices {
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+
     @Override
-    public List<Persona> listarPersonas() {
-        return null;
+    public List<Usuario> listarUsuarios() {
+        usuarioRepository.findAll();
     }
 
     @Override
-    public Persona crearPersona(Persona persona) {
-        return null;
+    public void crearUsuario(Usuario usuario) {
+usuarioRepository.save(usuario);
     }
 
     @Override
-    public Persona obtenerPersonaPorId(Long id) {
-        return null;
+    public Usuario obtenerUsuarioPorId(Long id) {
+        return usuarioRepository.getById(id);
     }
 
     @Override
-    public Persona actualizarPersona(Persona persona) {
-        return null;
+    public void actualizarUsuario(Usuario usuario) {
+        usuarioRepository.save(usuario);
+
     }
 
     @Override
-    public void eliminarEquipo(Long id) {
+    public void eliminarUsuario(Usuario usuario) {
+        usuarioRepository.delete(usuario);
 
     }
 }

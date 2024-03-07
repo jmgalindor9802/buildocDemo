@@ -13,7 +13,7 @@ DATE en SQL.*/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Seguimiento {
+public class SeguimientoIncidente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "pk_id_seguimiento", columnDefinition = "BIGINT(20)")
