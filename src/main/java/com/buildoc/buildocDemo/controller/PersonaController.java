@@ -25,19 +25,17 @@ public class PersonaController {
     public ResponseEntity<Map<String, Object>>create(@RequestBody Map<String,Object>request){
         Map<String,Object> response = new HashMap<>();
         try {
-            System.out.println("@@@"+request);
-            Persona persona= new Persona();
-            //persona.setId(Long.parseLong(request.get(("id").toString())));
-            persona.setCedula(1L);
-            persona.setNombre(request.get("Nombre").toString());
-            persona.setApellido(request.get("Apellido").toString());
-            persona.setEps(request.get("EPS".toString()));
-            persona.setArl("ARL");
-            persona.setFechaNacimiento(new Date()); // Debes proporcionar una fecha válida aquí
-            persona.setMunicipio("Municipio");
-            persona.setDireccion("Dirección");
-            persona.setProfesion("Profesión");
-            persona.setTelefono(123456789L);
+            Persona persona = new Persona();
+            persona.setCedula((Long) request.get("cedula"));
+            persona.setNombre((String) request.get("nombre"));
+            persona.setApellido((String) request.get("apellido"));
+            persona.setEps((String) request.get("eps"));
+            persona.setArl((String) request.get("arl"));
+            persona.setFechaNacimiento(new Date());
+            persona.setMunicipio((String) request.get("municipio"));
+            persona.setDireccion((String) request.get("direccion"));
+            persona.setProfesion((String) request.get("profesion"));
+            persona.setTelefono((Long) request.get("telefono"));
             this.personaServices.crearPersona(persona);
             response.put("status","succes");
             response.put("data","Registro exitoso");

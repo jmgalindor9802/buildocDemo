@@ -9,13 +9,4 @@ import java.util.List;
 
 @Repository
 public interface SeguimientoIncidenteRepository extends JpaRepository<SeguimientoIncidente, Long> {
-    public List<SeguimientoIncidente> listarSeguimientoIncidentes();
-
-    public void crearSeguimientoIncidente(SeguimientoIncidente seguimientoIncidente);
-
-    public Archivo obtenerSeguimientoIncidentePorId(Long id);
-
-    public void actualizarSeguimientoIncidente(SeguimientoIncidente seguimientoIncidente);
-
-    public void eliminarSeguimientoIncidente(SeguimientoIncidente seguimientoIncidente);
 }

@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.controller;
 
+import com.buildoc.buildocDemo.services.imp.ResultadoInspeccionServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;

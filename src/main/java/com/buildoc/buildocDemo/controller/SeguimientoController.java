@@ -1,6 +1,6 @@
 package com.buildoc.buildocDemo.controller;
 
-import com.buildoc.buildocDemo.services.imp.SeguimientoServiceImp;
+import com.buildoc.buildocDemo.services.imp.SeguimientoIncidenteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,5 +12,5 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 public class SeguimientoController {
     @Autowired
-    private SeguimientoServiceImp seguimientoServiceImp;
+    private SeguimientoIncidenteServiceImp seguimientoServiceImp;
 }
