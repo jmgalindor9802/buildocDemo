@@ -20,7 +20,7 @@ public class EquipoServiceImp implements EquipoServices {
 
     @Override
     public Equipo crearEquipo(Equipo equipo) {
-        return null;
+        return equipoRepository.save(equipo);
     }
 
     @Override
