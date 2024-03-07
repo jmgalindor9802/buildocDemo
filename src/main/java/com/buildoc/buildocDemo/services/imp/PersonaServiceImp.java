@@ -11,24 +11,29 @@ import java.util.List;
 public class PersonaServiceImp implements PersonaServices {
     @Autowired
     private PersonaRepository personaRepository;
+
     @Override
     public List<Persona> listarPersonas() {
         return personaRepository.findAll();
     }
+
     @Override
     public void crearPersona(Persona persona) {
-        personaRepository.save(persona);
+personaRepository.save(persona);
     }
+
     @Override
     public Persona obtenerPersonaPorId(Long id) {
         return personaRepository.getById(id);
     }
+
     @Override
     public void actualizarPersona(Persona persona) {
         personaRepository.save(persona);
     }
+
     @Override
     public void eliminarPersona(Persona persona) {
-        personaRepository.delete(persona);
+    personaRepository.delete(persona);
     }
 }

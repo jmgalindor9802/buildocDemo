@@ -10,24 +10,29 @@ import java.util.List;
 public class SeguimientoIncidenteServiceImp implements SeguimientoIncidenteServices {
     @Autowired
     private SeguimientoIncidenteRepository seguimientoIncidenteRepository;
+
     @Override
     public List<SeguimientoIncidente> listarSeguimientoIncidentes() {
         return seguimientoIncidenteRepository.findAll();
     }
+
     @Override
     public void crearSeguimientoIncidente(SeguimientoIncidente seguimientoIncidente) {
-        seguimientoIncidenteRepository.save(seguimientoIncidente);
+    seguimientoIncidenteRepository.save(seguimientoIncidente);
     }
+
     @Override
     public SeguimientoIncidente obtenerSeguimientoIncidentePorId(Long id) {
         return seguimientoIncidenteRepository.getById(id);
     }
+
     @Override
     public void actualizarSeguimientoIncidente(SeguimientoIncidente seguimientoIncidente) {
         seguimientoIncidenteRepository.save(seguimientoIncidente);
     }
+
     @Override
-    public void eliminarArchivo(SeguimientoIncidente seguimientoIncidente) {
-        seguimientoIncidenteRepository.delete(seguimientoIncidente);
+    public void eliminarSeguimientoIncidente(SeguimientoIncidente seguimientoIncidente) {
+    seguimientoIncidenteRepository.delete(seguimientoIncidente);
     }
 }
