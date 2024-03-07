@@ -16,24 +16,20 @@ public class ArchivoServiceImp implements ArchivoServices {
     public List<Archivo> listarArchivos() {
         return archivoRepository.findAll();
     }
-
     @Override
-    public Archivo crearArchivo(Archivo archivo) {
-        return archivoRepository.save(archivo);
+    public void crearArchivo(Archivo archivo) {
+         archivoRepository.save(archivo);
     }
-
     @Override
     public Archivo obtenerArchivoPorId(Long id) {
-        return null;
+        return archivoRepository.getById(id);
     }
-
     @Override
-    public Archivo actualizarArchivo(Archivo archivo) {
-        return null;
+    public void actualizarArchivo(Archivo archivo) {
+         archivoRepository.save(archivo);
     }
-
     @Override
-    public void eliminarArchivo(Long id) {
-
+    public void eliminarArchivo(Archivo archivo) {
+     archivoRepository.delete(archivo);
     }
 }

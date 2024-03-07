@@ -8,11 +8,11 @@ import java.util.List;
 public interface ArchivoServices {
     public List<Archivo> listarArchivos();
 
-    Archivo crearArchivo(Archivo archivo);
+    public void crearArchivo(Archivo archivo);
 
-    Archivo obtenerArchivoPorId(Long id);
+    public Archivo obtenerArchivoPorId(Long id);
 
-    Archivo actualizarArchivo(Archivo archivo);
+    public void actualizarArchivo(Archivo archivo);
 
-    void eliminarArchivo(Long id);
+    public void eliminarArchivo(Archivo archivo);
 }
