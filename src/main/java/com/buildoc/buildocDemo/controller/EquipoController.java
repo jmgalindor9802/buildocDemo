@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class EquipoController {
     @Autowired
     private EquipoServices equipoServices;
-    @GetMapping({"/equipo","/"})
-    public String listarEquipo(Model modelo){
-        modelo.addAttribute("equipos", equipoServices.listarEquipos());
+    @GetMapping("/listarEquipos")
+    public String listarEquipos(Model model) {
+        model.addAttribute("equipos", equipoServices.listarEquipos());
         return "equipos";
     }
 }

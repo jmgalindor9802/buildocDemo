@@ -12,9 +12,9 @@ public class PersonaController {
     @Autowired
     private PersonaServices personaServices;
 
-    @GetMapping({"/persona","/"})
-    public String listarEquipo(Model modelo){
-        modelo.addAttribute("personas", personaServices.listarPersonas());
+    @GetMapping("/listarPersonas") // Cambia la ruta aquí
+    public String listarPersonas(Model model) {
+        model.addAttribute("personas", personaServices.listarPersonas());
         return "personas";
     }
 }
