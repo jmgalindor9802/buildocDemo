@@ -4,7 +4,7 @@ import com.buildoc.buildocDemo.entities.Equipo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-/*
+
 @Service
 public interface EquipoServices {
     public List<Equipo> listarEquipos();
@@ -17,6 +17,3 @@ public interface EquipoServices {
 
     void eliminarEquipo(Long id);
 }
-
-
- */

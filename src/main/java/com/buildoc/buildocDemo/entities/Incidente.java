@@ -41,7 +41,7 @@ public class Incidente {
     private IncidenteGravedad gravedad;
 
     @Column(name = "incFecha", nullable = false, updatable = false)
-    private String fecha;
+    private Date fecha;
 
     @Column(name = "incSugerencias", length = 5000)
     private String sugerencias;

@@ -21,7 +21,6 @@ public class Usuario {
     @Column (name="email")
     private String email;
 
-
     @ManyToMany
     @JoinTable(name="usuarios_roles",joinColumns=@JoinColumn(name="fk_id_usuario"),
     inverseJoinColumns=@JoinColumn(name="fk_id_rol"))
