@@ -8,11 +8,11 @@ import java.util.List;
 public interface ProyectoServices {
     public List<Proyecto> listarProyectos();
 
-    Proyecto crearProyecto(Proyecto proyecto);
+    public void crearProyecto(Proyecto proyecto);
 
-    Proyecto obtenerProyectoPorId(Long id);
+    public Proyecto obtenerProyectoPorId(Long id);
 
-   Proyecto actualizarProyecto(Proyecto proyecto);
+   public void actualizarProyecto(Proyecto proyecto);
 
-    void eliminarProyecto(Long id);
+   public void eliminarProyecto(Proyecto proyecto);
 }

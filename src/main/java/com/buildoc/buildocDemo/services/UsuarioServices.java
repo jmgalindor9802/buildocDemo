@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.services;
 
+import com.buildoc.buildocDemo.entities.Archivo;
 import com.buildoc.buildocDemo.entities.Persona;
 import com.buildoc.buildocDemo.entities.Usuario;
 import org.springframework.stereotype.Service;
@@ -7,13 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public interface UsuarioServices {
-    public List<Persona> listarPersonas();
+    public List<Usuario> listarUsuarios();
 
-    Persona crearPersona(Persona persona);
+    public void crearUsuario(Usuario usuario);
 
-    Persona obtenerPersonaPorId(Long id);
+    public Usuario obtenerUsuarioPorId(Long id);
 
-    Persona actualizarPersona(Persona persona);
+    public void actualizarUsuario(Usuario usuario);
 
-    void eliminarEquipo(Long id);
+    public void eliminarUsuario(Usuario usuario);
 }

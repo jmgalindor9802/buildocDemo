@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.services;
 
+import com.buildoc.buildocDemo.entities.Rol;
 import com.buildoc.buildocDemo.entities.Tarea;
 import org.springframework.stereotype.Service;
 
@@ -9,11 +10,11 @@ import java.util.List;
 public interface TareaServices {
     public List<Tarea> listarTareas();
 
-    Tarea crearPersona(Tarea tarea);
+    public void crearTarea(Tarea tarea);
 
-    Tarea obtenerTareaPorId(Long id);
+    public Tarea obtenerTareaPorId(Long id);
 
-    Tarea actualizarTarea(Tarea tarea);
+    public void actualizarTarea(Tarea tarea);
 
-    void eliminarTarea(Long id);
+    public void eliminarTarea(Tarea tarea);
 }

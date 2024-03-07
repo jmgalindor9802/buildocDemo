@@ -1,4 +1,5 @@
 package com.buildoc.buildocDemo.services;
+import com.buildoc.buildocDemo.entities.Archivo;
 import com.buildoc.buildocDemo.entities.Rol;
 import org.springframework.stereotype.Service;
 
@@ -6,14 +7,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public interface RolServices {
-
     public List<Rol> listarRoles();
 
-    Rol crearRol(Rol rol);
+    public void crearRol(Rol rol);
 
-    Rol obtenerRolPorId(Long id);
+    public Rol obtenerRolPorId(Long id);
 
-    Rol actualizarRol(Rol rol);
+    public void actualizarRol(Rol rol);
 
-    void eliminarRol(Long id);
+    public void eliminarRol(Rol rol);
 }
