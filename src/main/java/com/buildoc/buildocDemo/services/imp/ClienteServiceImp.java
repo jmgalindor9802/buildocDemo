@@ -18,22 +18,22 @@ public class ClienteServiceImp implements ClienteServices {
     }
 
     @Override
-    public Cliente crearCliente(Cliente cliente) {
-        return clienteRepository.save(cliente);
+    public void crearCliente(Cliente cliente) {
+         clienteRepository.save(cliente);
     }
 
     @Override
     public Cliente obtenerClientePorId(Long id) {
-        return null;
+        return clienteRepository.getById(id);
     }
 
     @Override
-    public Cliente actualizarCliente(Cliente cliente) {
-        return null;
+    public void actualizarCliente(Cliente cliente) {
+        clienteRepository.save(cliente);
     }
 
     @Override
-    public void eliminarCliente(Long id) {
-
+    public void eliminarCliente(Cliente cliente) {
+        clienteRepository.delete(cliente);
     }
 }

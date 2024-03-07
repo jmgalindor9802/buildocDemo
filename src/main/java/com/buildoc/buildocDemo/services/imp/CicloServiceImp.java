@@ -18,22 +18,22 @@ public class CicloServiceImp implements CicloServices {
     }
 
     @Override
-    public Ciclo crearCiclo(Ciclo ciclo) {
-        return cicloRepository.save(ciclo);
+    public void crearCiclo(Ciclo ciclo) {
+        cicloRepository.save(ciclo);
     }
 
     @Override
     public Ciclo obtenerCicloPorId(Long id) {
-        return null;
+        return cicloRepository.getById(id);
     }
 
     @Override
-    public Ciclo actualizarCiclo(Ciclo ciclo) {
-        return null;
+    public void actualizarCiclo(Ciclo ciclo) {
+        cicloRepository.save(ciclo);
     }
 
     @Override
-    public void eliminarCiclo(Long id) {
-
+    public void eliminarCiclo(Ciclo ciclo) {
+        cicloRepository.delete(ciclo);
     }
 }

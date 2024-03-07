@@ -8,11 +8,11 @@ import java.util.List;
 public interface ClienteServices {
     public List<Cliente> listarClientes();
 
-  Cliente crearCliente(Cliente cliente);
+    public void crearCliente(Cliente cliente);
 
-    Cliente obtenerClientePorId(Long id);
+    public  Cliente obtenerClientePorId(Long id);
 
-    Cliente actualizarCliente(Cliente cliente);
+    public void actualizarCliente(Cliente cliente);
 
-    void eliminarCliente(Long id);
+    public void eliminarCliente(Cliente cliente);
 }

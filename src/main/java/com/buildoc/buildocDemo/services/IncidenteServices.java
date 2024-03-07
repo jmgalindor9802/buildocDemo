@@ -8,11 +8,11 @@ import java.util.List;
 public interface IncidenteServices {
     public List<Incidente> listarIncidentes();
 
-    Incidente crearIncidente(Incidente incidente);
+    public void crearIncidente(Incidente incidente);
 
-    Incidente obtenerIncidentePorId(Long id);
+    public Incidente obtenerIncidentePorId(Long id);
 
-    Incidente actualizarIncidente(Incidente incidente);
+    public void actualizarIncidente(Incidente incidente);
 
-    void eliminarIncidente(Long id);
+    public void eliminarIncidente(Incidente incidente);
 }

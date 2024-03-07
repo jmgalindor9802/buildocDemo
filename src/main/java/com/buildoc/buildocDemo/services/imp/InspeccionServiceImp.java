@@ -18,22 +18,24 @@ public class InspeccionServiceImp implements InspeccionService {
     }
 
     @Override
-    public Inspeccion crearInspeccion(Inspeccion inspeccion) {
-        return inspeccionRepository.save(inspeccion);
+    public void crearInspeccion(Inspeccion inspeccion) {
+        inspeccionRepository.save(inspeccion);
     }
 
     @Override
     public Inspeccion obtenerInspeccionPorId(Long id) {
-        return null;
+        return inspeccionRepository.getById(id);
     }
 
     @Override
-    public Inspeccion actualizarInspeccion(Inspeccion inspeccion) {
-        return null;
+    public void actualizarInspeccion(Inspeccion inspeccion) {
+        inspeccionRepository.save(inspeccion);
     }
 
     @Override
-    public void eliminarInspeccion(Long id) {
-
+    public void eliminarInspeccion(Inspeccion inspeccion) {
+        inspeccionRepository.delete(inspeccion);
     }
+
+
 }

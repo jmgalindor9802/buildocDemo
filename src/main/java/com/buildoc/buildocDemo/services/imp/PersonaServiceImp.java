@@ -18,7 +18,7 @@ public class PersonaServiceImp implements PersonaServices {
 
     @Override
     public Persona crearPersona(Persona persona) {
-        return null;
+        return personaRepository.save(persona);
     }
 
     @Override
