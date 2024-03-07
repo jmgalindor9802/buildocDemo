@@ -42,4 +42,6 @@ public class Proyecto {
 
     @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Incidente> incidentes;
+
+
 }
