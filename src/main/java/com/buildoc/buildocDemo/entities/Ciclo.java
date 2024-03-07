@@ -14,6 +14,8 @@ import java.util.List;
 @Data
 @Table (name="ciclos")
 public class Ciclo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column (name="pk_id_ciclo")
     private Long idCiclo;
     @Column(name="cicNombre")

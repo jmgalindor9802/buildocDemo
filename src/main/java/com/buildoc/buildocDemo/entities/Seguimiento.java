@@ -23,7 +23,6 @@ public class Seguimiento {
     private String descripcion;
 
     @Column(name = "actFecha", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
 
     @Column(name = "actSugerencia", nullable = false, length = 5000)

@@ -41,8 +41,7 @@ public class Incidente {
     private IncidenteGravedad gravedad;
 
     @Column(name = "incFecha", nullable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
+    private String fecha;
 
     @Column(name = "incSugerencias", length = 5000)
     private String sugerencias;

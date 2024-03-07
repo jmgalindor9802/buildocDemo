@@ -14,6 +14,8 @@ import java.util.List;
 @Data
 @Table(name="archivos")
 public class Archivo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column (name="pk_id_archivo")
     private Long idArchivo;
     @Column (name="arcNombre")
