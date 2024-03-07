@@ -21,9 +21,6 @@ public class Usuario {
     @Column (name="email")
     private String email;
 
-    @OneToMany(mappedBy="usuario",cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
-    private List<Proyecto> proyectos;
-
     @ManyToMany
     @JoinTable(name="usuarios_roles",joinColumns=@JoinColumn(name="fk_id_usuario"),
     inverseJoinColumns=@JoinColumn(name="fk_id_rol"))
