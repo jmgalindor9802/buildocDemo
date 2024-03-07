@@ -9,28 +9,34 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public class TipoInspeccionServicesImp implements TipoInspeccionServices {
-public TipoInspeccionRepository tipoInspeccionRepository;
     @Autowired
+private TipoInspeccionRepository tipoInspeccionRepository;
 
     @Override
     public List<TipoInspeccion> listarTipoInspecciones() {
         return tipoInspeccionRepository.findAll();
     }
+
     @Override
     public void crearTipoInspeccion(TipoInspeccion tipoInspeccion) {
-    tipoInspeccionRepository.save(tipoInspeccion);
-    }
-    @Override
-    public TipoInspeccion obtenerTipoInspeccionPorId(Long id) {
-        return tipoInspeccionRepository.getById(id);
-    }
-    @Override
-    public void actualizarTipoInspeccion(TipoInspeccion tipoInspeccion) {
-        tipoInspeccionRepository.save(tipoInspeccion)
+        tipoInspeccionRepository.save(tipoInspeccion);
 
     }
+
+    @Override
+    public TipoInspeccion obtenerTipoInspeccionPorId(Long id) {
+       return tipoInspeccionRepository.getById(id);
+    }
+
+    @Override
+    public void actualizarTipoInspeccion(TipoInspeccion tipoInspeccion) {
+        tipoInspeccionRepository.save(tipoInspeccion);
+
+    }
+
     @Override
     public void eliminarTipoInspeccion(TipoInspeccion tipoInspeccion) {
-tipoInspeccionRepository.delete();
+        tipoInspeccionRepository.delete(tipoInspeccion);
+
     }
 }
