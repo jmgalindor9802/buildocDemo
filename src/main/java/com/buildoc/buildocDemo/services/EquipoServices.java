@@ -9,11 +9,11 @@ import java.util.List;
 public interface EquipoServices {
     public List<Equipo> listarEquipos();
 
-    Equipo crearEquipo(Equipo equipo);
+    public void crearEquipo(Equipo equipo);
 
-    Equipo obtenerEquipoPorId(Long id);
+    public Equipo obtenerEquipoPorId(Long id);
 
-    Equipo actualizarEquipo(Equipo equipo);
+    public void actualizarEquipo(Equipo equipo);
 
-    void eliminarEquipo(Long id);
+    public void eliminarEquipo(Equipo equipo);
 }

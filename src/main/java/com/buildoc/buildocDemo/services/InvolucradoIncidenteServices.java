@@ -8,11 +8,11 @@ import java.util.List;
 public interface InvolucradoIncidenteServices {
     public List<InvolucradoIncidente> listarInvolucradosIncidentes();
 
-    InvolucradoIncidente crearInvolucradoIncidente(InvolucradoIncidente involucradoIncidente);
+    public void crearInvolucradoIncidente(InvolucradoIncidente involucradoIncidente);
 
-    InvolucradoIncidente obtenerInvolucradoIncidentePorId(Long id);
+    public InvolucradoIncidente obtenerInvolucradoIncidentePorId(Long id);
 
-    InvolucradoIncidente actualizarInvolucradoIncidente(InvolucradoIncidente involucradoIncidente);
+    public void actualizarInvolucradoIncidente(InvolucradoIncidente involucradoIncidente);
 
-    void eliminarInvolucradoIncidente(Long id);
+    public void eliminarInvolucradoIncidente(InvolucradoIncidente involucradoIncidente);
 }

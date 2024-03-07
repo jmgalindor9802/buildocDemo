@@ -15,20 +15,24 @@ public class PersonaServiceImp implements PersonaServices {
     public List<Persona> listarPersonas() {
         return personaRepository.findAll();
     }
+
     @Override
-    public void crearPersona(Persona persona) {
-        personaRepository.save(persona);
+    public Persona crearPersona(Persona persona) {
+        return personaRepository.save(persona);
     }
+
     @Override
     public Persona obtenerPersonaPorId(Long id) {
-        return personaRepository.getById(id);
+        return null;
     }
+
     @Override
-    public void actualizarPersona(Persona persona) {
-        personaRepository.save(persona);
+    public Persona actualizarPersona(Persona persona) {
+        return null;
     }
+
     @Override
-    public void eliminarPersona(Persona persona) {
-        personaRepository.delete(persona);
+    public void eliminarEquipo(Long id) {
+
     }
 }

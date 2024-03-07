@@ -8,11 +8,11 @@ import java.util.List;
 public interface CicloServices {
     public List<Ciclo> listarCiclos();
 
-   Ciclo crearCiclo(Ciclo ciclo);
+   public void crearCiclo(Ciclo ciclo);
 
-  Ciclo obtenerCicloPorId(Long id);
+   public Ciclo obtenerCicloPorId(Long id);
 
-    Ciclo actualizarCiclo(Ciclo ciclo);
+    public void actualizarCiclo(Ciclo ciclo);
 
-    void eliminarCiclo(Long id);
+    public void eliminarCiclo(Ciclo ciclo);
 }

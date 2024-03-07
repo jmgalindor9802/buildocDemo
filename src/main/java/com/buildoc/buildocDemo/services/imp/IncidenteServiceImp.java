@@ -18,22 +18,22 @@ public class IncidenteServiceImp implements IncidenteServices {
     }
 
     @Override
-    public Incidente crearIncidente(Incidente incidente) {
-        return incidenteRepository.save(incidente);
+    public void crearIncidente(Incidente incidente) {
+        incidenteRepository.save(incidente);
     }
 
     @Override
     public Incidente obtenerIncidentePorId(Long id) {
-        return null;
+        return incidenteRepository.getById(id);
     }
 
     @Override
-    public Incidente actualizarIncidente(Incidente incidente) {
-        return null;
+    public void actualizarIncidente(Incidente incidente) {
+        incidenteRepository.save(incidente);
     }
 
     @Override
-    public void eliminarIncidente(Long id) {
-
+    public void eliminarIncidente(Incidente incidente) {
+        incidenteRepository.delete(incidente);
     }
 }

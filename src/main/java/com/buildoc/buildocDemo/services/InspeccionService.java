@@ -8,11 +8,11 @@ import java.util.List;
 public interface InspeccionService {
     public List<Inspeccion> listarIncidentes();
 
-    Inspeccion crearInspeccion(Inspeccion inspeccion);
+    public void crearInspeccion(Inspeccion inspeccion);
 
-    Inspeccion obtenerInspeccionPorId(Long id);
+    public Inspeccion obtenerInspeccionPorId(Long id);
 
-    Inspeccion actualizarInspeccion(Inspeccion inspeccion);
+    public void actualizarInspeccion(Inspeccion inspeccion);
 
-    void eliminarInspeccion(Long id);
+    public void eliminarInspeccion(Inspeccion inspeccion);
 }

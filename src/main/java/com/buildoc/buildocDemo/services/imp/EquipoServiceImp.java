@@ -19,23 +19,23 @@ public class EquipoServiceImp implements EquipoServices {
     }
 
     @Override
-    public Equipo crearEquipo(Equipo equipo) {
-        return equipoRepository.save(equipo);
+    public void crearEquipo(Equipo equipo) {
+         equipoRepository.save(equipo);
     }
 
     @Override
     public Equipo obtenerEquipoPorId(Long id) {
-        return null;
+        return equipoRepository.getById(id);
     }
 
     @Override
-    public Equipo actualizarEquipo(Equipo equipo) {
-        return null;
+    public void actualizarEquipo(Equipo equipo) {
+        equipoRepository.save(equipo);
     }
 
     @Override
-    public void eliminarEquipo(Long id) {
-
+    public void eliminarEquipo(Equipo equipo) {
+        equipoRepository.delete(equipo);
     }
 
 
