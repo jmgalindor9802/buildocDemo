@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,18 +26,20 @@ public class PersonaController {
     @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
         Map<String,Object> response = new HashMap<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Persona persona = new Persona();
-            persona.setCedula(Long.parseLong((String) request.get("cedula")));
-            persona.setNombre((String) request.get("nombre"));
-            persona.setApellido((String) request.get("apellido"));
-            persona.setEps((String) request.get("eps"));
-            persona.setArl((String) request.get("arl"));
-            persona.setFechaNacimiento((Date) request.get("fechaNacimiento"));
-            persona.setMunicipio((String) request.get("municipio"));
-            persona.setDireccion((String) request.get("direccion"));
-            persona.setProfesion((String) request.get("profesion"));
-            persona.setTelefono((String) request.get("telefono"));
+            persona.setCedula(Long.parseLong(request.get("cedula").toString()));
+            Date parsedDate = formatter.parse(request.get("fechaNacimiento").toString());
+            persona.setNombre(request.get("nombre").toString());
+            persona.setApellido(request.get("apellido").toString());
+            persona.setEps(request.get("eps").toString());
+            persona.setArl(request.get("arl").toString());
+            persona.setFechaNacimiento(parsedDate);
+            persona.setMunicipio(request.get("municipio").toString());
+            persona.setDireccion(request.get("direccion").toString());
+            persona.setProfesion(request.get("profesion").toString());
+            persona.setTelefono(request.get("telefono").toString());
 
             this.personaServices.crearPersona(persona);
             response.put("status","succes");
