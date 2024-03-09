@@ -50,12 +50,12 @@ public class PersonaController {
     }
 
     @GetMapping("all")
-    public ResponseEntity<Map<String, Object>> findAll(@RequestBody Map<String,Object>request){
+    public ResponseEntity<Map<String, Object>> findAll(){
         Map<String,Object> response = new HashMap<>();
         try {
             List<Persona> personasList = this.personaServicesImp.listarPersonas();
             response.put("status","succes");
-            response.put("data","Registro exitoso");
+            response.put("data", personasList);
 
         }catch (Exception e){
             response.put("status",HttpStatus.BAD_GATEWAY);
@@ -64,4 +64,6 @@ public class PersonaController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
 }

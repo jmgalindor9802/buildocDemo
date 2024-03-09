@@ -31,7 +31,11 @@ public class Usuario {
     private List<Equipo> equipos;
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Incidente> incidentes;
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+
+
+
+    @OneToOne(fetch = FetchType.LAZY)
     private Persona persona;
+
 
 }
