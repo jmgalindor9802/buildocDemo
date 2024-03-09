@@ -4,7 +4,6 @@ import com.buildoc.buildocDemo.repositories.SeguimientoIncidenteRepository;
 import com.buildoc.buildocDemo.services.SeguimientoIncidenteServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 @Service
 public class SeguimientoIncidenteServiceImp implements SeguimientoIncidenteServices {

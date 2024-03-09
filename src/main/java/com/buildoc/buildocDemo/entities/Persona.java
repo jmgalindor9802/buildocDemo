@@ -16,10 +16,8 @@ public class Persona {
     @Id
     @Column(name = "pk_id_persona", columnDefinition = "BIGINT(20)")
     private Long cedula;
-
     @Column(name = "perNombre", nullable = false, length = 280)
     private String nombre;
-
     @Column(name = "perApellido", nullable = false, length = 280)
     private String apellido;
     @Column (name="perNombre_eps", nullable = false, length = 280)
@@ -35,7 +33,7 @@ public class Persona {
     @Column (name="perProfesion", nullable = false, length = 280)
     private String profesion;
     @Column (name="perTelefono", nullable = false)
-    private Long Telefono;
+    private String Telefono;
     @OneToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
 
