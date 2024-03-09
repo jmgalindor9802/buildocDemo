@@ -17,7 +17,7 @@ public class UsuarioServiceImp implements UsuarioServices {
 
     @Override
     public List<Usuario> listarUsuarios() {
-        usuarioRepository.findAll();
+       return usuarioRepository.findAll();
     }
 
     @Override
