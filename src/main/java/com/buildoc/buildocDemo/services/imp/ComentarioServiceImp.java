@@ -18,17 +18,17 @@ public class ComentarioServiceImp implements ComentarioServices {
     }
 
     @Override
-    public void crearPersona(Comentario comentario) {
+    public void crearComentario(Comentario comentario) {
         comentarioRepository.save(comentario);
     }
 
     @Override
-    public Comentario obtenerPersonaPorId(Long id) {
+    public Comentario obtenerComentarioPorId(Long id) {
         return comentarioRepository.getById(id);
     }
 
     @Override
-    public void actualizarPersona(Comentario comentario) {
+    public void actualizarComentario(Comentario comentario) {
         comentarioRepository.save(comentario);
     }
 

@@ -1,16 +1,77 @@
 package com.buildoc.buildocDemo.controller;
 
+import com.buildoc.buildocDemo.entities.Archivo;
+import com.buildoc.buildocDemo.entities.Ciclo;
 import com.buildoc.buildocDemo.services.imp.CicloServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api/persona/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.HEAD})
+@RequestMapping(path = "/api/ciclo/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
+        RequestMethod.HEAD})
 @CrossOrigin("*")
 public class CicloController {
     @Autowired
     private CicloServiceImp cicloServiceImp;
+    @PostMapping
+    public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
+        Map<String, Object> response = new HashMap<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        try {
+            Ciclo ciclo = new Ciclo();
+            LocalDateTime parsedDateTime = LocalDateTime.parse(request.get("fechaCreacion").toString(), formatter);
+            String estadoString = request.get("estado").toString();
+            Ciclo.EstadoCiclo estadoCiclo;
+            switch (estadoString) {
+                case "PENDIENTE":
+                    estadoCiclo = Ciclo.EstadoCiclo.PENDIENTE;
+                    break;
+                case "EN_PROGRESO":
+                    estadoCiclo = Ciclo.EstadoCiclo.EN_PROGRESO;
+                    break;
+                case "COMPLETADO":
+                    estadoCiclo = Ciclo.EstadoCiclo.COMPLETADO;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Estado de ciclo no válido: " + estadoString);
+            }
+            ciclo.setNombre(request.get("nombre").toString());
+            ciclo.setFechaCreacion(parsedDateTime);
+            ciclo.setDescripcion(request.get("descripcion").toString());
+            ciclo.setEstado(estadoCiclo);
+
+            this.cicloServiceImp.crearCiclo(ciclo);
+            response.put("status","succes");
+            response.put("data","Registro exitoso");
+
+        }catch (Exception e){
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data",e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @GetMapping("all")
+    public ResponseEntity<Map<String, Object>> findAll(){
+        Map<String,Object> response = new HashMap<>();
+        try {
+            List<Ciclo> cicloList = this.cicloServiceImp.listarCiclos();
+            response.put("status","succes");
+            response.put("data", cicloList);
+
+        }catch (Exception e){
+            response.put("status",HttpStatus.BAD_GATEWAY);
+            response.put("data",e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

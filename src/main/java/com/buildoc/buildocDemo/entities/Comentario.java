@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="tareas")
+@Table(name="comentarios")
 public class Comentario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

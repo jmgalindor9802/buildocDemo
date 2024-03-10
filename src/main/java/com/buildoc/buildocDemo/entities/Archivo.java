@@ -39,7 +39,4 @@ public class Archivo {
     @ManyToMany(mappedBy = "archivos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Tarea> tareas;
 
-
-
-
 }

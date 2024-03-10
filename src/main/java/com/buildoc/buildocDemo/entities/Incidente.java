@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.Date; /*Esta clase se utiliza para representar fechas sin hora en Java, similar altipo de dato
 DATE en SQL.*/
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -41,7 +42,7 @@ public class Incidente {
     private IncidenteGravedad gravedad;
 
     @Column(name = "incFecha", nullable = false, updatable = false)
-    private Date fecha;
+    private LocalDateTime fecha;
 
     @Column(name = "incSugerencias", length = 5000)
     private String sugerencias;

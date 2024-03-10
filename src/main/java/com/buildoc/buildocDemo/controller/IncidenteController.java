@@ -1,16 +1,90 @@
 package com.buildoc.buildocDemo.controller;
 
+import com.buildoc.buildocDemo.entities.Incidente;
 import com.buildoc.buildocDemo.services.imp.IncidenteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api/persona/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.HEAD})
+@RequestMapping(path = "/api/incidente/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
+        RequestMethod.HEAD})
 @CrossOrigin("*")
 public class IncidenteController {
     @Autowired
     private IncidenteServiceImp incidenteServiceImp;
+    @PostMapping
+    public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
+        Map<String, Object> response = new HashMap<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        try {
+            Incidente incidente = new Incidente();
+            LocalDateTime parsedDateTime = LocalDateTime.parse(request.get("fechaCreacion").toString(), formatter);
+            String estadoIncidente = request.get("estado").toString();
+            Incidente.IncidenteEstado incidenteEstado;
+            switch (estadoIncidente) {
+                case "INICIALIZADO":
+                    incidenteEstado = Incidente.IncidenteEstado.INICIALIZADO;
+                    break;
+                case "FINALIZADO":
+                    incidenteEstado = Incidente.IncidenteEstado.FINALIZADO;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Estado de incidente no válido: " + estadoIncidente);
+            }
+            String gravedadIncidente = request.get("gravedad").toString();
+            Incidente.IncidenteGravedad incidenteGravedad;
+            switch (gravedadIncidente) {
+                case "ALTO":
+                    incidenteGravedad = Incidente.IncidenteGravedad.ALTO;
+                    break;
+                case "MEDIO":
+                    incidenteGravedad = Incidente.IncidenteGravedad.MEDIO;
+                    break;
+                case "BAJO":
+                    incidenteGravedad = Incidente.IncidenteGravedad.BAJO;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Gravedad de incidente no válida: " + gravedadIncidente);
+            }
+            incidente.setNombre(request.get("nombre").toString());
+            incidente.setDescripcion(request.get("descripcion").toString());
+            incidente.setEstado(incidenteEstado);
+            incidente.setGravedad(incidenteGravedad);
+            incidente.setFecha(parsedDateTime);
+            incidente.setSugerencias(request.get("sugerencias").toString());
+
+            this.incidenteServiceImp.crearIncidente(incidente);
+            response.put("status","succes");
+            response.put("data","Registro exitoso");
+
+        }catch (Exception e){
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data",e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @GetMapping("all")
+    public ResponseEntity<Map<String, Object>> findAll(){
+        Map<String,Object> response = new HashMap<>();
+        try {
+            List<Incidente> incidenteList = this.incidenteServiceImp.listarIncidentes();
+            response.put("status","succes");
+            response.put("data", incidenteList);
+
+        }catch (Exception e){
+            response.put("status",HttpStatus.BAD_GATEWAY);
+            response.put("data",e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

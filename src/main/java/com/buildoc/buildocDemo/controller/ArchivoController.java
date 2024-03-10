@@ -1,33 +1,43 @@
 package com.buildoc.buildocDemo.controller;
 
-import com.buildoc.buildocDemo.entities.Ciclo;
-import com.buildoc.buildocDemo.entities.InvolucradoIncidente;
-import com.buildoc.buildocDemo.services.imp.InvolucradoIncidenteServiceImp;
+import com.buildoc.buildocDemo.entities.Archivo;
+import com.buildoc.buildocDemo.entities.Persona;
+import com.buildoc.buildocDemo.services.imp.ArchivoServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api/involucrado-Incidente/",method = {RequestMethod.GET,RequestMethod.POST,
-        RequestMethod.PUT,RequestMethod.HEAD})
+@RequestMapping(path = "/api/archivo/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
+        RequestMethod.HEAD})
 @CrossOrigin("*")
-public class InvolucradoIncidenteController {
+public class ArchivoController {
     @Autowired
-    private InvolucradoIncidenteServiceImp incidenteServiceImp;
+    private ArchivoServiceImp archivoServiceImp;
     @PostMapping
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
         Map<String, Object> response = new HashMap<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try {
-            InvolucradoIncidente involucradoIncidente = new InvolucradoIncidente();
-            involucradoIncidente.setRelacionIncidente(request.get("relacionIncidente").toString());
-            this.incidenteServiceImp.crearInvolucradoIncidente(involucradoIncidente);
+            Archivo archivo = new Archivo();
+            LocalDateTime parsedDateTime = LocalDateTime.parse(request.get("fechaCreacion").toString(), formatter);
+
+            archivo.setNombreOriginal(request.get("nombreOriginal").toString());
+            archivo.setFechaCreacion(parsedDateTime);
+            archivo.setTipo(request.get("tipo").toString());
+            archivo.setTamano(request.get("tamano").toString());
+            archivo.setRuta(request.get("ruta").toString());
+
+            this.archivoServiceImp.crearArchivo(archivo);
             response.put("status","succes");
             response.put("data","Registro exitoso");
 
@@ -42,9 +52,9 @@ public class InvolucradoIncidenteController {
     public ResponseEntity<Map<String, Object>> findAll(){
         Map<String,Object> response = new HashMap<>();
         try {
-            List<InvolucradoIncidente> involucradoIncidenteList = this.incidenteServiceImp.listarInvolucradosIncidentes();
+            List<Archivo> archivoList = this.archivoServiceImp.listarArchivos();
             response.put("status","succes");
-            response.put("data", involucradoIncidenteList);
+            response.put("data", archivoList);
 
         }catch (Exception e){
             response.put("status",HttpStatus.BAD_GATEWAY);

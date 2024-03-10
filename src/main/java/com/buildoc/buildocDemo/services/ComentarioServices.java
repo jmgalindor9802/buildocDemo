@@ -8,11 +8,11 @@ import java.util.List;
 public interface ComentarioServices {
     public List<Comentario> listarComentarios();
 
-    public void crearPersona(Comentario comentario);
+    public void crearComentario(Comentario comentario);
 
-    public Comentario obtenerPersonaPorId(Long id);
+    public Comentario obtenerComentarioPorId(Long id);
 
-    public void actualizarPersona(Comentario comentario);
+    public void actualizarComentario(Comentario comentario);
 
     public void eliminarComentario(Comentario comentario);
 }
