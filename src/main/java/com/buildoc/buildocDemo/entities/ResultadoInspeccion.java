@@ -25,10 +25,6 @@ public class ResultadoInspeccion {
     @Column(name = "resEstado", nullable = false)
     private EstadoResultadoInspeccion estado;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "resResultado_inspeccion")
-    private ResultadoInspeccionResultado resultadoInspeccion;
-
     @Column(name = "resAvanzeObra")
     private Integer avanceObra;
 
@@ -38,14 +34,5 @@ public class ResultadoInspeccion {
     @Column(name = "fk_id_inspeccion", nullable = false)
     private Long idInspeccion;
 
-    public enum ResultadoInspeccionEstado {
-        PENDIENTE,
-        EN_PROGRESO,
-        COMPLETADO
-    }
 
-    public enum ResultadoInspeccionResultado {
-        APROBADO,
-        DESAPROBADO
-    }
 }
