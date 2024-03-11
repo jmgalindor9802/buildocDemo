@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.entities;
 
+import com.buildoc.buildocDemo.entities.enums.EstadoResultadoInspeccion;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -21,11 +22,11 @@ public class ResultadoInspeccion {
     private String descripcion;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "resEstado", nullable = false, length = 20)
-    private ResultadoInspeccionEstado estado;
+    @Column(name = "resEstado", nullable = false)
+    private EstadoResultadoInspeccion estado;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "resResultado_inspeccion", nullable = false, length = 20)
+    @Column(name = "resResultado_inspeccion")
     private ResultadoInspeccionResultado resultadoInspeccion;
 
     @Column(name = "resAvanzeObra")

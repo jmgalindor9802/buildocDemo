@@ -15,7 +15,6 @@ import java.util.List;
 public class Proyecto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     @Column (name="pk_id_proyecto")
     private Long id;
     @Column (name="proNombre")
