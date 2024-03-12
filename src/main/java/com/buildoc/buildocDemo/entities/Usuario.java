@@ -1,10 +1,9 @@
 package com.buildoc.buildocDemo.entities;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import lombok.*;
 import lombok.Data;
-import java.util.Date;
+
 import java.util.List;
 
 @Entity
@@ -32,10 +31,8 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Incidente> incidentes;
 
-
-
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_id_persona", referencedColumnName = "pk_id_persona")
     private Persona persona;
-
 
 }

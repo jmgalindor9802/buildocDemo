@@ -5,8 +5,8 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.sql.Date; /*Esta clase se utiliza para representar fechas sin hora en Java, similar altipo de dato
-DATE en SQL.*/
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "seguimientos")
@@ -23,7 +23,7 @@ public class SeguimientoIncidente {
     private String descripcion;
 
     @Column(name = "actFecha", nullable = false)
-    private Date fecha;
+    private LocalDateTime fecha;
 
     @Column(name = "actSugerencia", nullable = false, length = 5000)
     private String sugerencia;

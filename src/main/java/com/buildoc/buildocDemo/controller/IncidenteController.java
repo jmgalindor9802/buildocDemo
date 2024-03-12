@@ -1,6 +1,7 @@
 package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.Incidente;
+import com.buildoc.buildocDemo.entities.Proyecto;
 import com.buildoc.buildocDemo.services.imp.IncidenteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,8 @@ import java.util.Map;
 public class IncidenteController {
     @Autowired
     private IncidenteServiceImp incidenteServiceImp;
-    @PostMapping
-    public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
+    @PostMapping ("create")
+    public ResponseEntity<Map<String, Object>> create( @RequestBody Map<String,Object>request){
         Map<String, Object> response = new HashMap<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try {
@@ -60,6 +61,10 @@ public class IncidenteController {
             incidente.setGravedad(incidenteGravedad);
             incidente.setFecha(parsedDateTime);
             incidente.setSugerencias(request.get("sugerencias").toString());
+            Long idProyecto = Long.parseLong(request.get("idProyecto").toString());
+            incidente.setIdProyecto(idProyecto);
+            Long idUsuario = Long.parseLong(request.get("idUsuario").toString());
+            incidente.setIdUsuario(idUsuario);
 
             this.incidenteServiceImp.crearIncidente(incidente);
             response.put("status","succes");
