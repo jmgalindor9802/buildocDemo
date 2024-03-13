@@ -31,9 +31,6 @@ public class Proyecto {
     @ManyToOne
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Ciclo> ciclos;
-
     @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Equipo> equipos;
 

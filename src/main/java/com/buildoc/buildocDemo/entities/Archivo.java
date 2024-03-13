@@ -29,8 +29,7 @@ public class Archivo {
     @Column (name="ruta")
     private String ruta;
 
-    @ManyToOne
-    @JoinColumn(name="fk_id_usuario", insertable = false,updatable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
     @ManyToMany(mappedBy = "archivos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TipoInspeccion> tipoInspecciones;

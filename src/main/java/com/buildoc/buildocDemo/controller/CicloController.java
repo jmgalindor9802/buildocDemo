@@ -2,8 +2,11 @@ package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.Archivo;
 import com.buildoc.buildocDemo.entities.Ciclo;
+import com.buildoc.buildocDemo.entities.Proyecto;
+import com.buildoc.buildocDemo.entities.Usuario;
 import com.buildoc.buildocDemo.entities.enums.EstadoCiclo;
 import com.buildoc.buildocDemo.services.imp.CicloServiceImp;
+import com.buildoc.buildocDemo.services.imp.ProyectoServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,17 +25,23 @@ import java.util.Map;
 public class CicloController {
     @Autowired
     private CicloServiceImp cicloServiceImp;
-    @PostMapping
+    @Autowired
+    private ProyectoServiceImp proyectoServiceImp;
+    @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
         Map<String, Object> response = new HashMap<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try {
             Ciclo ciclo = new Ciclo();
-            LocalDateTime parsedDateTime = LocalDateTime.parse(request.get("fechaCreacion").toString(), formatter);
             ciclo.setEstado(EstadoCiclo.PENDIENTE);
             ciclo.setNombre(request.get("nombre").toString());
-            ciclo.setFechaCreacion(parsedDateTime);
+            ciclo.setFechaCreacion(LocalDateTime.now());
             ciclo.setDescripcion(request.get("descripcion").toString());
+            Long proyectoId = Long.parseLong(request.get("idProyecto").toString());
+            Proyecto proyecto = proyectoServiceImp.obtenerProyectoPorId(proyectoId);
+            if (proyecto == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            ciclo.setProyecto(proyecto);
 
 
             this.cicloServiceImp.crearCiclo(ciclo);

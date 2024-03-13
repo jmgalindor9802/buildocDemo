@@ -30,8 +30,7 @@ public class Ciclo {
     private EstadoCiclo estado;
 
 
-    @ManyToOne
-    @JoinColumn(name="idProyecto", insertable = false,updatable = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch =FetchType.LAZY)
     private Proyecto proyecto;
 
 
