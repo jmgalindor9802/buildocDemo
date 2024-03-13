@@ -29,7 +29,6 @@ public class Proyecto {
     private LocalDateTime fechacreacion;
 
     @ManyToOne
-    @JoinColumn(name="fk_id_cliente", insertable = false,updatable = false)
     private Cliente cliente;
 
     @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
@@ -40,10 +39,5 @@ public class Proyecto {
 
     @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Incidente> incidentes;
-
-    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Inspeccion> inspecciones;
-
-
 
 }

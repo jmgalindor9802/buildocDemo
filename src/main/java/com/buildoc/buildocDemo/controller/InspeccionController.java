@@ -2,8 +2,11 @@ package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.Ciclo;
 import com.buildoc.buildocDemo.entities.Inspeccion;
+import com.buildoc.buildocDemo.entities.Persona;
+import com.buildoc.buildocDemo.entities.TipoInspeccion;
 import com.buildoc.buildocDemo.entities.enums.InspeccionPeriodicidad;
 import com.buildoc.buildocDemo.services.imp.InspeccionServiceImp;
+import com.buildoc.buildocDemo.services.imp.TipoInspeccionServicesImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +25,23 @@ import java.util.Map;
 public class InspeccionController {
     @Autowired
     private InspeccionServiceImp inspeccionServiceImp;
+
+    @Autowired
+    private TipoInspeccionServicesImp tipoInspeccionServicesImp;
     @PostMapping
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
         Map<String, Object> response = new HashMap<>();
         try {
             Inspeccion inspeccion = new Inspeccion();
+
+            Long idTipoInspeccion = Long.parseLong(request.get("idTipoInspeccion").toString());
+            TipoInspeccion tipoInspeccion = tipoInspeccionServicesImp.obtenerTipoInspeccionPorId(idTipoInspeccion);
+
+            if (tipoInspeccion == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            inspeccion.setTipoInspeccion(tipoInspeccion);
+
             String periodicidadInspeccion = request.get("periodicidad").toString();
             InspeccionPeriodicidad inspeccionPeriodicidad;
             switch (periodicidadInspeccion) {

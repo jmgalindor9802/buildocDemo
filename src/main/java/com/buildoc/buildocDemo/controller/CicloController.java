@@ -34,6 +34,7 @@ public class CicloController {
             ciclo.setFechaCreacion(parsedDateTime);
             ciclo.setDescripcion(request.get("descripcion").toString());
 
+
             this.cicloServiceImp.crearCiclo(ciclo);
             response.put("status","succes");
             response.put("data","Registro exitoso");

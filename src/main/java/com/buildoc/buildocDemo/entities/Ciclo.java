@@ -34,8 +34,5 @@ public class Ciclo {
     @JoinColumn(name="idProyecto", insertable = false,updatable = false)
     private Proyecto proyecto;
 
-    @OneToMany(mappedBy = "ciclo",cascade = CascadeType.ALL, fetch =FetchType.LAZY, orphanRemoval = true)
-    private List<Tarea> tareas;
-
 
 }

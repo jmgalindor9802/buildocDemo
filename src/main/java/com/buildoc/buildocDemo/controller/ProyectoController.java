@@ -30,7 +30,6 @@ public class ProyectoController {
             proyecto.setDescripcion(request.get("descripcion").toString());
             LocalDateTime fechaActual = LocalDateTime.now();
             proyecto.setFechacreacion(fechaActual);
-            proyecto.setId(((Number) request.get("idCliente")).longValue());
 
             Long idCliente = Long.parseLong(request.get("idCliente").toString());
             Cliente cliente = clienteServiceImp.obtenerClientePorId(idCliente);

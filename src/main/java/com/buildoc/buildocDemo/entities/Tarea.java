@@ -26,16 +26,12 @@ public class Tarea {
     @Enumerated(EnumType.STRING)
     @Column (name="tarEstado")
     private EstadoTarea estado;
-
-    @Column(name="tarFecha_creacion")
+    @Column(name="tarFechaCreacion")
     private LocalDateTime fechaCreacion;
     @Column (name = "tarFecha_limite")
     private LocalDateTime fechaLimite;
-    @Column (name="fk_id_ciclo")
-    private Long idCiclo;
 
     @ManyToOne
-    @JoinColumn(name="fk_id_ciclo",insertable = false,updatable = false)
     private Ciclo ciclo;
 
     @OneToOne(mappedBy = "tarea_inspeccion",cascade = CascadeType.ALL, fetch =FetchType.LAZY, orphanRemoval = true)

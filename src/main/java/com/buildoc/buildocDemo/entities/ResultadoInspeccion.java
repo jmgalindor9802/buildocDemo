@@ -34,5 +34,8 @@ public class ResultadoInspeccion {
     @Column(name = "fk_id_inspeccion", nullable = false)
     private Long idInspeccion;
 
+    @OneToOne
+    private Inspeccion inspeccion;
+
 
 }

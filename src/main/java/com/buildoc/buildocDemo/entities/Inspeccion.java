@@ -27,17 +27,10 @@ public class Inspeccion {
     @Enumerated(EnumType.STRING)
     @Column(name = "insPeriodicidad", length = 10)
     private InspeccionPeriodicidad periodicidad;
-    @Column(name = "fk_id_tarea")
-    private Long tarea;
-    @Column(name = "fk_id_tipoInspeccion")
-    private Long inspeccion_tiopoInspeccion;
+
     @OneToOne(fetch =FetchType.LAZY)
     private Tarea tarea_inspeccion;
-    @ManyToOne
-    @JoinColumn(name = "fk_id_tipoInspeccion", insertable = false, updatable = false)
+    @OneToOne
     private TipoInspeccion tipoInspeccion;
 
-    @ManyToOne
-    @JoinColumn(name = "idProyecto", insertable = false, updatable = false)
-    private Proyecto proyecto;
 }

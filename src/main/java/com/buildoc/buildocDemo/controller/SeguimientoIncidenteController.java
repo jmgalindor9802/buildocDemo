@@ -21,7 +21,7 @@ public class SeguimientoIncidenteController {
     @Autowired
     private SeguimientoIncidenteServiceImp seguimientoIncidenteServiceImp;
 
-    @PostMapping("create/{idIncidente}")
+    @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@PathVariable Incidente idIncidente, @RequestBody Map<String,Object>request){
         Map<String,Object> response = new HashMap<>();
         try {
