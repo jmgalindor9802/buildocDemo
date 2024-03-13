@@ -18,7 +18,7 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "/api/usuario/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.HEAD})
 @CrossOrigin("*")
-public class UsuarioController {
+public class  UsuarioController {
     @Autowired
     private UsuarioServiceImp usuarioServiceImp;
     @Autowired

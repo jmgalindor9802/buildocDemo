@@ -1,7 +1,9 @@
 package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.Archivo;
+import com.buildoc.buildocDemo.entities.Usuario;
 import com.buildoc.buildocDemo.services.imp.ArchivoServiceImp;
+import com.buildoc.buildocDemo.services.imp.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ import java.util.Map;
 public class ArchivoController {
     @Autowired
     private ArchivoServiceImp archivoServiceImp;
+    @Autowired
+    private UsuarioServiceImp usuarioServiceImp;
     @Transactional
     @PostMapping
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
@@ -35,6 +39,12 @@ public class ArchivoController {
             archivo.setTipo(request.get("tipo").toString());
             archivo.setTamano(request.get("tamano").toString());
             archivo.setRuta(request.get("ruta").toString());
+            Long usuarioId = Long.parseLong(request.get("usuarioId").toString());
+            Usuario usuario = usuarioServiceImp.obtenerUsuarioPorId(usuarioId);
+            if (usuario == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            archivo.setUsuario(usuario);
 
             this.archivoServiceImp.crearArchivo(archivo);
             response.put("status","succes");

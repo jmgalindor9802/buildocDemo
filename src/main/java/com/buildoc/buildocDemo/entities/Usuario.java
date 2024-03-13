@@ -35,4 +35,7 @@ public class Usuario {
     @OneToOne
     private Persona persona;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Archivo> archivos;
+
 }

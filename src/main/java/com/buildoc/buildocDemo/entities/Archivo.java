@@ -26,8 +26,6 @@ public class Archivo {
     private String tipo;
     @Column (name="arcTamaño")
     private String tamano;
-    @Column (name="fk_id_usuario")
-    private Long usuario_usuario;
     @Column (name="ruta")
     private String ruta;
 
