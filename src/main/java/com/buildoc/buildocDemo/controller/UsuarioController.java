@@ -32,12 +32,21 @@ public class UsuarioController {
             Usuario usuario = new Usuario();
             usuario.setEmail(request.get("email").toString());
             usuario.setContraseña(request.get("contraseña").toString());
-            List<Long> idRoles = (List<Long>) request.get("idRoles");
+
+            String idRolesString = request.get("idRoles").toString();
+            String[] idRolesArray = idRolesString.split(",");
+            List<Long> idRoles = new ArrayList<>();
+
+            for (String idRole : idRolesArray) {
+                idRoles.add(Long.parseLong(idRole));
+            }
+
             List<Rol> roles = new ArrayList<>();
             for (Long roleId : idRoles) {
                 Rol rol = rolServiceImp.obtenerRolPorId(roleId);
                 roles.add(rol);
             }
+
             usuario.setRoles(roles);
             Long idPersona = Long.parseLong(request.get("idPersona").toString());
             Persona persona = personaServiceImp.obtenerPersonaPorId(idPersona);
