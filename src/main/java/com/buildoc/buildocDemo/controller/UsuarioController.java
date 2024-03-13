@@ -1,6 +1,7 @@
 package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.*;
+import com.buildoc.buildocDemo.services.imp.PersonaServiceImp;
 import com.buildoc.buildocDemo.services.imp.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,8 @@ import java.util.Map;
 public class UsuarioController {
     @Autowired
     private UsuarioServiceImp usuarioServiceImp;
-
+    @Autowired
+    private PersonaServiceImp personaServiceImp;
     @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String, Object> request) {
         Map<String, Object> response = new HashMap<>();
@@ -31,10 +33,11 @@ public class UsuarioController {
             usuario.setRoles(roles);
 
             Long idPersona = Long.parseLong(request.get("idPersona").toString());
-            usuario.setPersona(idPersona);
-
-
-
+            Persona persona = personaServiceImp.obtenerPersonaPorId(idPersona);
+            if (persona == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            usuario.setPersona(persona);
             this.usuarioServiceImp.crearUsuario(usuario);
             response.put("status", "succes");
             response.put("data", "Registro exitoso");

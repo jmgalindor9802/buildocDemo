@@ -34,7 +34,7 @@ public class Persona {
     private String profesion;
     @Column (name="perTelefono", nullable = false)
     private String Telefono;
-    @OneToOne(fetch = FetchType.LAZY)
-    private Usuario usuario;
+
+
 
 }

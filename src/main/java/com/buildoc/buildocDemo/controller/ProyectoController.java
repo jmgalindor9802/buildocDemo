@@ -1,5 +1,8 @@
 package com.buildoc.buildocDemo.controller;
+import com.buildoc.buildocDemo.entities.Cliente;
+import com.buildoc.buildocDemo.entities.Persona;
 import com.buildoc.buildocDemo.entities.Proyecto;
+import com.buildoc.buildocDemo.services.imp.ClienteServiceImp;
 import com.buildoc.buildocDemo.services.imp.ProyectoServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,8 @@ import java.util.*;
 public class ProyectoController {
     @Autowired
     private ProyectoServiceImp proyectoServicesImp;
+    @Autowired
+    private ClienteServiceImp clienteServiceImp;
     @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
         Map<String,Object> response = new HashMap<>();
@@ -26,6 +31,14 @@ public class ProyectoController {
             LocalDateTime fechaActual = LocalDateTime.now();
             proyecto.setFechacreacion(fechaActual);
             proyecto.setId(((Number) request.get("idCliente")).longValue());
+
+            Long idCliente = Long.parseLong(request.get("idCliente").toString());
+            Cliente cliente = clienteServiceImp.obtenerClientePorId(idCliente);
+            if (cliente == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            proyecto.setCliente(cliente);
+
             this.proyectoServicesImp.crearProyecto(proyecto);
             response.put("status","succes");
             response.put("data","Registro exitoso");

@@ -28,9 +28,6 @@ public class Inspeccion {
     private InspeccionPeriodicidad periodicidad;
     @Column(name = "fk_id_tarea")
     private Long tarea;
-    @Column(name = "fk_id_tipoInspeccion")
-    private Long inspeccion_tiopoInspeccion;
-
 
     public enum InspeccionPeriodicidad {
         DIARIA,
@@ -43,4 +40,7 @@ public class Inspeccion {
     @ManyToOne
     @JoinColumn(name = "fk_id_tipoInspeccion", insertable = false, updatable = false)
     private TipoInspeccion tipoInspeccion;
+    @ManyToOne
+    @JoinColumn(name = "idProyectoInspeccion")
+    private Proyecto proyecto;
 }

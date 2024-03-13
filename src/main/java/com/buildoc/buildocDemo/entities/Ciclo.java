@@ -27,11 +27,10 @@ public class Ciclo {
     @Enumerated(EnumType.STRING)
     @Column (name="cicEstado")
     private EstadoCiclo estado;
-    @Column (name="fk_id_proyecto")
-    private Long idProyecto;
+
 
     @ManyToOne
-    @JoinColumn(name="fk_id_proyecto", insertable = false,updatable = false)
+    @JoinColumn(name="idProyecto", insertable = false,updatable = false)
     private Proyecto proyecto;
 
     @OneToMany(mappedBy = "ciclo",cascade = CascadeType.ALL, fetch =FetchType.LAZY, orphanRemoval = true)

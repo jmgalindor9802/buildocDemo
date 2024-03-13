@@ -24,6 +24,7 @@ personaRepository.save(persona);
 
     @Override
     public Persona obtenerPersonaPorId(Long id) {
+
         return personaRepository.getById(id);
     }
 

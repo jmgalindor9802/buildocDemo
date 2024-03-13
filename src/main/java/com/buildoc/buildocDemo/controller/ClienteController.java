@@ -20,7 +20,7 @@ import java.util.Map;
 public class ClienteController {
     @Autowired
     private ClienteServiceImp clienteServiceImp;
-    @PostMapping
+    @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
         Map<String, Object> response = new HashMap<>();
         try {

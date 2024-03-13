@@ -28,11 +28,11 @@ public class Usuario {
     @JoinTable(name = "usuarios_equipos", joinColumns = @JoinColumn(name = "fk_id_usuario"),
             inverseJoinColumns =@JoinColumn(name = "fk_id_equipo"))
     private List<Equipo> equipos;
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Incidente> incidentes;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_id_persona", referencedColumnName = "pk_id_persona")
+    @OneToOne
     private Persona persona;
 
 }
