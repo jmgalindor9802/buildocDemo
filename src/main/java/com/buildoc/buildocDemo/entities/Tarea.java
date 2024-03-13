@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.entities;
 
+import com.buildoc.buildocDemo.entities.enums.EstadoTarea;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,12 +37,6 @@ public class Tarea {
     @ManyToOne
     @JoinColumn(name="fk_id_ciclo",insertable = false,updatable = false)
     private Ciclo ciclo;
-
-    public enum EstadoTarea {
-        PENDIENTE,
-        EN_PROGRESO,
-        COMPLETADO
-    }
 
     @OneToOne(mappedBy = "tarea_inspeccion",cascade = CascadeType.ALL, fetch =FetchType.LAZY, orphanRemoval = true)
     private Inspeccion inspeccion;

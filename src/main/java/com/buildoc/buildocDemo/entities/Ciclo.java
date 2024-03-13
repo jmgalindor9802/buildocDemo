@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.entities;
 
+import com.buildoc.buildocDemo.entities.enums.EstadoCiclo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,13 +36,6 @@ public class Ciclo {
 
     @OneToMany(mappedBy = "ciclo",cascade = CascadeType.ALL, fetch =FetchType.LAZY, orphanRemoval = true)
     private List<Tarea> tareas;
-    public enum EstadoCiclo {
 
-        PENDIENTE,
-        EN_PROGRESO,
-        COMPLETADO
-
-
-    }
 
 }
