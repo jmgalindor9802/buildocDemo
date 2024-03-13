@@ -2,6 +2,7 @@ package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.*;
 import com.buildoc.buildocDemo.services.imp.PersonaServiceImp;
+import com.buildoc.buildocDemo.services.imp.RolServiceImp;
 import com.buildoc.buildocDemo.services.imp.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,8 @@ public class UsuarioController {
     private UsuarioServiceImp usuarioServiceImp;
     @Autowired
     private PersonaServiceImp personaServiceImp;
+    @Autowired
+    private RolServiceImp rolServiceImp;
     @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String, Object> request) {
         Map<String, Object> response = new HashMap<>();
@@ -29,9 +32,13 @@ public class UsuarioController {
             Usuario usuario = new Usuario();
             usuario.setEmail(request.get("email").toString());
             usuario.setContraseña(request.get("contraseña").toString());
-            List<Rol> roles = (List<Rol>) request.get("rol");
+            List<Long> idRoles = (List<Long>) request.get("idRoles");
+            List<Rol> roles = new ArrayList<>();
+            for (Long roleId : idRoles) {
+                Rol rol = rolServiceImp.obtenerRolPorId(roleId);
+                roles.add(rol);
+            }
             usuario.setRoles(roles);
-
             Long idPersona = Long.parseLong(request.get("idPersona").toString());
             Persona persona = personaServiceImp.obtenerPersonaPorId(idPersona);
             if (persona == null) {

@@ -25,8 +25,6 @@ public class ResultadoInspeccionController {
             resultadoInspeccion.setEstado(EstadoResultadoInspeccion.EN_REVISIÓN);
             resultadoInspeccion.setObservacionesGenerales(request.get("observaciones").toString());
 
-
-
             this.resultadoInspeccionServicesImp.crearResultadoInspeccion(resultadoInspeccion);
             response.put("status","succes");
             response.put("data","Registro exitoso");

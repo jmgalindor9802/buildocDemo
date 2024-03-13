@@ -36,4 +36,8 @@ public class Inspeccion {
     @ManyToOne
     @JoinColumn(name = "fk_id_tipoInspeccion", insertable = false, updatable = false)
     private TipoInspeccion tipoInspeccion;
+
+    @ManyToOne
+    @JoinColumn(name = "idProyecto", insertable = false, updatable = false)
+    private Proyecto proyecto;
 }

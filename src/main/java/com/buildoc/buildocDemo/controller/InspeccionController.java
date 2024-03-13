@@ -2,6 +2,7 @@ package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.Ciclo;
 import com.buildoc.buildocDemo.entities.Inspeccion;
+import com.buildoc.buildocDemo.entities.enums.InspeccionPeriodicidad;
 import com.buildoc.buildocDemo.services.imp.InspeccionServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,19 +28,19 @@ public class InspeccionController {
         try {
             Inspeccion inspeccion = new Inspeccion();
             String periodicidadInspeccion = request.get("periodicidad").toString();
-            Inspeccion.InspeccionPeriodicidad inspeccionPeriodicidad;
+            InspeccionPeriodicidad inspeccionPeriodicidad;
             switch (periodicidadInspeccion) {
                 case "DIARIA":
-                    inspeccionPeriodicidad = Inspeccion.InspeccionPeriodicidad.DIARIA;
+                    inspeccionPeriodicidad = InspeccionPeriodicidad.DIARIA;
                     break;
                 case "SEMANAL":
-                    inspeccionPeriodicidad = Inspeccion.InspeccionPeriodicidad.SEMANAL;
+                    inspeccionPeriodicidad = InspeccionPeriodicidad.SEMANAL;
                     break;
                 case "MENSUAL":
-                    inspeccionPeriodicidad = Inspeccion.InspeccionPeriodicidad.MENSUAL;
+                    inspeccionPeriodicidad = InspeccionPeriodicidad.MENSUAL;
                     break;
                 case "NINGUNA":
-                    inspeccionPeriodicidad = Inspeccion.InspeccionPeriodicidad.NINGUNA;
+                    inspeccionPeriodicidad = InspeccionPeriodicidad.NINGUNA;
                     break;
                 default:
                     throw new IllegalArgumentException("Estado de ciclo no válido: " + periodicidadInspeccion);

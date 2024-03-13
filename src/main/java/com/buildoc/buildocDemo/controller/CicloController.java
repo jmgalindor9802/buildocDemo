@@ -2,6 +2,7 @@ package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.Archivo;
 import com.buildoc.buildocDemo.entities.Ciclo;
+import com.buildoc.buildocDemo.entities.enums.EstadoCiclo;
 import com.buildoc.buildocDemo.services.imp.CicloServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,25 +29,10 @@ public class CicloController {
         try {
             Ciclo ciclo = new Ciclo();
             LocalDateTime parsedDateTime = LocalDateTime.parse(request.get("fechaCreacion").toString(), formatter);
-            String estadoString = request.get("estado").toString();
-            Ciclo.EstadoCiclo estadoCiclo;
-            switch (estadoString) {
-                case "PENDIENTE":
-                    estadoCiclo = Ciclo.EstadoCiclo.PENDIENTE;
-                    break;
-                case "EN_PROGRESO":
-                    estadoCiclo = Ciclo.EstadoCiclo.EN_PROGRESO;
-                    break;
-                case "COMPLETADO":
-                    estadoCiclo = Ciclo.EstadoCiclo.COMPLETADO;
-                    break;
-                default:
-                    throw new IllegalArgumentException("Estado de ciclo no válido: " + estadoString);
-            }
+            ciclo.setEstado(EstadoCiclo.PENDIENTE);
             ciclo.setNombre(request.get("nombre").toString());
             ciclo.setFechaCreacion(parsedDateTime);
             ciclo.setDescripcion(request.get("descripcion").toString());
-            ciclo.setEstado(estadoCiclo);
 
             this.cicloServiceImp.crearCiclo(ciclo);
             response.put("status","succes");

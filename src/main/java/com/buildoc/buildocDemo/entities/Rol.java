@@ -16,7 +16,7 @@ public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "pk_id_rol", columnDefinition = "BIGINT(20)")
-    private long idRol;
+    private Long idRol;
     @Column(name = "rolNombre", length = 100)
     private String nombre;
 

@@ -2,6 +2,9 @@ package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.Incidente;
 import com.buildoc.buildocDemo.entities.Proyecto;
+import com.buildoc.buildocDemo.entities.enums.EstadoResultadoInspeccion;
+import com.buildoc.buildocDemo.entities.enums.IncidenteEstado;
+import com.buildoc.buildocDemo.entities.enums.IncidenteGravedad;
 import com.buildoc.buildocDemo.services.imp.IncidenteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,36 +31,24 @@ public class IncidenteController {
         try {
             Incidente incidente = new Incidente();
             LocalDateTime parsedDateTime = LocalDateTime.parse(request.get("fechaCreacion").toString(), formatter);
-            String estadoIncidente = request.get("estado").toString();
-            Incidente.IncidenteEstado incidenteEstado;
-            switch (estadoIncidente) {
-                case "INICIALIZADO":
-                    incidenteEstado = Incidente.IncidenteEstado.INICIALIZADO;
-                    break;
-                case "FINALIZADO":
-                    incidenteEstado = Incidente.IncidenteEstado.FINALIZADO;
-                    break;
-                default:
-                    throw new IllegalArgumentException("Estado de incidente no válido: " + estadoIncidente);
-            }
             String gravedadIncidente = request.get("gravedad").toString();
-            Incidente.IncidenteGravedad incidenteGravedad;
+            IncidenteGravedad incidenteGravedad;
             switch (gravedadIncidente) {
                 case "ALTO":
-                    incidenteGravedad = Incidente.IncidenteGravedad.ALTO;
+                    incidenteGravedad = IncidenteGravedad.ALTO;
                     break;
                 case "MEDIO":
-                    incidenteGravedad = Incidente.IncidenteGravedad.MEDIO;
+                    incidenteGravedad = IncidenteGravedad.MEDIO;
                     break;
                 case "BAJO":
-                    incidenteGravedad = Incidente.IncidenteGravedad.BAJO;
+                    incidenteGravedad = IncidenteGravedad.BAJO;
                     break;
                 default:
                     throw new IllegalArgumentException("Gravedad de incidente no válida: " + gravedadIncidente);
             }
             incidente.setNombre(request.get("nombre").toString());
             incidente.setDescripcion(request.get("descripcion").toString());
-            incidente.setEstado(incidenteEstado);
+            incidente.setEstado(IncidenteEstado.INICIALIZADO);
             incidente.setGravedad(incidenteGravedad);
             incidente.setFecha(parsedDateTime);
             incidente.setSugerencias(request.get("sugerencias").toString());
