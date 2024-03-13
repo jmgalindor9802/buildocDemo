@@ -1,5 +1,7 @@
 package com.buildoc.buildocDemo.entities;
 
+import com.buildoc.buildocDemo.entities.enums.IncidenteEstado;
+import com.buildoc.buildocDemo.entities.enums.IncidenteGravedad;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -52,21 +54,6 @@ public class Incidente {
 
     @Column(name = "fk_id_proyecto", nullable = false)
     private Long idProyecto;
-
-    /*Es un tipo de dato enum personalizado que define dos constantes: INICIALIZADO y FINALIZADO. Estas
-    constantes representan los posibles estados de un incidente.*/
-    public enum IncidenteEstado {
-        INICIALIZADO,
-        FINALIZADO
-    }
-
-    /*Es un tipo de dato enum personalizado que define tres constantes: ALTO, MEDIO y BAJO. Estas
-    constantes representan los posibles estados de un incidente.*/
-    public enum IncidenteGravedad {
-        ALTO,
-        MEDIO,
-        BAJO
-    }
 
     @OneToMany(mappedBy = "incidente",cascade = CascadeType.ALL, fetch =FetchType.LAZY)
     private List<SeguimientoIncidente> seguimientoIncidentes;

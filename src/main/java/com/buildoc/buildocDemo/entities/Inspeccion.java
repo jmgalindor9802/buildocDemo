@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.entities;
 
+import com.buildoc.buildocDemo.entities.enums.InspeccionPeriodicidad;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -30,14 +31,6 @@ public class Inspeccion {
     private Long tarea;
     @Column(name = "fk_id_tipoInspeccion")
     private Long inspeccion_tiopoInspeccion;
-
-
-    public enum InspeccionPeriodicidad {
-        DIARIA,
-        SEMANAL,
-        MENSUAL,
-        NINGUNA
-    }
     @OneToOne(fetch =FetchType.LAZY)
     private Tarea tarea_inspeccion;
     @ManyToOne

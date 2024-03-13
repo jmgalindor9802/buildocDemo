@@ -1,17 +1,15 @@
 package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.Archivo;
-import com.buildoc.buildocDemo.entities.Persona;
 import com.buildoc.buildocDemo.services.imp.ArchivoServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.time.format.DateTimeFormatter;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +21,7 @@ import java.util.Map;
 public class ArchivoController {
     @Autowired
     private ArchivoServiceImp archivoServiceImp;
+    @Transactional
     @PostMapping
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
         Map<String, Object> response = new HashMap<>();
