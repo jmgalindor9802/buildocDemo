@@ -27,10 +27,8 @@ public class IncidenteController {
     @PostMapping ("create")
     public ResponseEntity<Map<String, Object>> create( @RequestBody Map<String,Object>request){
         Map<String, Object> response = new HashMap<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try {
             Incidente incidente = new Incidente();
-            LocalDateTime parsedDateTime = LocalDateTime.parse(request.get("fechaCreacion").toString(), formatter);
             String gravedadIncidente = request.get("gravedad").toString();
             IncidenteGravedad incidenteGravedad;
             switch (gravedadIncidente) {
@@ -50,7 +48,7 @@ public class IncidenteController {
             incidente.setDescripcion(request.get("descripcion").toString());
             incidente.setEstado(IncidenteEstado.INICIALIZADO);
             incidente.setGravedad(incidenteGravedad);
-            incidente.setFecha(parsedDateTime);
+            incidente.setFecha(LocalDateTime.now());
             incidente.setSugerencias(request.get("sugerencias").toString());
             Long idProyecto = Long.parseLong(request.get("idProyecto").toString());
             incidente.setIdProyecto(idProyecto);

@@ -19,12 +19,11 @@ public class Equipo {
     private Long id;
     @Column(name = "equNombre", length = 100 )
     private String nombre;
-    @Column(name = "fk_id_usuario")
-    private Long idLider;
-    @Column(name = "fk_id_proyecto")
     @ManyToMany(mappedBy = "equipos")
     private List<Usuario> usuarios;
-    @ManyToOne
-    @JoinColumn(name="fk_id_proyecto", insertable = false, updatable = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Proyecto proyecto;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_id_usuario", unique = true) // Este es el campo que indica el líder del equipo en la tabla equipos
+    private Usuario lider;
 }

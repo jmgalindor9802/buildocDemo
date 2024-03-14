@@ -20,11 +20,9 @@ public class InvolucradoIncidente {
     private Long idInvolucrado;
     @Column(name = "invRelacionIncidente", nullable = false, length = 200)
     private String relacionIncidente;
-    @Column(name = "fk_id_persona", nullable = false)
-    private Long idPersona;
-    @Column(name = "fk_id_incidente", nullable = false)
-    private Long idIncidente;
-    @ManyToOne
-    @JoinColumn(name = "fk_id_incidente",insertable = false,updatable = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch =FetchType.LAZY)
     private Incidente incidente;
+
+    @OneToOne
+    private Persona persona;
 }

@@ -23,6 +23,5 @@ public class Comentario {
     private Long tarea_comentario;
 
     @ManyToOne
-    @JoinColumn(name = "fk_id_tarea",insertable = false,updatable = false)
     private Tarea tarea;
 }

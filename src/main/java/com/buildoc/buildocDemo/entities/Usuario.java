@@ -35,5 +35,8 @@ public class Usuario {
     @OneToOne
     private Persona persona;
 
+    @OneToOne(mappedBy = "lider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Equipo liderDeEquipo;
+
 
 }

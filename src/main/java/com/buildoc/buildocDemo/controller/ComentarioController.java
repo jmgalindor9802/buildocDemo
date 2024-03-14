@@ -2,7 +2,10 @@ package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.Ciclo;
 import com.buildoc.buildocDemo.entities.Comentario;
+import com.buildoc.buildocDemo.entities.Proyecto;
+import com.buildoc.buildocDemo.entities.Tarea;
 import com.buildoc.buildocDemo.services.imp.ComentarioServiceImp;
+import com.buildoc.buildocDemo.services.imp.TareaServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +23,21 @@ import java.util.Map;
 public class ComentarioController {
     @Autowired
     private ComentarioServiceImp comentarioServiceImp;
+    @Autowired
+    private TareaServiceImp tareaServiceImp;
 
-    @PostMapping
+    @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String, Object> request) {
         Map<String, Object> response = new HashMap<>();
         try {
             Comentario comentario = new Comentario();
             comentario.setDescripcion(request.get("descripcion").toString());
+            Long tareaId = Long.parseLong(request.get("idTarea").toString());
+            Tarea tarea = tareaServiceImp.obtenerTareaPorId(tareaId);
+            if (tarea == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            comentario.setTarea(tarea);
             this.comentarioServiceImp.crearComentario(comentario);
             response.put("status", "succes");
             response.put("data", "Registro exitoso");

@@ -1,11 +1,9 @@
 package com.buildoc.buildocDemo.controller;
 
-import com.buildoc.buildocDemo.entities.Ciclo;
-import com.buildoc.buildocDemo.entities.Inspeccion;
-import com.buildoc.buildocDemo.entities.Persona;
-import com.buildoc.buildocDemo.entities.TipoInspeccion;
+import com.buildoc.buildocDemo.entities.*;
 import com.buildoc.buildocDemo.entities.enums.InspeccionPeriodicidad;
 import com.buildoc.buildocDemo.services.imp.InspeccionServiceImp;
+import com.buildoc.buildocDemo.services.imp.TareaServiceImp;
 import com.buildoc.buildocDemo.services.imp.TipoInspeccionServicesImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +26,9 @@ public class InspeccionController {
 
     @Autowired
     private TipoInspeccionServicesImp tipoInspeccionServicesImp;
-    @PostMapping
+    @Autowired
+    private TareaServiceImp tareaServiceImp;
+    @PostMapping ("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
         Map<String, Object> response = new HashMap<>();
         try {
@@ -41,6 +41,14 @@ public class InspeccionController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             inspeccion.setTipoInspeccion(tipoInspeccion);
+
+            Long idTarea = Long.parseLong(request.get("idTarea").toString());
+            Tarea tarea = tareaServiceImp.obtenerTareaPorId(idTarea);
+
+            if (tarea == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            inspeccion.setTarea_inspeccion(tarea);
 
             String periodicidadInspeccion = request.get("periodicidad").toString();
             InspeccionPeriodicidad inspeccionPeriodicidad;

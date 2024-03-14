@@ -24,7 +24,7 @@ public class TareaController {
     @Autowired
     private CicloServiceImp cicloServiceImp;
 
-    @PostMapping("crear")
+    @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
         Map<String,Object> response = new HashMap<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -34,7 +34,7 @@ public class TareaController {
            tarea.setDescripcion(request.get("descripcion").toString());
            tarea.setEstado(EstadoTarea.PENDIENTE);
            tarea.setFechaCreacion(LocalDateTime.now());
-            LocalDateTime parsedDateTime = LocalDateTime.parse(request.get("fechaCreacion").toString(), formatter);
+            LocalDateTime parsedDateTime = LocalDateTime.parse(request.get("fechaLimite").toString(), formatter);
            tarea.setFechaLimite(parsedDateTime);
            Long idCiclo=Long.parseLong(request.get("idCiclo").toString());
             Ciclo ciclo=cicloServiceImp.obtenerCicloPorId(idCiclo);

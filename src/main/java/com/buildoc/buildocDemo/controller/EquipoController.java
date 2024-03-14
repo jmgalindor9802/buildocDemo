@@ -1,9 +1,10 @@
 package com.buildoc.buildocDemo.controller;
 
-import com.buildoc.buildocDemo.entities.Ciclo;
-import com.buildoc.buildocDemo.entities.Equipo;
+import com.buildoc.buildocDemo.entities.*;
 import com.buildoc.buildocDemo.services.EquipoServices;
 import com.buildoc.buildocDemo.services.imp.EquipoServiceImp;
+import com.buildoc.buildocDemo.services.imp.ProyectoServiceImp;
+import com.buildoc.buildocDemo.services.imp.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +25,37 @@ import java.util.Map;
 public class EquipoController {
     @Autowired
     private EquipoServiceImp equipoServiceImp;
-    @PostMapping
+    @Autowired
+    private ProyectoServiceImp proyectoServiceImp;
+    @Autowired
+    private UsuarioServiceImp usuarioServiceImp;
+    @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
         Map<String, Object> response = new HashMap<>();
         try {
             Equipo equipo = new Equipo();
             equipo.setNombre(request.get("nombre").toString());
+            Long proyectoId = Long.parseLong(request.get("idProyecto").toString());
+            Proyecto proyecto = proyectoServiceImp.obtenerProyectoPorId(proyectoId);
+            if (proyecto == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            equipo.setProyecto(proyecto);
+            String idUsuariosString = request.get("idUsuarios").toString();
+            String[] idUsuariosArray = idUsuariosString.split(",");
+            List<Long> idUsuarios = new ArrayList<>();
+
+            for (String idUsuario : idUsuariosArray) {
+                idUsuarios.add(Long.parseLong(idUsuario));
+            }
+
+            List<Usuario> usuarios = new ArrayList<>();
+            for (Long usuarioId : idUsuarios) {
+                Usuario usuario = usuarioServiceImp.obtenerUsuarioPorId(usuarioId);
+                usuarios.add(usuario);
+            }
+
+            equipo.setUsuarios(usuarios);
             this.equipoServiceImp.crearEquipo(equipo);
             response.put("status","succes");
             response.put("data","Registro exitoso");

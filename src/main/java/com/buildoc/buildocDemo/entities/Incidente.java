@@ -54,11 +54,6 @@ public class Incidente {
 
     @Column(name = "fk_id_proyecto", nullable = false)
     private Long idProyecto;
-
-    @OneToMany(mappedBy = "incidente",cascade = CascadeType.ALL, fetch =FetchType.LAZY)
-    private List<SeguimientoIncidente> seguimientoIncidentes;
-    @OneToMany(mappedBy = "incidente",cascade = CascadeType.ALL, fetch =FetchType.LAZY)
-    private List<InvolucradoIncidente> involucradoIncidentes;
     @ManyToOne
     @JoinColumn(name="fk_id_proyecto",insertable = false,updatable = false)
     private Proyecto proyecto;
