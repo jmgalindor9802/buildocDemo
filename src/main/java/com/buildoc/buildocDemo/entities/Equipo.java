@@ -23,7 +23,6 @@ public class Equipo {
     private List<Usuario> usuarios;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Proyecto proyecto;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_id_usuario", unique = true) // Este es el campo que indica el líder del equipo en la tabla equipos
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Usuario lider;
 }

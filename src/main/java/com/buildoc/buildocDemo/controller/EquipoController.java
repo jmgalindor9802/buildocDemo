@@ -56,6 +56,13 @@ public class EquipoController {
             }
 
             equipo.setUsuarios(usuarios);
+
+            Long liderId = Long.parseLong(request.get("idLiderEquipo").toString());
+            Usuario liderEquipo = usuarioServiceImp.obtenerUsuarioPorId(liderId);
+            if (liderEquipo == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            equipo.setLider(liderEquipo);
             this.equipoServiceImp.crearEquipo(equipo);
             response.put("status","succes");
             response.put("data","Registro exitoso");
