@@ -24,10 +24,10 @@ public class Usuario {
     @JoinTable(name="usuarios_roles",joinColumns=@JoinColumn(name="fk_id_usuario"),
     inverseJoinColumns=@JoinColumn(name="fk_id_rol"))
     List<Rol> roles;
-    @ManyToMany
-    @JoinTable(name = "usuarios_equipos", joinColumns = @JoinColumn(name = "fk_id_usuario"),
-            inverseJoinColumns =@JoinColumn(name = "fk_id_equipo"))
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Equipo> equipos;
+
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Incidente> incidentes;

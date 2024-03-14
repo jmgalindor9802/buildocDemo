@@ -25,8 +25,6 @@ public class TipoInspeccion {
     @OneToMany(mappedBy = "tipoInspeccion", cascade = CascadeType.ALL, fetch =FetchType.LAZY, orphanRemoval = true)
     private List<Inspeccion> inspecciones;
     @ManyToMany
-    @JoinTable(name = "tipoInspecciones_archivos", joinColumns = @JoinColumn(name = "fk_id_tipoInspeccion"),
-            inverseJoinColumns = @JoinColumn(name = "fk_id_archivo"))
     private List<Archivo> archivos;
 
 

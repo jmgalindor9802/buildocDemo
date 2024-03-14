@@ -19,10 +19,13 @@ public class Equipo {
     private Long id;
     @Column(name = "equNombre", length = 100 )
     private String nombre;
-    @ManyToMany(mappedBy = "equipos")
+
+    @ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Usuario> usuarios;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Proyecto proyecto;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Usuario lider;
 }

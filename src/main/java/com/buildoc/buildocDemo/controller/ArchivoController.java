@@ -50,46 +50,7 @@ public class ArchivoController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             archivo.setUsuario(usuario);
-            /*Revisar si deja crear el archivo sin nesecidad de existir una tarea en la BD o ingresarla en el json*/
-            if (request.containsKey("idTarea")) {
-                /*obtener los id en cadena de texto*/
-                String tareaIdString = request.get("idTarea").toString();
-                /*pasar la cadena de texto a un array*/
-                String[] tareaIdArray = tareaIdString.split(",");
-                List<Long> tareaId = new ArrayList<>();
-                /*Descomponer el array para pasarlo a tipo Long y agregarlo a la lista*/
-                for (String idTarea : tareaIdArray) {
-                    tareaId.add(Long.parseLong(idTarea));
-                }
-                /*obtener el objeto y buscarlo*/
-                List<Tarea> tareas = new ArrayList<>();
-                for (Long idTarea : tareaId) {
-                    Tarea tarea = tareaServiceImp.obtenerTareaPorId(idTarea);
-                    tareas.add(tarea);
-                }
 
-                archivo.setTareas(tareas);
-            }
-
-            if (request.containsKey("idTipoInspeccion")) {
-                /*obtener los id en cadena de texto*/
-                String tipoInspeccionIdString = request.get("idTipoInspeccion").toString();
-                /*pasar la cadena de texto a un array*/
-                String[] tipoInspeccionIdArray = tipoInspeccionIdString.split(",");
-                List<Long> tipoInspeccionId = new ArrayList<>();
-                /*Descomponer el array para pasarlo a tipo Long y agregarlo a la lista*/
-                for (String idtipoInspeccion : tipoInspeccionIdArray) {
-                    tipoInspeccionId.add(Long.parseLong(idtipoInspeccion));
-                }
-                /*obtener el objeto y buscarlo*/
-                List<TipoInspeccion> tipoInspeccionList = new ArrayList<>();
-                for (Long idtipoInspeccion : tipoInspeccionId) {
-                    TipoInspeccion tipoInspeccion = tipoInspeccionServicesImp.obtenerTipoInspeccionPorId(idtipoInspeccion);
-                    tipoInspeccionList.add(tipoInspeccion);
-                }
-
-                archivo.setTipoInspecciones(tipoInspeccionList);
-            }
 
             this.archivoServiceImp.crearArchivo(archivo);
             response.put("status","succes");

@@ -1,8 +1,10 @@
 package com.buildoc.buildocDemo.controller;
 
+import com.buildoc.buildocDemo.entities.Archivo;
 import com.buildoc.buildocDemo.entities.Ciclo;
 import com.buildoc.buildocDemo.entities.Tarea;
 import com.buildoc.buildocDemo.entities.enums.EstadoTarea;
+import com.buildoc.buildocDemo.services.imp.ArchivoServiceImp;
 import com.buildoc.buildocDemo.services.imp.CicloServiceImp;
 import com.buildoc.buildocDemo.services.imp.TareaServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,9 @@ public class TareaController {
     private TareaServiceImp tareaServiceImp;
     @Autowired
     private CicloServiceImp cicloServiceImp;
+
+    @Autowired
+    private ArchivoServiceImp archivoServiceImp;
 
     @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
@@ -42,6 +48,20 @@ public class TareaController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             tarea.setCiclo(ciclo);
+
+            String idArchivosString = request.get("idArchivos").toString();
+            String[] idArchivosArray = idArchivosString.split(",");
+            List<Long> idArchivos = new ArrayList<>();
+
+            for (String idRole : idArchivosArray) {
+                idArchivos.add(Long.parseLong(idRole));
+            }
+            List<Archivo> archivos= new ArrayList<>();
+            for (Long archivoId : idArchivos) {
+                Archivo archivo = archivoServiceImp.obtenerArchivoPorId(archivoId);
+                archivos.add(archivo);
+            }
+            tarea.setArchivos(archivos);
 
             this.tareaServiceImp.crearTarea(tarea);
             response.put("status","succes");
