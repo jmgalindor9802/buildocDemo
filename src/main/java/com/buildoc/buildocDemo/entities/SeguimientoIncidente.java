@@ -28,9 +28,6 @@ public class SeguimientoIncidente {
     @Column(name = "actSugerencia", nullable = false, length = 5000)
     private String sugerencia;
 
-    @Column(name = "fk_id_incidente", nullable = false)
-    private Long idIncidente;
     @ManyToOne
-    @JoinColumn(name="fk_id_incidente",insertable = false,updatable = false)
     private Incidente incidente;
 }

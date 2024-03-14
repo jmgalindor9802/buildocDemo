@@ -3,6 +3,8 @@ package com.buildoc.buildocDemo.controller;
 import com.buildoc.buildocDemo.entities.Incidente;
 import com.buildoc.buildocDemo.entities.Rol;
 import com.buildoc.buildocDemo.entities.SeguimientoIncidente;
+import com.buildoc.buildocDemo.entities.Usuario;
+import com.buildoc.buildocDemo.services.imp.IncidenteServiceImp;
 import com.buildoc.buildocDemo.services.imp.SeguimientoIncidenteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,16 +23,28 @@ public class SeguimientoIncidenteController {
     @Autowired
     private SeguimientoIncidenteServiceImp seguimientoIncidenteServiceImp;
 
+    @Autowired
+    private IncidenteServiceImp incidenteServiceImp;
+
     @PostMapping("create")
-    public ResponseEntity<Map<String, Object>> create(@PathVariable Incidente idIncidente, @RequestBody Map<String,Object>request){
+    public ResponseEntity<Map<String, Object>> create( @RequestBody Map<String,Object>request){
         Map<String,Object> response = new HashMap<>();
         try {
             SeguimientoIncidente seguimientoIncidente = new SeguimientoIncidente();
-            seguimientoIncidente.setIncidente(idIncidente);
             seguimientoIncidente.setDescripcion(request.get("descripcion").toString());
             LocalDateTime fechaActual = LocalDateTime.now();
             seguimientoIncidente.setFecha(fechaActual);
             seguimientoIncidente.setSugerencia(request.get("sugerencia").toString());
+            Long incidenteId = Long.parseLong(request.get("incidenteId").toString());
+            Incidente incidente = incidenteServiceImp.obtenerIncidentePorId(incidenteId);
+
+            if (incidente == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            seguimientoIncidente.setIncidente(incidente);
+
+
+
             this.seguimientoIncidenteServiceImp.crearSeguimientoIncidente(seguimientoIncidente);
             response.put("status","succes");
             response.put("data","Registro exitoso");
