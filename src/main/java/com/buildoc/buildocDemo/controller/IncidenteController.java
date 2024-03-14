@@ -81,4 +81,77 @@ public class IncidenteController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PutMapping("update/{id}")
+    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @RequestBody Map<String,Object>request){
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Incidente incidente = incidenteServiceImp.obtenerIncidentePorId(id);
+
+            if (incidente == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Incidente no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+            String gravedadIncidente = request.get("gravedad").toString();
+            IncidenteGravedad incidenteGravedad;
+            switch (gravedadIncidente) {
+                case "ALTO":
+                    incidenteGravedad = IncidenteGravedad.ALTO;
+                    break;
+                case "MEDIO":
+                    incidenteGravedad = IncidenteGravedad.MEDIO;
+                    break;
+                case "BAJO":
+                    incidenteGravedad = IncidenteGravedad.BAJO;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Gravedad de incidente no válida: " + gravedadIncidente);
+            }
+            incidente.setNombre(request.get("nombre").toString());
+            incidente.setDescripcion(request.get("descripcion").toString());
+            incidente.setEstado(IncidenteEstado.INICIALIZADO);
+            incidente.setGravedad(incidenteGravedad);
+            incidente.setFecha(LocalDateTime.now());
+            incidente.setSugerencias(request.get("sugerencias").toString());
+            Long idProyecto = Long.parseLong(request.get("idProyecto").toString());
+            incidente.setIdProyecto(idProyecto);
+            Long idUsuario = Long.parseLong(request.get("idUsuario").toString());
+            incidente.setIdUsuario(idUsuario);
+
+            this.incidenteServiceImp.actualizarIncidente(incidente);
+            response.put("status","succes");
+            response.put("data","Registro exitoso");
+
+        }catch (Exception e){
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data",e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Incidente incidente = incidenteServiceImp.obtenerIncidentePorId(id);
+
+            if (incidente == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Incidente no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            incidenteServiceImp.eliminarIncidente(incidente);
+            response.put("status","succes");
+            response.put("data","Incidente eliminado correctamente");
+
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

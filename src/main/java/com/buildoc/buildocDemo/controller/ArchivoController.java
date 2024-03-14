@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import java.time.format.DateTimeFormatter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -117,4 +116,97 @@ public class ArchivoController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PutMapping("update/{id}")
+    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @RequestBody Map<String, Object> request) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            Archivo archivo = archivoServiceImp.obtenerArchivoPorId(id);
+            if (archivo == null) {
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Archivo no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            archivo.setNombreOriginal(request.get("nombreOriginal").toString());
+            archivo.setTipo(request.get("tipo").toString());
+            archivo.setTamano(request.get("tamano").toString());
+            archivo.setRuta(request.get("ruta").toString());
+
+            Long usuarioId = Long.parseLong(request.get("usuarioId").toString());
+            Usuario usuario = usuarioServiceImp.obtenerUsuarioPorId(usuarioId);
+            if (usuario == null) {
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Usuario no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+            archivo.setUsuario(usuario);
+
+            if (request.containsKey("idTarea")) {
+                String tareaIdString = request.get("idTarea").toString();
+                String[] tareaIdArray = tareaIdString.split(",");
+                List<Long> tareaId = new ArrayList<>();
+                for (String idTarea : tareaIdArray) {
+                    tareaId.add(Long.parseLong(idTarea));
+                }
+                List<Tarea> tareas = new ArrayList<>();
+                for (Long idTarea : tareaId) {
+                    Tarea tarea = tareaServiceImp.obtenerTareaPorId(idTarea);
+                    tareas.add(tarea);
+                }
+                archivo.setTareas(tareas);
+            }
+
+            if (request.containsKey("idTipoInspeccion")) {
+                String tipoInspeccionIdString = request.get("idTipoInspeccion").toString();
+                String[] tipoInspeccionIdArray = tipoInspeccionIdString.split(",");
+                List<Long> tipoInspeccionId = new ArrayList<>();
+                for (String idtipoInspeccion : tipoInspeccionIdArray) {
+                    tipoInspeccionId.add(Long.parseLong(idtipoInspeccion));
+                }
+                List<TipoInspeccion> tipoInspeccionList = new ArrayList<>();
+                for (Long idtipoInspeccion : tipoInspeccionId) {
+                    TipoInspeccion tipoInspeccion = tipoInspeccionServicesImp.obtenerTipoInspeccionPorId(idtipoInspeccion);
+                    tipoInspeccionList.add(tipoInspeccion);
+                }
+                archivo.setTipoInspecciones(tipoInspeccionList);
+            }
+
+            archivoServiceImp.actualizarArchivo(archivo);
+            response.put("status", "success");
+            response.put("data", "Archivo actualizado exitosamente");
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            // Buscar la persona por su ID
+            Archivo archivo = archivoServiceImp.obtenerArchivoPorId(id);
+            if (archivo == null) {
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "No se encontró ninguna persona con el ID proporcionado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            // Eliminar la persona de la base de datos
+            archivoServiceImp.eliminarArchivo(archivo);
+
+            response.put("status", HttpStatus.OK);
+            response.put("data", "Persona eliminada exitosamente");
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_REQUEST);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

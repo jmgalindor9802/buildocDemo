@@ -29,7 +29,7 @@ public class InvolucradoIncidenteController {
     private PersonaServiceImp personaServiceImp;
     @Autowired
     private IncidenteServiceImp incidenteServiceImp;
-    @PostMapping
+    @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request){
         Map<String, Object> response = new HashMap<>();
         try {
@@ -76,4 +76,68 @@ public class InvolucradoIncidenteController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PutMapping("update/{id}")
+    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @RequestBody Map<String,Object>request){
+        Map<String, Object> response = new HashMap<>();
+        try {
+            InvolucradoIncidente involucradoIncidente =
+                    involucradoIncidenteServiceImp.obtenerInvolucradoIncidentePorId(id);
+
+            if (involucradoIncidente == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Incidente no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+            Long idPersona = Long.parseLong(request.get("idPersona").toString());
+            Persona persona = personaServiceImp.obtenerPersonaPorId(idPersona);
+            if (persona == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            involucradoIncidente.setPersona(persona);
+            involucradoIncidente.setRelacionIncidente(request.get("relacionIncidente").toString());
+
+            Long idIincidente = Long.parseLong(request.get("idIncidente").toString());
+            Incidente incidente = incidenteServiceImp.obtenerIncidentePorId(idIincidente);
+            if (incidente == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            involucradoIncidente.setIncidente(incidente);
+
+            this.involucradoIncidenteServiceImp.actualizarInvolucradoIncidente(involucradoIncidente);
+            response.put("status","succes");
+            response.put("data","Registro exitoso");
+
+        }catch (Exception e){
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data",e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            InvolucradoIncidente involucradoIncidente = involucradoIncidenteServiceImp.obtenerInvolucradoIncidentePorId(id);
+
+            if (involucradoIncidente == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Involucrado en incidente no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            involucradoIncidenteServiceImp.eliminarInvolucradoIncidente(involucradoIncidente);
+            response.put("status","succes");
+            response.put("data","Involucrado en incidente eliminado correctamente");
+
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

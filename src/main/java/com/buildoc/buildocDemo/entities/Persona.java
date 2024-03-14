@@ -35,5 +35,7 @@ public class Persona {
     @Column (name="perTelefono", nullable = false)
     private String Telefono;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "persona")
+    private  Usuario usuario;
 
 }

@@ -32,7 +32,7 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Incidente> incidentes;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Persona persona;
 
     @OneToOne(mappedBy = "lider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
