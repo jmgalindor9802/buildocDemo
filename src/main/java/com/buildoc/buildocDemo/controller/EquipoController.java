@@ -89,4 +89,80 @@ public class EquipoController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PutMapping("update/{id}")
+    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @RequestBody Map<String,Object>request){
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Equipo equipo = equipoServiceImp.obtenerEquipoPorId(id);
+
+            if (equipo == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Equipo no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+            equipo.setNombre(request.get("nombre").toString());
+            Long proyectoId = Long.parseLong(request.get("idProyecto").toString());
+            Proyecto proyecto = proyectoServiceImp.obtenerProyectoPorId(proyectoId);
+            if (proyecto == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            equipo.setProyecto(proyecto);
+            String idUsuariosString = request.get("idUsuarios").toString();
+            String[] idUsuariosArray = idUsuariosString.split(",");
+            List<Long> idUsuarios = new ArrayList<>();
+
+            for (String idUsuario : idUsuariosArray) {
+                idUsuarios.add(Long.parseLong(idUsuario));
+            }
+
+            List<Usuario> usuarios = new ArrayList<>();
+            for (Long usuarioId : idUsuarios) {
+                Usuario usuario = usuarioServiceImp.obtenerUsuarioPorId(usuarioId);
+                usuarios.add(usuario);
+            }
+
+            equipo.setUsuarios(usuarios);
+
+            Long liderId = Long.parseLong(request.get("idLiderEquipo").toString());
+            Usuario liderEquipo = usuarioServiceImp.obtenerUsuarioPorId(liderId);
+            if (liderEquipo == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            equipo.setLider(liderEquipo);
+            this.equipoServiceImp.actualizarEquipo(equipo);
+            response.put("status","succes");
+            response.put("data","Registro exitoso");
+
+        }catch (Exception e){
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data",e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Equipo equipo = equipoServiceImp.obtenerEquipoPorId(id);
+
+            if (equipo == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Equipo no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            equipoServiceImp.eliminarEquipo(equipo);
+            response.put("status","succes");
+            response.put("data","Equipo eliminado correctamente");
+
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

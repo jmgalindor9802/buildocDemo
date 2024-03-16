@@ -64,4 +64,54 @@ public class ComentarioController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PutMapping("update/{id}")
+    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @RequestBody Map<String, Object> request) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Comentario comentario = comentarioServiceImp.obtenerComentarioPorId(id);
+            if (comentario == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Comentario no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+            comentario.setDescripcion(request.get("descripcion").toString());
+            Long tareaId = Long.parseLong(request.get("idTarea").toString());
+            Tarea tarea = tareaServiceImp.obtenerTareaPorId(tareaId);
+            if (tarea == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            comentario.setTarea(tarea);
+            this.comentarioServiceImp.actualizarComentario(comentario);
+            response.put("status", "succes");
+            response.put("data", "Registro exitoso");
+
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Comentario comentario = comentarioServiceImp.obtenerComentarioPorId(id);
+            if (comentario == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Comentario no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+            comentarioServiceImp.eliminarComentario(comentario);
+            response.put("status", "success");
+            response.put("data", "Comentario eliminado exitosamente");
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
