@@ -35,8 +35,8 @@ public class Usuario {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Persona persona;
 
-    @OneToOne(mappedBy = "lider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Equipo liderDeEquipo;
+    @OneToMany(mappedBy = "lider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Equipo> liderDeEquipos;
 
 
 }
