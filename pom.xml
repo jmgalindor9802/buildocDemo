@@ -52,7 +52,9 @@
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
         </dependency>
-    </dependencies>
+
+
+	</dependencies>
 	<!-- Configuración del plugin de Spring Boot -->
 		<build>
 			<plugins>

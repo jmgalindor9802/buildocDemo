@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "resultadoInspecciones")
 @Data
@@ -33,6 +35,9 @@ public class ResultadoInspeccion {
 
     @Column(name = "fk_id_inspeccion", nullable = false)
     private Long idInspeccion;
+
+    @Column(name="resFechaModificacion")
+    private LocalDateTime fechaModificacion;
 
     @OneToOne
     private Inspeccion inspeccion;

@@ -27,7 +27,8 @@ public class Proyecto {
     private String descripcion;
     @Column (name="proFecha_creacion")
     private LocalDateTime fechacreacion;
-
+    @Column (name="proFechaModificacion")
+    private LocalDateTime fechaModificacion;
     @ManyToOne
     private Cliente cliente;
     @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
