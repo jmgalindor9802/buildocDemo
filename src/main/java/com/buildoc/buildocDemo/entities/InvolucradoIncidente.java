@@ -1,15 +1,11 @@
 package com.buildoc.buildocDemo.entities;
 
-import jakarta.persistence.*;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import javax.persistence.*;
 
 import java.util.List;
 
 @Entity
-@Table(name = "involucrados")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

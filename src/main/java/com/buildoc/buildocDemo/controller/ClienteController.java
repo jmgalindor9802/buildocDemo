@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api/cliente/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
+@RequestMapping(path = "/buildoc/cliente/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
         RequestMethod.HEAD})
 @CrossOrigin("*")
 public class ClienteController {

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api/archivo/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
+@RequestMapping(path = "/buildoc/archivo/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
         RequestMethod.HEAD})
 @CrossOrigin("*")
 public class ArchivoController {

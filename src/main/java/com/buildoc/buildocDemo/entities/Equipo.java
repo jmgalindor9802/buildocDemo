@@ -1,9 +1,7 @@
 package com.buildoc.buildocDemo.entities;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -11,13 +9,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name="equipos")
+
 public class Equipo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "pk_id_equipo")
+
     private Long id;
-    @Column(name = "equNombre", length = 100 )
+
     private String nombre;
 
     @ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY)

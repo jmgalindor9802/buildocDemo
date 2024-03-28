@@ -1,9 +1,7 @@
 package com.buildoc.buildocDemo.entities;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -14,13 +12,13 @@ import java.util.List;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "pk_id_cliente")
+
     private Long id;
-    @Column(name = "cliNombre")
+
     private String nombre;
-    @Column(name = "cliCorreo")
+
     private String correo;
-    @Column(name = "cliTelefono")
+
     private String telefono;
 
     @OneToMany

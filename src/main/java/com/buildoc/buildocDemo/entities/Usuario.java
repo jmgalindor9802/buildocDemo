@@ -1,41 +1,46 @@
 package com.buildoc.buildocDemo.entities;
 
-import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Data
+@Table(name="usuarios")
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
+@Getter
 public class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column (name="pk_id_usuario")
-    private Long id;
-    @Column (name="password", length = 280)
-    private String contraseña;
-    @Column (name="email")
-    private String email;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @ManyToMany
-    @JoinTable(name="usuarios_roles",joinColumns=@JoinColumn(name="fk_id_usuario"),
-    inverseJoinColumns=@JoinColumn(name="fk_id_rol"))
-    List<Rol> roles;
+    private long id;
+    private String password;
+    private String username;
+    private String nombre;
+
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private List<Rol> roles= new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Equipo> equipos;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Archivo> archivos;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Incidente> incidentes;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Persona persona;
 
-    @OneToMany(mappedBy = "lider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Equipo> liderDeEquipos;
 
 

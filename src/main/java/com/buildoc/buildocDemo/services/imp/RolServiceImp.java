@@ -19,7 +19,7 @@ public class RolServiceImp implements RolServices {
         rolRepository.save(rol);
     }
     @Override
-    public Rol obtenerRolPorId(Long id) {
+    public Rol obtenerRolPorId(Integer id) {
         return rolRepository.getById(id);
     }
     @Override

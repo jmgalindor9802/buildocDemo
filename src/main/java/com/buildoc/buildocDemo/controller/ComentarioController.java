@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api/comentario/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
+@RequestMapping(path = "/buildoc/comentario/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
         RequestMethod.HEAD})
 @CrossOrigin("*")
 public class ComentarioController {

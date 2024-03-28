@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api/usuario/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.HEAD})
+@RequestMapping(path = "/buildoc/usuario/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.HEAD})
 @CrossOrigin("*")
 public class  UsuarioController {
     @Autowired
@@ -30,19 +30,19 @@ public class  UsuarioController {
         Map<String, Object> response = new HashMap<>();
         try {
             Usuario usuario = new Usuario();
-            usuario.setEmail(request.get("email").toString());
-            usuario.setContraseña(request.get("contraseña").toString());
+            usuario.setUsername(request.get("username").toString());
+            usuario.setPassword(request.get("password").toString());
 
             String idRolesString = request.get("idRoles").toString();
             String[] idRolesArray = idRolesString.split(",");
-            List<Long> idRoles = new ArrayList<>();
+            List<Integer> idRoles = new ArrayList<>();
 
             for (String idRole : idRolesArray) {
-                idRoles.add(Long.parseLong(idRole));
+                idRoles.add(Integer.parseInt(idRole));
             }
 
             List<Rol> roles = new ArrayList<>();
-            for (Long roleId : idRoles) {
+            for (Integer roleId : idRoles) {
                 Rol rol = rolServiceImp.obtenerRolPorId(roleId);
                 roles.add(rol);
             }

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api/equipo/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
+@RequestMapping(path = "/buildoc/equipo/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,
         RequestMethod.HEAD})
 @CrossOrigin("*")
 public class EquipoController {

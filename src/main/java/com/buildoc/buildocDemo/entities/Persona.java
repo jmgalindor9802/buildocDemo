@@ -1,14 +1,12 @@
 package com.buildoc.buildocDemo.entities;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import javax.persistence.*;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "personas")
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

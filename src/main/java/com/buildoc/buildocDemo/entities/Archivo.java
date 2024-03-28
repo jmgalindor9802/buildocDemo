@@ -1,9 +1,7 @@
 package com.buildoc.buildocDemo.entities;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import javax.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,28 +10,23 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name="archivos")
 public class Archivo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column (name="pk_id_archivo")
     private Long idArchivo;
-    @Column (name="arcNombre")
     private String nombreOriginal;
-    @Column (name="arcFecha_creacion")
     private LocalDateTime fechaCreacion;
-    @Column (name="arcTipo")
     private String tipo;
-    @Column (name="arcTamaño")
     private String tamano;
-    @Column (name="ruta")
     private String ruta;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
-    @ManyToMany(mappedBy = "archivos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @ManyToMany(mappedBy = "archivos")
     private List<TipoInspeccion> tipoInspecciones;
-    @ManyToMany(mappedBy = "archivos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @ManyToMany(mappedBy = "archivos")
     private List<Tarea> tareas;
 
 }

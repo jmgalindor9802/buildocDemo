@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api/involucrado-Incidente/",method = {RequestMethod.GET,RequestMethod.POST,
+@RequestMapping(path = "/buildoc/involucrado-Incidente/",method = {RequestMethod.GET,RequestMethod.POST,
         RequestMethod.PUT,RequestMethod.HEAD})
 @CrossOrigin("*")
 public class InvolucradoIncidenteController {

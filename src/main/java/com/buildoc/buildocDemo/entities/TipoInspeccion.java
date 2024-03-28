@@ -1,9 +1,7 @@
 package com.buildoc.buildocDemo.entities;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -11,21 +9,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name="tipoInspecciones")
 public class TipoInspeccion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="pk_id_tipoInspeccion")
+
     private Long idTipoInspeccion;
-    @Column(name = "tpiNombre", length = 100)
+
     private String nombre;
-    @Column(name = "tpiDescripcion", length = 5000)
+
     private String descripcion;
 
-    @OneToMany(mappedBy = "tipoInspeccion", cascade = CascadeType.ALL, fetch =FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch =FetchType.LAZY, orphanRemoval = true)
     private List<Inspeccion> inspecciones;
-    @ManyToMany
-    private List<Archivo> archivos;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Archivo> archivos;
 
 }

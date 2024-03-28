@@ -1,9 +1,7 @@
 package com.buildoc.buildocDemo.entities;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import javax.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,19 +13,18 @@ import java.util.List;
 public class Proyecto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column (name="pk_id_proyecto")
     private Long id;
-    @Column (name="proNombre")
+
     private String nombre;
-    @Column (name="proMunicipio")
+
     private String municipio;
-    @Column (name="proDireccion")
+
     private String direccion;
-    @Column (name="proDescripcion", length = 5000)
+
     private String descripcion;
-    @Column (name="proFecha_creacion")
+
     private LocalDateTime fechacreacion;
-    @Column (name="proFechaModificacion")
+
     private LocalDateTime fechaModificacion;
     @ManyToOne
     private Cliente cliente;
