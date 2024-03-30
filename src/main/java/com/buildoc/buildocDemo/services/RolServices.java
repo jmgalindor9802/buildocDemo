@@ -11,7 +11,7 @@ public interface RolServices {
 
     public void crearRol(Rol rol);
 
-    public Rol obtenerRolPorId(Integer id);
+    public Rol obtenerRolPorId(Long id);
 
     public void actualizarRol(Rol rol);
 

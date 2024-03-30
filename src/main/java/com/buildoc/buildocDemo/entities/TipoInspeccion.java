@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Table
 public class TipoInspeccion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

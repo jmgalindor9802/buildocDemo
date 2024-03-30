@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table
 public class ResultadoInspeccion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

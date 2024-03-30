@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

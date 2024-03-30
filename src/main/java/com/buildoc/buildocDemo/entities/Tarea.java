@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Table
 public class Tarea {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

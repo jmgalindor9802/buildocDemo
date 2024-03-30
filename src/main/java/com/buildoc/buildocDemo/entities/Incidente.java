@@ -14,6 +14,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table
 public class Incidente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,9 +53,9 @@ public class Incidente {
 
     private Long idProyecto;
     @ManyToOne
-    @JoinColumn(name="fk_id_proyecto",insertable = false,updatable = false)
+
     private Proyecto proyecto;
     @ManyToOne
-    @JoinColumn(name="fk_id_usuario",insertable = false,updatable = false)
+
     private Usuario usuario;
 }

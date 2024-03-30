@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table
 public class InvolucradoIncidente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

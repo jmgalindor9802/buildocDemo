@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Table
 public class Ciclo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

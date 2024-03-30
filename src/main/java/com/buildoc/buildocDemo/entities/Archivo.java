@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Table
 public class Archivo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,10 +24,10 @@ public class Archivo {
     @ManyToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
 
-    @ManyToMany(mappedBy = "archivos")
+    @ManyToMany
     private List<TipoInspeccion> tipoInspecciones;
 
-    @ManyToMany(mappedBy = "archivos")
+    @ManyToMany
     private List<Tarea> tareas;
 
 }

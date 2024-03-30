@@ -35,14 +35,14 @@ public class  UsuarioController {
 
             String idRolesString = request.get("idRoles").toString();
             String[] idRolesArray = idRolesString.split(",");
-            List<Integer> idRoles = new ArrayList<>();
+            List<Long> idRoles = new ArrayList<>();
 
             for (String idRole : idRolesArray) {
-                idRoles.add(Integer.parseInt(idRole));
+                idRoles.add(Long.parseLong(idRole));
             }
 
             List<Rol> roles = new ArrayList<>();
-            for (Integer roleId : idRoles) {
+            for (Long roleId : idRoles) {
                 Rol rol = rolServiceImp.obtenerRolPorId(roleId);
                 roles.add(rol);
             }

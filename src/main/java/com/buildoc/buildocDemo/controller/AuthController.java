@@ -3,11 +3,14 @@ package com.buildoc.buildocDemo.controller;
 import com.buildoc.buildocDemo.dto.AuthResponseDto;
 import com.buildoc.buildocDemo.dto.LoginDto;
 import com.buildoc.buildocDemo.dto.RegisterDto;
+import com.buildoc.buildocDemo.entities.Persona;
 import com.buildoc.buildocDemo.entities.Rol;
 import com.buildoc.buildocDemo.entities.Usuario;
 import com.buildoc.buildocDemo.repositories.RolRepository;
 import com.buildoc.buildocDemo.repositories.UsuarioRepository;
 import com.buildoc.buildocDemo.security.JWTGenerator;
+import com.buildoc.buildocDemo.services.PersonaServices;
+import com.buildoc.buildocDemo.services.imp.PersonaServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,17 +19,23 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/buildoc/auth")
 
 public class AuthController {
+    @Autowired
+    private PersonaServiceImp personaServiceImp;
     private AuthenticationManager authenticationManager;
     private UsuarioRepository usuarioRepository;
     private RolRepository rolRepository;
@@ -49,7 +58,7 @@ public class AuthController {
         String token = jwtGenerator.generateToken(authentication);
         return new ResponseEntity<>(new AuthResponseDto(token),HttpStatus.OK);
     }
-
+    @Transactional
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
         if(usuarioRepository.existsByUsername(registerDto.getUsername())){
@@ -61,9 +70,33 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setNombre(registerDto.getNombre());
 
-        Rol roles = rolRepository.findByNombre("ADMIN").get();
-        user.setRoles(Collections.singletonList(roles));
+
+        List<Rol> roles = new ArrayList<>();
+        for (Long roleId : registerDto.getRoles()) {
+            Optional<Rol> optionalRol = rolRepository.findById(roleId);
+            optionalRol.ifPresent(roles::add);
+        }
+        user.setRoles(roles);
+
+        Long idPersona = Long.parseLong(registerDto.getPersonaId().toString());
+        Persona persona = personaServiceImp.obtenerPersonaPorId(idPersona);
+        if (persona == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        user.setPersona(persona);
+
         usuarioRepository.save(user);
         return new ResponseEntity<>("Usuario registrado exitosamente",HttpStatus.OK);
     }
+
+
+    @GetMapping("/buildoc/auth/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
+        return ResponseEntity.ok("Logout exitoso");
+    }
+
 }

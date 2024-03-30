@@ -10,6 +10,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table
 public class Persona {
     @Id
     @Column(name = "pk_id_persona", columnDefinition = "BIGINT(20)")
@@ -34,7 +35,7 @@ public class Persona {
     @Column (name="perTelefono", nullable = false)
     private String Telefono;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "persona")
+    @OneToOne(cascade = CascadeType.ALL)
     private  Usuario usuario;
 
 }

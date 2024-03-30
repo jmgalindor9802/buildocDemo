@@ -53,15 +53,22 @@ public class SecurityConfig {
                 .and()
                 .logout() // Configuración para el logout
                 .logoutUrl("/buildoc/auth/logout").permitAll()
-                .logoutSuccessUrl("/buildoc/auth/login") // URL a la que redirigir después del logout
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
         httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 
-
-
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*")); // Permitir solicitudes desde este origen
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 
     @Bean

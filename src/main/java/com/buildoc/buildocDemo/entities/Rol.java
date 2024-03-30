@@ -9,14 +9,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table (name="roles")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
+@Table
 public class Rol {
     @Id
-    private int id;
+    private long id;
     private String nombre;
 
     @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY)

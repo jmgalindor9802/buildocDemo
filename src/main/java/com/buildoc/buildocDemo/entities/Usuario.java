@@ -11,11 +11,11 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name="usuarios")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
+@Table
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

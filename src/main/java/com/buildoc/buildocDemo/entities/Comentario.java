@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Table
 public class Comentario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
