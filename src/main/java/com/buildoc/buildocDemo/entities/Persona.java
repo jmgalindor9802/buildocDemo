@@ -26,6 +26,7 @@ public class Persona {
     private Date fechaNacimiento;
     @Column(name="perMunicipio", nullable = false, length = 280)
     private String municipio;
+    private String departamento;
     @Column(name="perDireccion_residencia", nullable = false, length = 280)
     private String direccion;
     @Column (name="perProfesion", nullable = false, length = 280)

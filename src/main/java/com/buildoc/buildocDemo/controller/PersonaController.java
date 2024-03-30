@@ -35,6 +35,7 @@ public class PersonaController {
             persona.setArl(request.get("arl").toString());
             persona.setFechaNacimiento(parsedDate);
             persona.setMunicipio(request.get("municipio").toString());
+            persona.setDepartamento(request.get("departamento").toString());
             persona.setDireccion(request.get("direccion").toString());
             persona.setProfesion(request.get("profesion").toString());
             persona.setTelefono(request.get("telefono").toString());

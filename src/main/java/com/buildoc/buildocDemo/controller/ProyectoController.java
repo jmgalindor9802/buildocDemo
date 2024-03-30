@@ -16,7 +16,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping(path = "/buildoc/proyecto/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.HEAD})
-@CrossOrigin("*")
+
 public class ProyectoController {
     @Autowired
     private ProyectoServiceImp proyectoServicesImp;
