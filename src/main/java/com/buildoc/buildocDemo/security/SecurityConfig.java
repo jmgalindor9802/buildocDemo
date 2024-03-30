@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/buildoc/auth/**").permitAll()
+                .antMatchers("/buildoc/persona/create").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
