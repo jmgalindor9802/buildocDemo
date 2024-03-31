@@ -14,7 +14,6 @@ import java.util.List;
 public class Equipo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private Long id;
 
     private String nombre;

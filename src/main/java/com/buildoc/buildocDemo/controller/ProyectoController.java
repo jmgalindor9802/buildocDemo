@@ -38,11 +38,12 @@ public class ProyectoController {
             if (cliente == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            proyecto.setCliente(cliente);
+                proyecto.setCliente(cliente);
 
-            this.proyectoServicesImp.crearProyecto(proyecto);
-            response.put("status","succes");
-            response.put("data","Registro exitoso");
+            Long proyectoId = this.proyectoServicesImp.crearProyecto(proyecto);
+                response.put("status","succes");
+                response.put("data","Registro exitoso");
+                response.put("proyectoId", proyectoId);
 
         }catch (Exception e){
             response.put("status",HttpStatus.BAD_GATEWAY);

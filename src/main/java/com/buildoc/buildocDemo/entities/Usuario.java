@@ -1,6 +1,7 @@
 package com.buildoc.buildocDemo.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,6 +38,7 @@ public class Usuario {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Incidente> incidentes;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Persona persona;
 

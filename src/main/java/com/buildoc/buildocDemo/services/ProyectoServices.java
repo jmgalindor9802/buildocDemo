@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProyectoServices {
     public List<Proyecto> listarProyectos();
 
-    public void crearProyecto(Proyecto proyecto);
+    public Long crearProyecto(Proyecto proyecto);
 
     public Proyecto obtenerProyectoPorId(Long id);
 

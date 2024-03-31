@@ -15,8 +15,10 @@ public class ProyectoServiceImp implements ProyectoServices {
         return proyectoRepository.findAll();
     }
     @Override
-    public void crearProyecto(Proyecto proyecto) {
+    public Long crearProyecto(Proyecto proyecto) {
         proyectoRepository.save(proyecto);
+        Proyecto proyectoCreado = proyectoRepository.save(proyecto);
+        return proyectoCreado.getId();
     }
     @Override
     public Proyecto obtenerProyectoPorId(Long id) {
