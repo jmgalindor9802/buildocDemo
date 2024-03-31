@@ -49,19 +49,21 @@ public class TareaController {
             }
             tarea.setCiclo(ciclo);
 
-            String idArchivosString = request.get("idArchivos").toString();
-            String[] idArchivosArray = idArchivosString.split(",");
-            List<Long> idArchivos = new ArrayList<>();
+            if (request.containsKey("idArchivos")) {
+                String idArchivosString = request.get("idArchivos").toString();
+                String[] idArchivosArray = idArchivosString.split(",");
+                List<Long> idArchivos = new ArrayList<>();
 
-            for (String idRole : idArchivosArray) {
-                idArchivos.add(Long.parseLong(idRole));
+                for (String idRole : idArchivosArray) {
+                    idArchivos.add(Long.parseLong(idRole));
+                }
+                List<Archivo> archivos = new ArrayList<>();
+                for (Long archivoId : idArchivos) {
+                    Archivo archivo = archivoServiceImp.obtenerArchivoPorId(archivoId);
+                    archivos.add(archivo);
+                }
+                tarea.setArchivos(archivos);
             }
-            List<Archivo> archivos= new ArrayList<>();
-            for (Long archivoId : idArchivos) {
-                Archivo archivo = archivoServiceImp.obtenerArchivoPorId(archivoId);
-                archivos.add(archivo);
-            }
-            tarea.setArchivos(archivos);
 
             this.tareaServiceImp.crearTarea(tarea);
             response.put("status","succes");

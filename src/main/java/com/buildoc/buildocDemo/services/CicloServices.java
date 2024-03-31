@@ -15,4 +15,6 @@ public interface CicloServices {
     public void actualizarCiclo(Ciclo ciclo);
 
     public void eliminarCiclo(Ciclo ciclo);
+
+    List<Ciclo> listarCiclosPorProyecto(Long proyectoId);
 }

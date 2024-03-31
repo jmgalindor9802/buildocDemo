@@ -70,4 +70,20 @@ public class CicloController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("proyecto/{proyectoId}")
+    public ResponseEntity<Map<String, Object>> findByProyectoId(@PathVariable Long proyectoId){
+        Map<String,Object> response = new HashMap<>();
+        try {
+            List<Ciclo> cicloList = this.cicloServiceImp.listarCiclosPorProyecto(proyectoId);
+            response.put("status","success");
+            response.put("data", cicloList);
+        } catch (Exception e) {
+            response.put("status",HttpStatus.BAD_GATEWAY);
+            response.put("data",e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

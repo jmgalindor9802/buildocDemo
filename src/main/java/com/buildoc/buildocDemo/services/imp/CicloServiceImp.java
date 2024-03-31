@@ -12,6 +12,7 @@ import java.util.List;
 public class CicloServiceImp implements CicloServices {
     @Autowired
     private CicloRepository cicloRepository;
+
     @Override
     public List<Ciclo> listarCiclos() {
         return cicloRepository.findAll();
@@ -35,5 +36,10 @@ public class CicloServiceImp implements CicloServices {
     @Override
     public void eliminarCiclo(Ciclo ciclo) {
         cicloRepository.delete(ciclo);
+    }
+
+    @Override
+    public List<Ciclo> listarCiclosPorProyecto(Long proyectoId) {
+        return cicloRepository.findByProyectoId(proyectoId);
     }
 }
