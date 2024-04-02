@@ -7,10 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
-public class AuthInterceptor implements HandlerInterceptor {
+public class        AuthInterceptor implements HandlerInterceptor {
 
     private static final String SIGN_UP_URL = "/buildoc/auth/register";
-    private static final String LOGOUT_URL = "/buildoc/auth/logout";
+    private static final String LOGOUT_URL = "/buildoc/logout";
+    private static final String LOGIN_URL = "/buildoc/auth/login/";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -18,7 +19,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         String requestURI = request.getRequestURI();
 
         // Verificar si la solicitud es para registro o cierre de sesión
-        if (requestURI.equals(SIGN_UP_URL) || requestURI.equals(LOGOUT_URL)) {
+        if (requestURI.equals(SIGN_UP_URL) || requestURI.equals(LOGOUT_URL) || requestURI.equals(LOGIN_URL)) {
             // Si es una solicitud de registro o cierre de sesión, permite que continúe sin verificar el token
             return true;
         }
