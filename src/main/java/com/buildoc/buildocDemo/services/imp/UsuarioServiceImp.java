@@ -7,6 +7,7 @@ import org.springframework.core.SpringVersion;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioServiceImp implements UsuarioServices {
@@ -41,4 +42,12 @@ usuarioRepository.save(usuario);
         usuarioRepository.delete(usuario);
 
     }
+
+
+    @Override
+    public String obtenerUsuarioPorUsername(String username) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByUsername(username);
+        return usuarioOptional.map(Usuario::getNombre).orElse(null);
+    }
+
 }

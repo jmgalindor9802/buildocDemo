@@ -6,6 +6,8 @@ import com.buildoc.buildocDemo.entities.Usuario;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public interface UsuarioServices {
     public List<Usuario> listarUsuarios();
@@ -17,4 +19,8 @@ public interface UsuarioServices {
     public void actualizarUsuario(Usuario usuario);
 
     public void eliminarUsuario(Usuario usuario);
+
+    public String obtenerUsuarioPorUsername(String username);
+
+
 }
