@@ -66,12 +66,13 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
         // Obtener información adicional del usuario autenticado
-        String nombre = usuarioService.obtenerUsuarioPorUsername(loginDto.getUsername()); // Obtener el nombre del usuario
+        String nombre = usuarioService.obtenerUsuarioPorUsername(loginDto.getUsername());// Obtener el nombre del usuario
+        Long idUsuario= usuarioService.obtenerIdUsuarioPorUsername(loginDto.getUsername()) ;
         List<String> roles = authentication.getAuthorities().stream()
                 .map(Object::toString)
                 .collect(Collectors.toList());
         // Crear un objeto que contenga el token JWT, el nombre, el username y los roles del usuario
-        LoginResponseDto loginResponse = new LoginResponseDto(token, nombre, loginDto.getUsername(), roles);
+        LoginResponseDto loginResponse = new LoginResponseDto(token, nombre, loginDto.getUsername(), roles,idUsuario);
         // Agregar un console.log
         System.out.println("Login Response: " + loginResponse.toString());
         return new ResponseEntity<>(loginResponse, HttpStatus.OK);

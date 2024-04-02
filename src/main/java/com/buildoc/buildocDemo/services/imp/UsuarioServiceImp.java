@@ -49,5 +49,11 @@ usuarioRepository.save(usuario);
         Optional<Usuario> usuarioOptional = usuarioRepository.findByUsername(username);
         return usuarioOptional.map(Usuario::getNombre).orElse(null);
     }
+    @Override
+    public Long obtenerIdUsuarioPorUsername(String username) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByUsername(username);
+        return usuarioOptional.map(Usuario::getId).orElse(null);
+    }
+
 
 }

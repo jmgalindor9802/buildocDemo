@@ -22,5 +22,5 @@ public interface UsuarioServices {
 
     public String obtenerUsuarioPorUsername(String username);
 
-
+    public Long obtenerIdUsuarioPorUsername(String username);
 }
