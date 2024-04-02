@@ -38,4 +38,8 @@ public class Tarea {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Archivo> archivos;
+
+    @ManyToMany
+    private List<Usuario> usuario;
+
 }

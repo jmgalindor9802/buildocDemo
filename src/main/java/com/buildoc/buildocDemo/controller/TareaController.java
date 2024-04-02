@@ -3,10 +3,12 @@ package com.buildoc.buildocDemo.controller;
 import com.buildoc.buildocDemo.entities.Archivo;
 import com.buildoc.buildocDemo.entities.Ciclo;
 import com.buildoc.buildocDemo.entities.Tarea;
+import com.buildoc.buildocDemo.entities.Usuario;
 import com.buildoc.buildocDemo.entities.enums.EstadoTarea;
 import com.buildoc.buildocDemo.services.imp.ArchivoServiceImp;
 import com.buildoc.buildocDemo.services.imp.CicloServiceImp;
 import com.buildoc.buildocDemo.services.imp.TareaServiceImp;
+import com.buildoc.buildocDemo.services.imp.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ import java.util.Map;
 public class TareaController {
     @Autowired
     private TareaServiceImp tareaServiceImp;
+    @Autowired
+    private UsuarioServiceImp usuarioServiceImp;
     @Autowired
     private CicloServiceImp cicloServiceImp;
 
@@ -70,6 +74,23 @@ public class TareaController {
                 tarea.setArchivos(archivos);
             } else {
                 tarea.setArchivos(new ArrayList<>());
+            }
+
+            if (request.containsKey("idUsuarios")) {
+                String idUsuariosString = request.get("idUsuarios").toString();
+                String[] idUsuariosArray = idUsuariosString.split(",");
+                List<Long> idUsuarios = new ArrayList<>();
+                for (String idUsuario : idUsuariosArray) {
+                    idUsuarios.add(Long.parseLong(idUsuario.trim()));
+                }
+                List<Usuario> usuarios = new ArrayList<>();
+                for (Long idUsuario : idUsuarios) {
+                    Usuario usuario = usuarioServiceImp.obtenerUsuarioPorId(idUsuario);
+                    usuarios.add(usuario);
+                }
+                tarea.setUsuario(usuarios);
+            } else {
+                tarea.setUsuario(new ArrayList<>());
             }
 
             Long tareaId = this.tareaServiceImp.crearTarea(tarea);
