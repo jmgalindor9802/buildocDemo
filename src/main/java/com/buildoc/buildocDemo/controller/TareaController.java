@@ -40,8 +40,11 @@ public class TareaController {
            tarea.setDescripcion(request.get("descripcion").toString());
            tarea.setEstado(EstadoTarea.PENDIENTE);
            tarea.setFechaCreacion(LocalDateTime.now());
-            LocalDateTime parsedDateTime = LocalDateTime.parse(request.get("fechaLimite").toString(), formatter);
-           tarea.setFechaLimite(parsedDateTime);
+            LocalDateTime parsedDateTime_fechaLimite = LocalDateTime.parse(request.get("fechaLimite").toString(), formatter);
+           tarea.setFechaLimite(parsedDateTime_fechaLimite);
+            LocalDateTime parsedDateTime_fechaInicial = LocalDateTime.parse(request.get("fechaInicial").toString(), formatter);
+            tarea.setFechaInicial(parsedDateTime_fechaInicial);
+
            Long idCiclo=Long.parseLong(request.get("idCiclo").toString());
             Ciclo ciclo=cicloServiceImp.obtenerCicloPorId(idCiclo);
             if (ciclo == null) {
@@ -50,21 +53,24 @@ public class TareaController {
             tarea.setCiclo(ciclo);
 
             if (request.containsKey("idArchivos")) {
+                // La clave "idArchivos" está presente en la solicitud
                 String idArchivosString = request.get("idArchivos").toString();
                 String[] idArchivosArray = idArchivosString.split(",");
                 List<Long> idArchivos = new ArrayList<>();
-
-                for (String idRole : idArchivosArray) {
-                    idArchivos.add(Long.parseLong(idRole));
+                // Convertir los IDs de archivos a Long y agregarlos a la lista
+                for (String idArchivo : idArchivosArray) {
+                    idArchivos.add(Long.parseLong(idArchivo.trim())); // Trim para eliminar espacios en blanco alrededor del ID
                 }
+
                 List<Archivo> archivos = new ArrayList<>();
-                for (Long archivoId : idArchivos) {
-                    Archivo archivo = archivoServiceImp.obtenerArchivoPorId(archivoId);
+                for (Long idArchivo : idArchivos) {
+                    Archivo archivo = archivoServiceImp.obtenerArchivoPorId(idArchivo);
                     archivos.add(archivo);
                 }
                 tarea.setArchivos(archivos);
+            } else {
+                tarea.setArchivos(new ArrayList<>());
             }
-
             this.tareaServiceImp.crearTarea(tarea);
             response.put("status","succes");
             response.put("data","Registro exitoso");

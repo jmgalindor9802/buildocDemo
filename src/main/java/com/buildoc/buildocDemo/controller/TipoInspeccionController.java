@@ -33,20 +33,25 @@ public class TipoInspeccionController {
             tipoInspeccion.setNombre(request.get("nombre").toString());
             tipoInspeccion.setDescripcion(request.get("descripcion").toString());
 
-            String idArchivosString = request.get("idArchivos").toString();
-            String[] idArchivosArray = idArchivosString.split(",");
-            List<Long> idArchivos = new ArrayList<>();
+            if (request.containsKey("idArchivos")) {
+                // La clave "idArchivos" está presente en la solicitud
+                String idArchivosString = request.get("idArchivos").toString();
+                String[] idArchivosArray = idArchivosString.split(",");
+                List<Long> idArchivos = new ArrayList<>();
+                // Convertir los IDs de archivos a Long y agregarlos a la lista
+                for (String idArchivo : idArchivosArray) {
+                    idArchivos.add(Long.parseLong(idArchivo.trim())); // Trim para eliminar espacios en blanco alrededor del ID
+                }
 
-            for (String idRole : idArchivosArray) {
-                idArchivos.add(Long.parseLong(idRole));
+                List<Archivo> archivos = new ArrayList<>();
+                for (Long idArchivo : idArchivos) {
+                    Archivo archivo = archivoServiceImp.obtenerArchivoPorId(idArchivo);
+                    archivos.add(archivo);
+                }
+                tipoInspeccion.setArchivos(archivos);
+            } else {
+                tipoInspeccion.setArchivos(new ArrayList<>());
             }
-
-            List<Archivo> archivos= new ArrayList<>();
-            for (Long archivoId : idArchivos) {
-                Archivo archivo = archivoServiceImp.obtenerArchivoPorId(archivoId);
-                archivos.add(archivo);
-            }
-            tipoInspeccion.setArchivos(archivos);
 
             this.tipoInspeccionServicesImp.crearTipoInspeccion(tipoInspeccion);
             response.put("status","succes");

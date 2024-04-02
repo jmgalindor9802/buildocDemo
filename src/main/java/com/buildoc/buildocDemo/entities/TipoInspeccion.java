@@ -23,7 +23,7 @@ public class TipoInspeccion {
     @OneToMany(cascade = CascadeType.ALL, fetch =FetchType.LAZY, orphanRemoval = true)
     private List<Inspeccion> inspecciones;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany( fetch = FetchType.LAZY)
     private List<Archivo> archivos;
 
 }

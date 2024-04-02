@@ -26,6 +26,7 @@ public class Tarea {
     private EstadoTarea estado;
 
     private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaInicial;
 
     private LocalDateTime fechaLimite;
 
