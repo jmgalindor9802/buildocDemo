@@ -10,7 +10,7 @@ import java.util.List;
 public interface TareaServices {
     public List<Tarea> listarTareas();
 
-    public void crearTarea(Tarea tarea);
+    public Long crearTarea(Tarea tarea);
 
     public Tarea obtenerTareaPorId(Long id);
 

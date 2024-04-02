@@ -8,7 +8,7 @@ import java.util.List;
 public interface CicloServices {
     public List<Ciclo> listarCiclos();
 
-   public void crearCiclo(Ciclo ciclo);
+   public Long crearCiclo(Ciclo ciclo);
 
    public Ciclo obtenerCicloPorId(Long id);
 

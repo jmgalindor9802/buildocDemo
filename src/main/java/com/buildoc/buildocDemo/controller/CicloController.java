@@ -44,9 +44,10 @@ public class CicloController {
             ciclo.setProyecto(proyecto);
 
 
-            this.cicloServiceImp.crearCiclo(ciclo);
+          Long cicloId  = this.cicloServiceImp.crearCiclo(ciclo);
             response.put("status","succes");
             response.put("data","Registro exitoso");
+            response.put("cicloId", cicloId);
 
         }catch (Exception e){
             response.put("status", HttpStatus.BAD_GATEWAY);

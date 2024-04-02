@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.services.imp;
 
+import com.buildoc.buildocDemo.entities.Proyecto;
 import com.buildoc.buildocDemo.entities.Rol;
 import com.buildoc.buildocDemo.entities.Tarea;
 import com.buildoc.buildocDemo.repositories.ArchivoRepository;
@@ -19,8 +20,10 @@ public class TareaServiceImp implements TareaServices {
     }
 
     @Override
-    public void crearTarea(Tarea tarea) {
+    public Long crearTarea(Tarea tarea) {
         tareaRepository.save(tarea);
+        Tarea tareaCreada = tareaRepository.save(tarea);
+        return tareaCreada.getIdTarea();
     }
 
     @Override

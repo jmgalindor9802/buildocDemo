@@ -71,9 +71,11 @@ public class TareaController {
             } else {
                 tarea.setArchivos(new ArrayList<>());
             }
-            this.tareaServiceImp.crearTarea(tarea);
+
+            Long tareaId = this.tareaServiceImp.crearTarea(tarea);
             response.put("status","succes");
             response.put("data","Registro exitoso");
+            response.put("tareaId", tareaId);
 
         }catch (Exception e){
             response.put("status", HttpStatus.BAD_GATEWAY);

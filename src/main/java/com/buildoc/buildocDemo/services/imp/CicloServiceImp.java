@@ -1,6 +1,7 @@
 package com.buildoc.buildocDemo.services.imp;
 
 import com.buildoc.buildocDemo.entities.Ciclo;
+import com.buildoc.buildocDemo.entities.Tarea;
 import com.buildoc.buildocDemo.repositories.CicloRepository;
 import com.buildoc.buildocDemo.services.CicloServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,11 @@ public class CicloServiceImp implements CicloServices {
     }
 
     @Override
-    public void crearCiclo(Ciclo ciclo) {
+    public Long crearCiclo(Ciclo ciclo) {
+
         cicloRepository.save(ciclo);
+        Ciclo cicloCreado=cicloRepository.save(ciclo);
+        return cicloCreado.getIdCiclo();
     }
 
     @Override
