@@ -1,16 +1,12 @@
 package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.*;
-import com.buildoc.buildocDemo.entities.enums.EstadoTarea;
 import com.buildoc.buildocDemo.services.imp.ArchivoServiceImp;
 import com.buildoc.buildocDemo.services.imp.TipoInspeccionServicesImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
