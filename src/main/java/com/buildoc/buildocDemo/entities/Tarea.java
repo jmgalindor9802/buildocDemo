@@ -37,7 +37,13 @@ public class Tarea {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Archivo> archivos;
 
-    @ManyToMany
+    @ManyToMany(fetch =FetchType.LAZY)
     private List<Usuario> usuario;
+
+
+    @OneToMany(fetch =FetchType.LAZY)
+    private List<RespuestaTarea> respuestasTarea;
+
+
 
 }

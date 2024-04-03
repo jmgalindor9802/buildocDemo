@@ -9,6 +9,9 @@ public class BuildocDemoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BuildocDemoApplication.class, args);
+
+		}
+
 	}
 
-}
+

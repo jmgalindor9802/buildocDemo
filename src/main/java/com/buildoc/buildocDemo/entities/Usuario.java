@@ -48,5 +48,9 @@ public class Usuario {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Equipo> liderDeEquipos;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario")
+    private List<RespuestaTarea> respuestasTarea;
+
 
 }
