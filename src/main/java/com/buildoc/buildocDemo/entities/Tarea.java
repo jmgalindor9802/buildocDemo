@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.entities;
 
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.entities.enums.EstadoTarea;
 import lombok.*;
 import javax.persistence.*;
@@ -17,18 +18,15 @@ public class Tarea {
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     private Long idTarea;
-
     private String nombre;
-
     private String descripcion;
     @Enumerated(EnumType.STRING)
-
     private EstadoTarea estado;
-
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaInicial;
-
     private LocalDateTime fechaLimite;
+    @Enumerated(EnumType.STRING)
+    private EstadoDato estadoDato;
 
     @ManyToOne
     private Ciclo ciclo;

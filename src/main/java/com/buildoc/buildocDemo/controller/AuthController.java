@@ -7,6 +7,7 @@ import com.buildoc.buildocDemo.dto.RegisterDto;
 import com.buildoc.buildocDemo.entities.Persona;
 import com.buildoc.buildocDemo.entities.Rol;
 import com.buildoc.buildocDemo.entities.Usuario;
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.repositories.RolRepository;
 import com.buildoc.buildocDemo.repositories.UsuarioRepository;
 import com.buildoc.buildocDemo.security.JWTGenerator;
@@ -89,6 +90,7 @@ public class AuthController {
         user.setUsername(registerDto.getUsername());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setNombre(registerDto.getNombre());
+        user.setEstadoDato(EstadoDato.ACTIVO);
 
 
         List<Rol> roles = new ArrayList<>();

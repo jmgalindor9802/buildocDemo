@@ -27,7 +27,7 @@ public class Usuario {
     private String username;
     private String nombre;
     @Enumerated(EnumType.STRING)
-    private EstadoDato estado;
+    private EstadoDato estadoDato;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Rol> roles= new ArrayList<>();

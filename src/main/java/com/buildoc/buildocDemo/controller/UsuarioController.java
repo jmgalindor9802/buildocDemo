@@ -33,7 +33,7 @@ public class  UsuarioController {
             Usuario usuario = new Usuario();
             usuario.setUsername(request.get("username").toString());
             usuario.setPassword(request.get("password").toString());
-            usuario.setEstado(EstadoDato.ACTIVO);
+            usuario.setEstadoDato(EstadoDato.ACTIVO);
 
             String idRolesString = request.get("idRoles").toString();
             String[] idRolesArray = idRolesString.split(",");
@@ -72,7 +72,7 @@ public class  UsuarioController {
     public ResponseEntity<Map<String, Object>> findAll() {
         Map<String, Object> response = new HashMap<>();
         try {
-            List<Usuario> usuarioList = this.usuarioServiceImp.listarUsuariosActivos();
+            List<Usuario> usuarioList = this.usuarioServiceImp.listarEntidadesActivas();
             response.put("status", "succes");
             response.put("data", usuarioList);
 
@@ -97,9 +97,7 @@ public class  UsuarioController {
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
 
-            usuario.setEstado(EstadoDato.DESACTIVADO); // Cambiar el estado a deshabilitado
-
-            usuarioServiceImp.actualizarUsuario(usuario); // Actualizar el usuario en la base de datos
+            usuarioServiceImp.cambiarEstadoDato(id, EstadoDato.DESACTIVADO);
 
             response.put("status", "success");
             response.put("data", "Usuario deshabilitado correctamente");

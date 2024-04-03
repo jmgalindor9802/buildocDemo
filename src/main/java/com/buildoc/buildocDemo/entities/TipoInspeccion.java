@@ -15,9 +15,7 @@ public class TipoInspeccion {
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     private Long idTipoInspeccion;
-
     private String nombre;
-
     private String descripcion;
 
     @OneToMany(cascade = CascadeType.ALL, fetch =FetchType.LAZY, orphanRemoval = true)

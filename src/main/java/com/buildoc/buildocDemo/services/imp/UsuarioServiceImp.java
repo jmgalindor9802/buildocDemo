@@ -2,16 +2,18 @@ package com.buildoc.buildocDemo.services.imp;
 import com.buildoc.buildocDemo.entities.Usuario;
 import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.repositories.UsuarioRepository;
+import com.buildoc.buildocDemo.services.EntityService;
 import com.buildoc.buildocDemo.services.UsuarioServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.SpringVersion;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsuarioServiceImp implements UsuarioServices {
+public class UsuarioServiceImp implements UsuarioServices, EntityService<Usuario> {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -20,10 +22,6 @@ public class UsuarioServiceImp implements UsuarioServices {
     @Override
     public List<Usuario> listarUsuarios() {
        return usuarioRepository.findAll();
-    }
-
-    public List<Usuario> listarUsuariosActivos() {
-        return usuarioRepository.findByEstado(EstadoDato.ACTIVO);
     }
 
 
@@ -62,4 +60,15 @@ usuarioRepository.save(usuario);
     }
 
 
+    @Override
+    public void cambiarEstadoDato(Long id, EstadoDato estado) {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+        usuario.setEstadoDato(estado);
+        usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public List<Usuario> listarEntidadesActivas() {
+        return usuarioRepository.findByEstadoDato(EstadoDato.ACTIVO);
+    }
 }

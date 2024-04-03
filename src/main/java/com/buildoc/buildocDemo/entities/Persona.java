@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.entities;
 
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import lombok.*;
 import javax.persistence.*;
 
@@ -34,6 +35,8 @@ public class Persona {
     private String profesion;
     @Column (name="perTelefono", nullable = false)
     private String Telefono;
+    @Enumerated(EnumType.STRING)
+    private EstadoDato estadoDato;
 
     @OneToOne(cascade = CascadeType.ALL)
     private  Usuario usuario;

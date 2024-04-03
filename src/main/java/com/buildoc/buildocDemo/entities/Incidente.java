@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.entities;
 
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.entities.enums.IncidenteEstado;
 import com.buildoc.buildocDemo.entities.enums.IncidenteGravedad;
 import lombok.*;
@@ -20,19 +21,12 @@ public class Incidente {
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     private Long idIncidente;
-
-
     private String nombre;
-
-
     private String descripcion;
-
-    /*Esta anotación se utiliza junto a la definición de un enum para indicar cómo se almacenará el valor del
-    enum en la base de datos. En este caso, EnumType.STRING indica que se almacenará el nombre del valor del
-    enum como una cadena de texto.*/
     @Enumerated(EnumType.STRING)
-
     private IncidenteEstado estado;
+    @Enumerated(EnumType.STRING)
+    private EstadoDato estadoDato;
 
     /*Esta anotación se utiliza junto a la definición de un enum para indicar cómo se almacenará el valor del
     enum en la base de datos. En este caso, EnumType.STRING indica que se almacenará el nombre del valor del

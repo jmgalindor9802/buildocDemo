@@ -2,6 +2,7 @@ package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.Ciclo;
 import com.buildoc.buildocDemo.entities.Cliente;
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.services.imp.ClienteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class ClienteController {
             cliente.setNombre(request.get("nombre").toString());
             cliente.setCorreo(request.get("correo").toString());
             cliente.setTelefono(request.get("telefono").toString());
-
+            cliente.setEstadoDato(EstadoDato.ACTIVO);
             this.clienteServiceImp.crearCliente(cliente);
             response.put("status","succes");
             response.put("data","Registro exitoso");
@@ -44,7 +45,7 @@ public class ClienteController {
     public ResponseEntity<Map<String, Object>> findAll(){
         Map<String,Object> response = new HashMap<>();
         try {
-            List<Cliente> clienteList = this.clienteServiceImp.listarClientes();
+            List<Cliente> clienteList = this.clienteServiceImp.listarEntidadesActivas();
             response.put("status","succes");
             response.put("data", clienteList);
 
@@ -93,7 +94,7 @@ public class ClienteController {
                 response.put("data", "Cliente no encontrado");
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
-            clienteServiceImp.eliminarCliente(cliente);
+            clienteServiceImp.cambiarEstadoDato(id,EstadoDato.DESACTIVADO);
             response.put("status", "success");
             response.put("data", "Cliente eliminado exitosamente");
         } catch (Exception e) {

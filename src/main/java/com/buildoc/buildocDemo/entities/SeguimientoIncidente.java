@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.entities;
 
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import lombok.*;
 import javax.persistence.*;
 
@@ -24,7 +25,8 @@ public class SeguimientoIncidente {
 
     @Column(name = "actSugerencia", nullable = false, length = 5000)
     private String sugerencia;
-
+    @Enumerated(EnumType.STRING)
+    private EstadoDato estadoDato;
     @ManyToOne
     private Incidente incidente;
 }

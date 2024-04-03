@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.entities;
 
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import lombok.*;
 import javax.persistence.*;
 
@@ -15,12 +16,11 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     private Long id;
-
     private String nombre;
-
     private String correo;
-
     private String telefono;
+    @Enumerated(EnumType.STRING)
+    private EstadoDato estadoDato;
 
     @OneToMany
     private List<Proyecto> proyectos;

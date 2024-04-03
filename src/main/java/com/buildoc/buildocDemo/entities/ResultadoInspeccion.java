@@ -17,21 +17,12 @@ public class ResultadoInspeccion {
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     private Long idResultadoInspeccion;
-
     private String descripcion;
-
     @Enumerated(EnumType.STRING)
-
     private EstadoResultadoInspeccion estado;
-
     private Integer avanceObra;
-
-
     private String observacionesGenerales;
-
     private Long idInspeccion;
-
-
     private LocalDateTime fechaModificacion;
 
     @OneToOne

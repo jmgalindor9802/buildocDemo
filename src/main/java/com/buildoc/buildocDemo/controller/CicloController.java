@@ -44,6 +44,7 @@ public class CicloController {
             ciclo.setProyecto(proyecto);
 
 
+
           Long cicloId  = this.cicloServiceImp.crearCiclo(ciclo);
             response.put("status","succes");
             response.put("data","Registro exitoso");
