@@ -1,6 +1,7 @@
 package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.*;
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.services.imp.PersonaServiceImp;
 import com.buildoc.buildocDemo.services.imp.RolServiceImp;
 import com.buildoc.buildocDemo.services.imp.UsuarioServiceImp;
@@ -32,6 +33,7 @@ public class  UsuarioController {
             Usuario usuario = new Usuario();
             usuario.setUsername(request.get("username").toString());
             usuario.setPassword(request.get("password").toString());
+            usuario.setEstado(EstadoDato.ACTIVO);
 
             String idRolesString = request.get("idRoles").toString();
             String[] idRolesArray = idRolesString.split(",");
@@ -70,7 +72,7 @@ public class  UsuarioController {
     public ResponseEntity<Map<String, Object>> findAll() {
         Map<String, Object> response = new HashMap<>();
         try {
-            List<Usuario> usuarioList = this.usuarioServiceImp.listarUsuarios();
+            List<Usuario> usuarioList = this.usuarioServiceImp.listarUsuariosActivos();
             response.put("status", "succes");
             response.put("data", usuarioList);
 
@@ -82,4 +84,32 @@ public class  UsuarioController {
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
+
+    @PutMapping("delete/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Usuario usuario = usuarioServiceImp.obtenerUsuarioPorId(id);
+
+            if (usuario == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Usuario no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            usuario.setEstado(EstadoDato.DESACTIVADO); // Cambiar el estado a deshabilitado
+
+            usuarioServiceImp.actualizarUsuario(usuario); // Actualizar el usuario en la base de datos
+
+            response.put("status", "success");
+            response.put("data", "Usuario deshabilitado correctamente");
+
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

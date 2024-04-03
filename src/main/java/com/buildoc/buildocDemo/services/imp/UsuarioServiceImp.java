@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.services.imp;
 import com.buildoc.buildocDemo.entities.Usuario;
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.repositories.UsuarioRepository;
 import com.buildoc.buildocDemo.services.UsuarioServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,11 @@ public class UsuarioServiceImp implements UsuarioServices {
     public List<Usuario> listarUsuarios() {
        return usuarioRepository.findAll();
     }
+
+    public List<Usuario> listarUsuariosActivos() {
+        return usuarioRepository.findByEstado(EstadoDato.ACTIVO);
+    }
+
 
     @Override
     public void crearUsuario(Usuario usuario) {

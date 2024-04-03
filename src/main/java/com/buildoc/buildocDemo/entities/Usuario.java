@@ -1,6 +1,7 @@
 package com.buildoc.buildocDemo.entities;
 
 
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.Data;
@@ -25,6 +26,8 @@ public class Usuario {
     private String password;
     private String username;
     private String nombre;
+    @Enumerated(EnumType.STRING)
+    private EstadoDato estado;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Rol> roles= new ArrayList<>();
