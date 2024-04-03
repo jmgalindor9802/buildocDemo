@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.controller;
 
+import com.buildoc.buildocDemo.dto.UsuarioDto;
 import com.buildoc.buildocDemo.entities.*;
 import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.services.imp.PersonaServiceImp;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/buildoc/usuario/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.HEAD})
@@ -109,5 +111,37 @@ public class  UsuarioController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("update/{id}")
+    public ResponseEntity<Map<String, Object>> findById(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Usuario usuario = usuarioServiceImp.obtenerUsuarioPorId(id);
+            if (usuario == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            UsuarioDto usuarioDto = new UsuarioDto();
+            usuarioDto.setNombre(usuario.getNombre());
+
+            if (usuarioDto.getPersonaId() != null) {
+                usuario.setPersona(personaServiceImp.obtenerPersonaPorId(usuarioDto.getPersonaId()));
+            }
+            usuarioDto.setPassword(usuario.getPassword());
+            usuarioDto.setUsername(usuario.getUsername());
+            List<Long> rolesIds = usuario.getRoles().stream()
+                    .map(Rol::getId)
+                    .collect(Collectors.toList());
+            usuarioDto.setRoles(rolesIds);
+
+            response.put("status", HttpStatus.OK);
+            response.put("data", usuarioDto);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }
