@@ -115,7 +115,7 @@ public class TareaController {
     public ResponseEntity<Map<String, Object>> findAll(){
         Map<String,Object> response = new HashMap<>();
         try {
-            List<Tarea> tareaList = this.tareaServiceImp.listarTareas();
+            List<Tarea> tareaList = this.tareaServiceImp.listarEntidadesActivas();
             response.put("status","succes");
             response.put("data", tareaList);
 
@@ -160,6 +160,31 @@ public class TareaController {
             response.put("data", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Tarea tarea = tareaServiceImp.obtenerTareaPorId(id);
+
+            if (tarea == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Usuario no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            tareaServiceImp.cambiarEstadoDato(id, EstadoDato.DESACTIVADO);
+
+            response.put("status", "success");
+            response.put("data", "Usuario deshabilitado correctamente");
+
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("update/{id}")

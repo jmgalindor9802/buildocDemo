@@ -5,6 +5,7 @@ import com.buildoc.buildocDemo.entities.Ciclo;
 import com.buildoc.buildocDemo.entities.Proyecto;
 import com.buildoc.buildocDemo.entities.Usuario;
 import com.buildoc.buildocDemo.entities.enums.EstadoCiclo;
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.services.imp.CicloServiceImp;
 import com.buildoc.buildocDemo.services.imp.ProyectoServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class CicloController {
             ciclo.setNombre(request.get("nombre").toString());
             ciclo.setFechaCreacion(LocalDateTime.now());
             ciclo.setDescripcion(request.get("descripcion").toString());
+            ciclo.setEstadoDato(EstadoDato.ACTIVO);
             Long proyectoId = Long.parseLong(request.get("idProyecto").toString());
             Proyecto proyecto = proyectoServiceImp.obtenerProyectoPorId(proyectoId);
             if (proyecto == null) {
@@ -61,7 +63,7 @@ public class CicloController {
     public ResponseEntity<Map<String, Object>> findAll(){
         Map<String,Object> response = new HashMap<>();
         try {
-            List<Ciclo> cicloList = this.cicloServiceImp.listarCiclos();
+            List<Ciclo> cicloList = this.cicloServiceImp.listarEntidadesActivas();
             response.put("status","succes");
             response.put("data", cicloList);
 
@@ -83,6 +85,31 @@ public class CicloController {
         } catch (Exception e) {
             response.put("status",HttpStatus.BAD_GATEWAY);
             response.put("data",e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Ciclo ciclo = cicloServiceImp.obtenerCicloPorId(id);
+
+            if (ciclo == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Usuario no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            cicloServiceImp.cambiarEstadoDato(id, EstadoDato.DESACTIVADO);
+
+            response.put("status", "success");
+            response.put("data", "Usuario deshabilitado correctamente");
+
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);

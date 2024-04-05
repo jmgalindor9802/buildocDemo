@@ -80,7 +80,7 @@ public class IncidenteController {
     public ResponseEntity<Map<String, Object>> findAll(){
         Map<String,Object> response = new HashMap<>();
         try {
-            List<Incidente> incidenteList = this.incidenteServiceImp.listarIncidentes();
+            List<Incidente> incidenteList = this.incidenteServiceImp.listarEntidadesActivas();
             response.put("status","succes");
             response.put("data", incidenteList);
 

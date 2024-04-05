@@ -2,6 +2,8 @@ package com.buildoc.buildocDemo.controller;
 import com.buildoc.buildocDemo.entities.Cliente;
 import com.buildoc.buildocDemo.entities.Persona;
 import com.buildoc.buildocDemo.entities.Proyecto;
+import com.buildoc.buildocDemo.entities.Usuario;
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.services.imp.ClienteServiceImp;
 import com.buildoc.buildocDemo.services.imp.ProyectoServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,7 @@ public class ProyectoController {
             proyecto.setDescripcion(request.get("descripcion").toString());
             proyecto.setFechacreacion(LocalDateTime.now());
             proyecto.setFechaModificacion(LocalDateTime.now());
+            proyecto.setEstadoDato(EstadoDato.ACTIVO);
             Long idCliente = Long.parseLong(request.get("idCliente").toString());
             Cliente cliente = clienteServiceImp.obtenerClientePorId(idCliente);
             if (cliente == null) {
@@ -57,7 +60,7 @@ public class ProyectoController {
     public ResponseEntity<Map<String, Object>> findAll(){
         Map<String,Object> response = new HashMap<>();
         try {
-            List<Proyecto> proyectosList = this.proyectoServicesImp.listarProyectos();
+            List<Proyecto> proyectosList = this.proyectoServicesImp.listarEntidadesActivas();
             response.put("status","succes");
             response.put("data", proyectosList);
 
@@ -109,6 +112,31 @@ public class ProyectoController {
         } catch (Exception e) {
             response.put("status",HttpStatus.BAD_GATEWAY);
             response.put("data",e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Proyecto proyecto = proyectoServicesImp.obtenerProyectoPorId(id);
+
+            if (proyecto == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Usuario no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            proyectoServicesImp.cambiarEstadoDato(id, EstadoDato.DESACTIVADO);
+
+            response.put("status", "success");
+            response.put("data", "Usuario deshabilitado correctamente");
+
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
