@@ -2,6 +2,7 @@ package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.dto.IncidenteDto;
 import com.buildoc.buildocDemo.entities.Incidente;
+import com.buildoc.buildocDemo.entities.Inspeccion;
 import com.buildoc.buildocDemo.entities.Proyecto;
 import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.entities.enums.EstadoResultadoInspeccion;
@@ -153,13 +154,14 @@ public class IncidenteController {
 
             if (incidente == null){
                 response.put("status", HttpStatus.NOT_FOUND);
-                response.put("data", "Incidente no encontrado");
+                response.put("data", "Usuario no encontrado");
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
 
-            incidenteServiceImp.eliminarIncidente(incidente);
-            response.put("status","succes");
-            response.put("data","Incidente eliminado correctamente");
+            incidenteServiceImp.cambiarEstadoDato(id, EstadoDato.DESACTIVADO);
+
+            response.put("status", "success");
+            response.put("data", "Usuario deshabilitado correctamente");
 
         } catch (Exception e) {
             response.put("status", HttpStatus.BAD_GATEWAY);
