@@ -6,6 +6,7 @@ import com.buildoc.buildocDemo.entities.Archivo;
 import com.buildoc.buildocDemo.entities.Ciclo;
 import com.buildoc.buildocDemo.entities.Tarea;
 import com.buildoc.buildocDemo.entities.Usuario;
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.entities.enums.EstadoTarea;
 import com.buildoc.buildocDemo.services.imp.ArchivoServiceImp;
 import com.buildoc.buildocDemo.services.imp.CicloServiceImp;
@@ -50,6 +51,7 @@ public class TareaController {
            tarea.setFechaLimite(parsedDateTime_fechaLimite);
             LocalDateTime parsedDateTime_fechaInicial = LocalDateTime.parse(request.get("fechaInicial").toString(), formatter);
             tarea.setFechaInicial(parsedDateTime_fechaInicial);
+            tarea.setEstadoDato(EstadoDato.ACTIVO);
 
            Long idCiclo=Long.parseLong(request.get("idCiclo").toString());
             Ciclo ciclo=cicloServiceImp.obtenerCicloPorId(idCiclo);
@@ -112,7 +114,7 @@ public class TareaController {
     public ResponseEntity<Map<String, Object>> findAll(){
         Map<String,Object> response = new HashMap<>();
         try {
-            List<Tarea> tareaList = this.tareaServiceImp.listarTareas();
+            List<Tarea> tareaList = this.tareaServiceImp.listarEntidadesActivas();
             response.put("status","succes");
             response.put("data", tareaList);
 
@@ -133,7 +135,7 @@ public class TareaController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             TareaDto tareaDto = new TareaDto();
-            tareaDto.setNombre(tarea.getNombre();
+            tareaDto.setNombre(tarea.getNombre());
             tareaDto.setProyecto(tarea.getCiclo().getNombre());
             tareaDto.setFechaFinal(tarea.getFechaLimite());
             tareaDto.setFechaInicial(tarea.getFechaInicial());
@@ -149,6 +151,31 @@ public class TareaController {
             response.put("data", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Tarea tarea = tareaServiceImp.obtenerTareaPorId(id);
+
+            if (tarea == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Usuario no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            tareaServiceImp.cambiarEstadoDato(id, EstadoDato.DESACTIVADO);
+
+            response.put("status", "success");
+            response.put("data", "Usuario deshabilitado correctamente");
+
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.buildoc.buildocDemo.entities;
 
 import com.buildoc.buildocDemo.entities.enums.EstadoCiclo;
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import lombok.*;
 import javax.persistence.*;
 
@@ -23,6 +24,7 @@ public class Ciclo {
     private LocalDateTime fechaCreacion;
 
     private String descripcion;
+    private EstadoDato estadoDato;
     @Enumerated(EnumType.STRING)
 
     private EstadoCiclo estado;

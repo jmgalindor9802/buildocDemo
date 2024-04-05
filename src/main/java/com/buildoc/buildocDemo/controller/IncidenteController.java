@@ -2,6 +2,7 @@ package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.Incidente;
 import com.buildoc.buildocDemo.entities.Proyecto;
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.entities.enums.EstadoResultadoInspeccion;
 import com.buildoc.buildocDemo.entities.enums.IncidenteEstado;
 import com.buildoc.buildocDemo.entities.enums.IncidenteGravedad;
@@ -49,6 +50,7 @@ public class IncidenteController {
             incidente.setEstado(IncidenteEstado.INICIALIZADO);
             incidente.setGravedad(incidenteGravedad);
             incidente.setFecha(LocalDateTime.now());
+            incidente.setEstadoDato(EstadoDato.ACTIVO);
             incidente.setSugerencias(request.get("sugerencias").toString());
             Long idProyecto = Long.parseLong(request.get("idProyecto").toString());
             incidente.setIdProyecto(idProyecto);
@@ -70,7 +72,7 @@ public class IncidenteController {
     public ResponseEntity<Map<String, Object>> findAll(){
         Map<String,Object> response = new HashMap<>();
         try {
-            List<Incidente> incidenteList = this.incidenteServiceImp.listarIncidentes();
+            List<Incidente> incidenteList = this.incidenteServiceImp.listarEntidadesActivas();
             response.put("status","succes");
             response.put("data", incidenteList);
 

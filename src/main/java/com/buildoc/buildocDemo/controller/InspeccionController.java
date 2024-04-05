@@ -1,6 +1,7 @@
 package com.buildoc.buildocDemo.controller;
 
 import com.buildoc.buildocDemo.entities.*;
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.entities.enums.InspeccionPeriodicidad;
 import com.buildoc.buildocDemo.services.imp.InspeccionServiceImp;
 import com.buildoc.buildocDemo.services.imp.TareaServiceImp;
@@ -35,6 +36,7 @@ public class InspeccionController {
             Inspeccion inspeccion = new Inspeccion();
 
             Long idTipoInspeccion = Long.parseLong(request.get("idTipoInspeccion").toString());
+            inspeccion.setEstadoDato(EstadoDato.ACTIVO);
             TipoInspeccion tipoInspeccion = tipoInspeccionServicesImp.obtenerTipoInspeccionPorId(idTipoInspeccion);
 
             if (tipoInspeccion == null) {
@@ -85,7 +87,7 @@ public class InspeccionController {
     public ResponseEntity<Map<String, Object>> findAll(){
         Map<String,Object> response = new HashMap<>();
         try {
-            List<Inspeccion> inspeccionList = this.inspeccionServiceImp.listarIncidentes();
+            List<Inspeccion> inspeccionList = this.inspeccionServiceImp.listarEntidadesActivas();
             response.put("status","succes");
             response.put("data", inspeccionList);
 
