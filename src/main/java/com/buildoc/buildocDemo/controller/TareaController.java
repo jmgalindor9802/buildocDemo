@@ -181,6 +181,7 @@ public class TareaController {
             LocalDateTime fechaFinal = LocalDateTime.parse(fechaStringFinal, formatter);
             tarea.setFechaLimite(fechaFinal);
 
+
             tareaServiceImp.actualizarTarea(tarea);
             response.put("status", HttpStatus.OK);
             response.put("data", "Tarea actualizada exitosamente");

@@ -1,5 +1,6 @@
 package com.buildoc.buildocDemo.controller;
 
+import com.buildoc.buildocDemo.dto.IncidenteDto;
 import com.buildoc.buildocDemo.entities.Incidente;
 import com.buildoc.buildocDemo.entities.Proyecto;
 import com.buildoc.buildocDemo.entities.enums.EstadoDato;
@@ -7,6 +8,7 @@ import com.buildoc.buildocDemo.entities.enums.EstadoResultadoInspeccion;
 import com.buildoc.buildocDemo.entities.enums.IncidenteEstado;
 import com.buildoc.buildocDemo.entities.enums.IncidenteGravedad;
 import com.buildoc.buildocDemo.services.imp.IncidenteServiceImp;
+import com.buildoc.buildocDemo.services.imp.ProyectoServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,9 @@ import java.util.Map;
 public class IncidenteController {
     @Autowired
     private IncidenteServiceImp incidenteServiceImp;
+
+    @Autowired
+    private ProyectoServiceImp proyectoServiceImp;
     @PostMapping ("create")
     public ResponseEntity<Map<String, Object>> create( @RequestBody Map<String,Object>request){
         Map<String, Object> response = new HashMap<>();
@@ -52,10 +57,13 @@ public class IncidenteController {
             incidente.setFecha(LocalDateTime.now());
             incidente.setEstadoDato(EstadoDato.ACTIVO);
             incidente.setSugerencias(request.get("sugerencias").toString());
+
             Long idProyecto = Long.parseLong(request.get("idProyecto").toString());
-            incidente.setIdProyecto(idProyecto);
-            Long idUsuario = Long.parseLong(request.get("idUsuario").toString());
-            incidente.setIdUsuario(idUsuario);
+            Proyecto proyecto = proyectoServiceImp.obtenerProyectoPorId(idProyecto);
+            if (proyecto == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            incidente.setProyecto(proyecto);
 
             this.incidenteServiceImp.crearIncidente(incidente);
             response.put("status","succes");
@@ -116,10 +124,14 @@ public class IncidenteController {
             incidente.setGravedad(incidenteGravedad);
             incidente.setFecha(LocalDateTime.now());
             incidente.setSugerencias(request.get("sugerencias").toString());
+
             Long idProyecto = Long.parseLong(request.get("idProyecto").toString());
-            incidente.setIdProyecto(idProyecto);
-            Long idUsuario = Long.parseLong(request.get("idUsuario").toString());
-            incidente.setIdUsuario(idUsuario);
+            Proyecto proyecto = proyectoServiceImp.obtenerProyectoPorId(idProyecto);
+            if (proyecto == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            incidente.setProyecto(proyecto);
+
 
             this.incidenteServiceImp.actualizarIncidente(incidente);
             response.put("status","succes");
@@ -156,4 +168,36 @@ public class IncidenteController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Map<String, Object>> findById(@PathVariable Long id){
+        Map<String, Object> response = new HashMap<>();
+        try {
+            // Obtener el incidente por su ID
+            Incidente incidente = incidenteServiceImp.obtenerIncidentePorId(id);
+
+            // Verificar si el incidente existe
+            if (incidente == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Incidente no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+            IncidenteDto incidenteDto= new IncidenteDto();
+            incidenteDto.setProyecto(incidente.getProyecto().getNombre());
+            incidenteDto.setDescripcion(incidente.getDescripcion());
+            incidenteDto.setNombre(incidente.getNombre());
+            incidenteDto.setFechaReporte(incidente.getFecha().toString());
+
+            response.put("status","success");
+            response.put("data", incidenteDto);
+
+
+        } catch (Exception e){
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

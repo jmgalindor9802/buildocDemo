@@ -22,7 +22,7 @@ public class Inspeccion {
     private InspeccionPeriodicidad periodicidad;
     @Enumerated(EnumType.STRING)
     private EstadoDato estadoDato;
-    @OneToOne(fetch =FetchType.LAZY)
+    @OneToOne(fetch =FetchType.EAGER)
     private Tarea tarea_inspeccion;
     @OneToOne
     private TipoInspeccion tipoInspeccion;

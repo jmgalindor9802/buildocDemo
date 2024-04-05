@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,7 @@ public class TipoInspeccionController {
             TipoInspeccion tipoInspeccion = new TipoInspeccion();
             tipoInspeccion.setNombre(request.get("nombre").toString());
             tipoInspeccion.setDescripcion(request.get("descripcion").toString());
+            tipoInspeccion.setFechacreacion(LocalDateTime.now());
 
             if (request.containsKey("idArchivos")) {
                 // La clave "idArchivos" está presente en la solicitud

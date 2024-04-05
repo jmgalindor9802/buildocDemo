@@ -42,14 +42,8 @@ public class Incidente {
     private String sugerencias;
 
 
-    private Long idUsuario;
-
-
-    private Long idProyecto;
     @ManyToOne
-
     private Proyecto proyecto;
     @ManyToOne
-
     private Usuario usuario;
 }
