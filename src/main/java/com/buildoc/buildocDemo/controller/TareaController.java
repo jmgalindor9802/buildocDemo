@@ -6,6 +6,7 @@ import com.buildoc.buildocDemo.entities.Archivo;
 import com.buildoc.buildocDemo.entities.Ciclo;
 import com.buildoc.buildocDemo.entities.Tarea;
 import com.buildoc.buildocDemo.entities.Usuario;
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.entities.enums.EstadoTarea;
 import com.buildoc.buildocDemo.services.imp.ArchivoServiceImp;
 import com.buildoc.buildocDemo.services.imp.CicloServiceImp;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/buildoc/tarea/",method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.HEAD})
@@ -50,6 +52,7 @@ public class TareaController {
            tarea.setFechaLimite(parsedDateTime_fechaLimite);
             LocalDateTime parsedDateTime_fechaInicial = LocalDateTime.parse(request.get("fechaInicial").toString(), formatter);
             tarea.setFechaInicial(parsedDateTime_fechaInicial);
+            tarea.setEstadoDato(EstadoDato.ACTIVO);
 
            Long idCiclo=Long.parseLong(request.get("idCiclo").toString());
             Ciclo ciclo=cicloServiceImp.obtenerCicloPorId(idCiclo);
@@ -133,14 +136,22 @@ public class TareaController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             TareaDto tareaDto = new TareaDto();
-            tareaDto.setNombre(tarea.getNombre();
-            tareaDto.setProyecto(tarea.getCiclo().getNombre());
-            tareaDto.setFechaFinal(tarea.getFechaLimite());
-            tareaDto.setFechaInicial(tarea.getFechaInicial());
+            tareaDto.setNombre(tarea.getNombre());
+            tareaDto.setCiclo(tarea.getCiclo().getNombre());
+
             tareaDto.setDescripcion(tarea.getDescripcion());
             tareaDto.setProyecto(tarea.getCiclo().getProyecto().getNombre());
-            tareaDto.setResponsables(tarea.getUsuario());
+            String responsablesString = tarea.getUsuario().stream()
+                    .map(Usuario::getId)
+                    .map(String::valueOf) // Convertir cada ID a String
+                    .collect(Collectors.joining(",")); // Unir los IDs con comas
 
+            tareaDto.setResponsables(responsablesString);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            String fechaInicialFormateada = tarea.getFechaInicial().format(formatter);
+            String fechaFinalFormateada = tarea.getFechaLimite().format(formatter);
+            tareaDto.setFechaFinal(fechaFinalFormateada);
+            tareaDto.setFechaInicial(fechaInicialFormateada);
             response.put("status", HttpStatus.OK);
             response.put("data", tareaDto);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -150,6 +161,37 @@ public class TareaController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("update/{id}")
+    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @RequestBody TareaDto tareaDto) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            // Verificar si la tarea existe
+            Tarea tarea = tareaServiceImp.obtenerTareaPorId(id);
+            if (tarea == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            tarea.setDescripcion(tareaDto.getDescripcion());
+            String fechaStringInicial = (String) tareaDto.getFechaInicial();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            LocalDateTime fechaInicial = LocalDateTime.parse(fechaStringInicial, formatter);
+            tarea.setFechaInicial(fechaInicial);
+            String fechaStringFinal = (String) tareaDto.getFechaFinal();
+            LocalDateTime fechaFinal = LocalDateTime.parse(fechaStringFinal, formatter);
+            tarea.setFechaLimite(fechaFinal);
+
+            tareaServiceImp.actualizarTarea(tarea);
+            response.put("status", HttpStatus.OK);
+            response.put("data", "Tarea actualizada exitosamente");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }
 

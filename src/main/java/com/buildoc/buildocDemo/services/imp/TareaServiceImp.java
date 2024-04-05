@@ -28,6 +28,7 @@ public class TareaServiceImp implements TareaServices {
 
     @Override
     public Tarea obtenerTareaPorId(Long id) {
+
         return tareaRepository.getById(id);
     }
 
