@@ -26,8 +26,8 @@ public class SeguimientoIncidenteController {
     @Autowired
     private IncidenteServiceImp incidenteServiceImp;
 
-    @PostMapping("create")
-    public ResponseEntity<Map<String, Object>> create( @RequestBody Map<String,Object>request){
+    @PostMapping("create/{id}")
+    public ResponseEntity<Map<String, Object>> create( @PathVariable Long id, @RequestBody Map<String,Object>request){
         Map<String,Object> response = new HashMap<>();
         try {
             SeguimientoIncidente seguimientoIncidente = new SeguimientoIncidente();
@@ -35,15 +35,12 @@ public class SeguimientoIncidenteController {
             LocalDateTime fechaActual = LocalDateTime.now();
             seguimientoIncidente.setFecha(fechaActual);
             seguimientoIncidente.setSugerencia(request.get("sugerencia").toString());
-            Long incidenteId = Long.parseLong(request.get("incidenteId").toString());
-            Incidente incidente = incidenteServiceImp.obtenerIncidentePorId(incidenteId);
+            Incidente incidente = incidenteServiceImp.obtenerIncidentePorId(id);
 
             if (incidente == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             seguimientoIncidente.setIncidente(incidente);
-
-
 
             this.seguimientoIncidenteServiceImp.crearSeguimientoIncidente(seguimientoIncidente);
             response.put("status","succes");

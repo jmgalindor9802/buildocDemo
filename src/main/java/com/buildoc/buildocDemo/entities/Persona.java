@@ -4,6 +4,8 @@ import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import lombok.*;
 import javax.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -25,7 +27,7 @@ public class Persona {
     @Column (name="perNombre_arl", nullable = false, length = 280)
     private String arl;
     @Column(name="perFecha_nacimiento", nullable = false)
-    private Date fechaNacimiento;
+    private LocalDateTime fechaNacimiento;
     @Column(name="perMunicipio", nullable = false, length = 280)
     private String municipio;
     private String departamento;

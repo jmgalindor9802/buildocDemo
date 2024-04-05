@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RestController
@@ -26,16 +29,19 @@ public class PersonaController {
     @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String, Object> request) {
         Map<String, Object> response = new HashMap<>();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try {
             Persona persona = new Persona();
             persona.setCedula(Long.parseLong(request.get("cedula").toString()));
-            Date parsedDate = formatter.parse(request.get("fechaNacimiento").toString());
+
             persona.setNombre(request.get("nombre").toString());
             persona.setApellido(request.get("apellido").toString());
             persona.setEps(request.get("eps").toString());
             persona.setArl(request.get("arl").toString());
-            persona.setFechaNacimiento(parsedDate);
+
+            LocalDateTime parsedDateTime_fechaNacimiento = LocalDateTime.parse(request.get("fechaNacimiento").toString(), formatter);
+            persona.setFechaNacimiento(parsedDateTime_fechaNacimiento);
+
             persona.setMunicipio(request.get("municipio").toString());
             persona.setDepartamento(request.get("departamento").toString());
             persona.setDireccion(request.get("direccion").toString());
@@ -83,7 +89,12 @@ public class PersonaController {
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
             PersonaDto personaDto= new PersonaDto();
-            personaDto.setFechaNacimiento(persona.getFechaNacimiento());
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            String fechaNacimientoFormateada = persona.getFechaNacimiento().format(formatter);
+            personaDto.setFechaNacimiento(fechaNacimientoFormateada);
+
+
             personaDto.setNombre(persona.getNombre());
             personaDto.setApellido(persona.getApellido());
             personaDto.setEps(persona.getEps());
@@ -143,7 +154,7 @@ public class PersonaController {
             }
 
             // Actualizar los datos de la persona con los datos recibidos del frontend
-            persona.setFechaNacimiento(personaDto.getFechaNacimiento());
+
             persona.setNombre(personaDto.getNombre());
             persona.setApellido(personaDto.getApellido());
             persona.setEps(personaDto.getEps());

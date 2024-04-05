@@ -11,7 +11,7 @@ public class PersonaDto {
     private String apellido;
     private String eps;
     private String arl;
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
     private String municipio;
     private String departamento;
     private String direccion;
