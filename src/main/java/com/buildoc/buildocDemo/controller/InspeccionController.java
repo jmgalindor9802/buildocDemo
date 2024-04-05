@@ -167,13 +167,14 @@ public class InspeccionController {
 
             if (inspeccion == null){
                 response.put("status", HttpStatus.NOT_FOUND);
-                response.put("data", "Inspección no encontrada");
+                response.put("data", "Usuario no encontrado");
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
 
-            inspeccionServiceImp.eliminarInspeccion(inspeccion);
-            response.put("status","succes");
-            response.put("data","Inspección eliminada correctamente");
+            inspeccionServiceImp.cambiarEstadoDato(id, EstadoDato.DESACTIVADO);
+
+            response.put("status", "success");
+            response.put("data", "Usuario deshabilitado correctamente");
 
         } catch (Exception e) {
             response.put("status", HttpStatus.BAD_GATEWAY);
