@@ -5,6 +5,7 @@ import com.buildoc.buildocDemo.entities.RespuestaTarea;
 import com.buildoc.buildocDemo.entities.Tarea;
 import com.buildoc.buildocDemo.entities.Usuario;
 import com.buildoc.buildocDemo.entities.enums.EstadoRespuestaTarea;
+import com.buildoc.buildocDemo.entities.enums.EstadoTarea;
 import com.buildoc.buildocDemo.services.imp.RespuestaTareaServiceImp;
 import com.buildoc.buildocDemo.services.imp.TareaServiceImp;
 import com.buildoc.buildocDemo.services.imp.UsuarioServiceImp;
@@ -32,8 +33,8 @@ public class RespuestaTareaController {
     @Autowired
     private UsuarioServiceImp usuarioServiceImp;
 
-    @PostMapping("create")
-    public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String,Object>request) {
+    @PostMapping("create/{id}")
+    public ResponseEntity<Map<String, Object>> create(@PathVariable Long id ,@RequestBody Map<String,Object>request) {
         Map<String, Object> response = new HashMap<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try {
@@ -41,22 +42,27 @@ public class RespuestaTareaController {
             respuestaTarea.setFechaEntrega(LocalDateTime.now());
             respuestaTarea.setEstado(EstadoRespuestaTarea.EN_REVISION);
             respuestaTarea.setComentario(request.get("comentario").toString());
-            Long idTarea=Long.parseLong(request.get("idTarea").toString());
-            Tarea tarea = tareaServiceImp.obtenerTareaPorId(idTarea);
+
+            Tarea tarea = tareaServiceImp.obtenerTareaPorId(id);
+            tarea.setEstado(EstadoTarea.COMPLETADO);
             if (tarea == null) {
                 response.put("status", HttpStatus.NOT_FOUND);
                 response.put("data", "No se encontró ninguna tarea con el ID proporcionado");
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
             respuestaTarea.setTarea(tarea);
+      /*
             Long idUsuario=Long.parseLong(request.get("idUsuario").toString());
             Usuario usuario = usuarioServiceImp.obtenerUsuarioPorId(idUsuario);
+
             if (usuario== null) {
                 response.put("status", HttpStatus.NOT_FOUND);
                 response.put("data", "No se encontró ninguna tarea con el ID proporcionado");
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
           respuestaTarea.setUsuario(usuario);
+          */
+
             respuestaTareaServiceImp.crearRespuestaTarea(respuestaTarea);
             response.put("status", "success");
             response.put("data", "Respuesta de tarea creada exitosamente");
