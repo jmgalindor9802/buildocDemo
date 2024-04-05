@@ -1,6 +1,7 @@
 package com.buildoc.buildocDemo.controller;
 
 
+import com.buildoc.buildocDemo.dto.PersonaDto;
 import com.buildoc.buildocDemo.entities.Persona;
 import com.buildoc.buildocDemo.services.imp.PersonaServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,36 +70,40 @@ public class PersonaController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("update/{id}")
-    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @RequestBody Map<String, Object> request) {
+    @GetMapping("{id}")
+    public ResponseEntity<Map<String, Object>> findbyId(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
         try {
             Persona persona = personaServicesImp.obtenerPersonaPorId(id);
+
             if (persona == null) {
                 response.put("status", HttpStatus.NOT_FOUND);
                 response.put("data", "No se encontró ninguna persona con el ID proporcionado");
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
-            Date parsedDate = formatter.parse(request.get("fechaNacimiento").toString());
-            persona.setFechaNacimiento(parsedDate);
-            persona.setNombre(request.get("nombre").toString());
-            persona.setApellido(request.get("apellido").toString());
-            persona.setEps(request.get("eps").toString());
-            persona.setArl(request.get("arl").toString());
-            persona.setMunicipio(request.get("municipio").toString());
-            persona.setDireccion(request.get("direccion").toString());
-            persona.setProfesion(request.get("profesion").toString());
-            persona.setTelefono(request.get("telefono").toString());
+            PersonaDto personaDto= new PersonaDto();
+            personaDto.setFechaNacimiento(persona.getFechaNacimiento());
+            personaDto.setNombre(persona.getNombre());
+            personaDto.setApellido(persona.getApellido());
+            personaDto.setEps(persona.getEps());
+            personaDto.setArl(persona.getArl());
+            personaDto.setMunicipio(persona.getMunicipio());
+            personaDto.setDepartamento(persona.getDepartamento());
+            personaDto.setDireccion(persona.getDireccion());
+            personaDto.setProfesion(persona.getProfesion());
+            personaDto.setTelefono(persona.getTelefono());
 
-            personaServicesImp.actualizarPersona(persona);
-            response.put("status", "succes");
-            response.put("data", "Registro exitoso");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+            response.put("status", HttpStatus.OK);
+            response.put("data", personaDto);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
@@ -124,4 +129,42 @@ public class PersonaController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @PutMapping("update/{id}")
+    public ResponseEntity<Map<String, Object>> updateById(@PathVariable Long id, @RequestBody PersonaDto personaDto) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            Persona persona = personaServicesImp.obtenerPersonaPorId(id);
+
+            if (persona == null) {
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "No se encontró ninguna persona con el ID proporcionado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            // Actualizar los datos de la persona con los datos recibidos del frontend
+            persona.setFechaNacimiento(personaDto.getFechaNacimiento());
+            persona.setNombre(personaDto.getNombre());
+            persona.setApellido(personaDto.getApellido());
+            persona.setEps(personaDto.getEps());
+            persona.setArl(personaDto.getArl());
+            persona.setMunicipio(personaDto.getMunicipio());
+            persona.setDepartamento(personaDto.getDepartamento());
+            persona.setDireccion(personaDto.getDireccion());
+            persona.setProfesion(personaDto.getProfesion());
+            persona.setTelefono(personaDto.getTelefono());
+
+            // Guardar los cambios en la base de datos
+            personaServicesImp.actualizarPersona(persona);
+
+            response.put("status", HttpStatus.OK);
+            response.put("data", "Persona actualizada correctamente");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

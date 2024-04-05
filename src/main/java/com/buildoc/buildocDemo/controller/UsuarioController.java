@@ -37,21 +37,9 @@ public class  UsuarioController {
             usuario.setPassword(request.get("password").toString());
             usuario.setEstadoDato(EstadoDato.ACTIVO);
 
-            String idRolesString = request.get("idRoles").toString();
-            String[] idRolesArray = idRolesString.split(",");
-            List<Long> idRoles = new ArrayList<>();
-
-            for (String idRole : idRolesArray) {
-                idRoles.add(Long.parseLong(idRole));
-            }
-
-            List<Rol> roles = new ArrayList<>();
-            for (Long roleId : idRoles) {
-                Rol rol = rolServiceImp.obtenerRolPorId(roleId);
-                roles.add(rol);
-            }
-
-            usuario.setRoles(roles);
+            Long idRol = Long.parseLong(request.get("rolId").toString());
+            Rol rol=rolServiceImp.obtenerRolPorId(idRol);
+            usuario.setRol(rol);
             Long idPersona = Long.parseLong(request.get("idPersona").toString());
             Persona persona = personaServiceImp.obtenerPersonaPorId(idPersona);
             if (persona == null) {
@@ -112,7 +100,7 @@ public class  UsuarioController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("update/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Map<String, Object>> findById(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
         try {
@@ -122,17 +110,10 @@ public class  UsuarioController {
             }
             UsuarioDto usuarioDto = new UsuarioDto();
             usuarioDto.setNombre(usuario.getNombre());
-
-            if (usuarioDto.getPersonaId() != null) {
-                usuario.setPersona(personaServiceImp.obtenerPersonaPorId(usuarioDto.getPersonaId()));
-            }
+            usuarioDto.setPersonaId(usuario.getPersona().getCedula());
             usuarioDto.setPassword(usuario.getPassword());
             usuarioDto.setUsername(usuario.getUsername());
-            List<Long> rolesIds = usuario.getRoles().stream()
-                    .map(Rol::getId)
-                    .collect(Collectors.toList());
-            usuarioDto.setRoles(rolesIds);
-
+            usuarioDto.setRol(usuario.getRol().getNombre());
             response.put("status", HttpStatus.OK);
             response.put("data", usuarioDto);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -142,6 +123,25 @@ public class  UsuarioController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PutMapping("update/{id}")
+    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @RequestBody Map<String, Object> request) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Usuario usuario = usuarioServiceImp.obtenerUsuarioPorId(id);
+            if (usuario == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            usuario.setUsername(request.get("username").toString());
+            this.usuarioServiceImp.actualizarUsuario(usuario);
+            response.put("status", "success");
+            response.put("data", "Usuario actualizado correctamente");
+            return new ResponseEntity<>(response, HttpStatus.OK);
 
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.buildoc.buildocDemo.controller;
 
+import com.buildoc.buildocDemo.dto.TareaDto;
+import com.buildoc.buildocDemo.dto.UsuarioDto;
 import com.buildoc.buildocDemo.entities.Archivo;
 import com.buildoc.buildocDemo.entities.Ciclo;
 import com.buildoc.buildocDemo.entities.Tarea;
@@ -122,4 +124,32 @@ public class TareaController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Map<String, Object>> findById(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Tarea tarea = tareaServiceImp.obtenerTareaPorId(id);
+            if (tarea == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            TareaDto tareaDto = new TareaDto();
+            tareaDto.setNombre(tarea.getNombre();
+            tareaDto.setProyecto(tarea.getCiclo().getNombre());
+            tareaDto.setFechaFinal(tarea.getFechaLimite());
+            tareaDto.setFechaInicial(tarea.getFechaInicial());
+            tareaDto.setDescripcion(tarea.getDescripcion());
+            tareaDto.setProyecto(tarea.getCiclo().getProyecto().getNombre());
+            tareaDto.setResponsables(tarea.getUsuario());
+
+            response.put("status", HttpStatus.OK);
+            response.put("data", tareaDto);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("data", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
+

@@ -67,38 +67,44 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
         // Obtener información adicional del usuario autenticado
-        String nombre = usuarioService.obtenerUsuarioPorUsername(loginDto.getUsername());// Obtener el nombre del usuario
-        Long idUsuario= usuarioService.obtenerIdUsuarioPorUsername(loginDto.getUsername()) ;
-        List<String> roles = authentication.getAuthorities().stream()
+        String nombre = usuarioService.obtenerUsuarioPorUsername(loginDto.getUsername()); // Obtener el nombre del usuario
+        Long idUsuario = usuarioService.obtenerIdUsuarioPorUsername(loginDto.getUsername());
+
+        String role = authentication.getAuthorities().stream()
+                .findFirst() // Obtener el primer rol de la lista
                 .map(Object::toString)
-                .collect(Collectors.toList());
-        // Crear un objeto que contenga el token JWT, el nombre, el username y los roles del usuario
-        LoginResponseDto loginResponse = new LoginResponseDto(token, nombre, loginDto.getUsername(), roles,idUsuario);
+                .orElse("ROLE_DEFAULT"); // Rol por defecto si no se encuentra ninguno
+
+        // Crear un objeto que contenga el token JWT, el nombre, el username y el rol del usuario
+        LoginResponseDto loginResponse = new LoginResponseDto(token, nombre, loginDto.getUsername(),role, idUsuario);
         // Agregar un console.log
         System.out.println("Login Response: " + loginResponse.toString());
         return new ResponseEntity<>(loginResponse, HttpStatus.OK);
     }
 
-    @Transactional
-    @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
-        if(usuarioRepository.existsByUsername(registerDto.getUsername())){
-            return new ResponseEntity<>("Usuario ya existe", HttpStatus.BAD_REQUEST);
 
+
+    @PostMapping("register")
+    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
+        if (usuarioRepository.existsByUsername(registerDto.getUsername())) {
+            return new ResponseEntity<>("Usuario ya existe", HttpStatus.BAD_REQUEST);
         }
+
         Usuario user = new Usuario();
         user.setUsername(registerDto.getUsername());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setNombre(registerDto.getNombre());
         user.setEstadoDato(EstadoDato.ACTIVO);
 
-
-        List<Rol> roles = new ArrayList<>();
-        for (Long roleId : registerDto.getRoles()) {
-            Optional<Rol> optionalRol = rolRepository.findById(roleId);
-            optionalRol.ifPresent(roles::add);
+        // Obtener el rol del DTO y verificar si existe
+        Long roleId = registerDto.getRol();
+        Optional<Rol> optionalRol = rolRepository.findById(roleId);
+        if (optionalRol.isEmpty()) {
+            return new ResponseEntity<>("Rol no encontrado", HttpStatus.BAD_REQUEST);
         }
-        user.setRoles(roles);
+
+        // Asignar el rol al usuario
+        user.setRol(optionalRol.get());
 
         Long idPersona = Long.parseLong(registerDto.getPersonaId().toString());
         Persona persona = personaServiceImp.obtenerPersonaPorId(idPersona);
@@ -108,7 +114,7 @@ public class AuthController {
         user.setPersona(persona);
 
         usuarioRepository.save(user);
-        return new ResponseEntity<>("Usuario registrado exitosamente",HttpStatus.OK);
+        return new ResponseEntity<>("Usuario registrado exitosamente", HttpStatus.OK);
     }
 
 

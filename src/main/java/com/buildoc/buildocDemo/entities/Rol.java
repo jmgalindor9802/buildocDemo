@@ -19,6 +19,5 @@ public class Rol {
     private long id;
     private String nombre;
 
-    @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    List<Usuario> usuarios;
+
 }

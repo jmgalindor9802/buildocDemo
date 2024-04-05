@@ -29,8 +29,9 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private EstadoDato estadoDato;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private List<Rol> roles= new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Rol rol;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Equipo> equipos;

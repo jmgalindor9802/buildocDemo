@@ -9,7 +9,7 @@ public class RegisterDto {
     private String username;
     private String password;
     private String nombre;
-    private List<Long> roles;
+    private Long rol;
     private Long personaId;
 
 }
