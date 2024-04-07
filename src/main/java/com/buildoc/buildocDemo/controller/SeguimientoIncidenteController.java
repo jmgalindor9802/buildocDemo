@@ -1,9 +1,7 @@
 package com.buildoc.buildocDemo.controller;
 
-import com.buildoc.buildocDemo.entities.Incidente;
-import com.buildoc.buildocDemo.entities.Rol;
-import com.buildoc.buildocDemo.entities.SeguimientoIncidente;
-import com.buildoc.buildocDemo.entities.Usuario;
+import com.buildoc.buildocDemo.entities.*;
+import com.buildoc.buildocDemo.entities.enums.EstadoDato;
 import com.buildoc.buildocDemo.services.imp.IncidenteServiceImp;
 import com.buildoc.buildocDemo.services.imp.SeguimientoIncidenteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,7 @@ public class SeguimientoIncidenteController {
             SeguimientoIncidente seguimientoIncidente = new SeguimientoIncidente();
             seguimientoIncidente.setDescripcion(request.get("descripcion").toString());
             LocalDateTime fechaActual = LocalDateTime.now();
+            seguimientoIncidente.setEstadoDato(EstadoDato.ACTIVO);
             seguimientoIncidente.setFecha(fechaActual);
             seguimientoIncidente.setSugerencia(request.get("sugerencia").toString());
             Incidente incidente = incidenteServiceImp.obtenerIncidentePorId(id);
@@ -58,13 +57,38 @@ public class SeguimientoIncidenteController {
     public ResponseEntity<Map<String, Object>> findAll(){
         Map<String,Object> response = new HashMap<>();
         try {
-            List<SeguimientoIncidente> seguimientoIncidenteList = this.seguimientoIncidenteServiceImp.listarSeguimientoIncidentes();
+            List<SeguimientoIncidente> seguimientoIncidenteList = this.seguimientoIncidenteServiceImp.listarEntidadesActivas();
             response.put("status","succes");
             response.put("data", seguimientoIncidenteList);
 
         }catch (Exception e){
             response.put("status",HttpStatus.BAD_GATEWAY);
             response.put("data",e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            SeguimientoIncidente seguimientoIncidente = seguimientoIncidenteServiceImp.obtenerSeguimientoIncidentePorId(id);
+
+            if (seguimientoIncidente == null){
+                response.put("status", HttpStatus.NOT_FOUND);
+                response.put("data", "Usuario no encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            seguimientoIncidenteServiceImp.cambiarEstadoDato(id, EstadoDato.DESACTIVADO);
+
+            response.put("status", "success");
+            response.put("data", "Usuario deshabilitado correctamente");
+
+        } catch (Exception e) {
+            response.put("status", HttpStatus.BAD_GATEWAY);
+            response.put("data", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);

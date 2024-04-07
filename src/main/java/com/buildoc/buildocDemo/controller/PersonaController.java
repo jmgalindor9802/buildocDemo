@@ -29,7 +29,8 @@ public class PersonaController {
     @PostMapping("create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String, Object> request) {
         Map<String, Object> response = new HashMap<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         try {
             Persona persona = new Persona();
             persona.setCedula(Long.parseLong(request.get("cedula").toString()));
@@ -39,7 +40,7 @@ public class PersonaController {
             persona.setEps(request.get("eps").toString());
             persona.setArl(request.get("arl").toString());
 
-            LocalDateTime parsedDateTime_fechaNacimiento = LocalDateTime.parse(request.get("fechaNacimiento").toString(), formatter);
+            LocalDate parsedDateTime_fechaNacimiento = LocalDate.parse(request.get("fechaNacimiento").toString(), formatter);
             persona.setFechaNacimiento(parsedDateTime_fechaNacimiento);
 
             persona.setMunicipio(request.get("municipio").toString());
@@ -90,7 +91,7 @@ public class PersonaController {
             }
             PersonaDto personaDto= new PersonaDto();
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String fechaNacimientoFormateada = persona.getFechaNacimiento().format(formatter);
             personaDto.setFechaNacimiento(fechaNacimientoFormateada);
 
@@ -104,6 +105,7 @@ public class PersonaController {
             personaDto.setDireccion(persona.getDireccion());
             personaDto.setProfesion(persona.getProfesion());
             personaDto.setTelefono(persona.getTelefono());
+
 
             response.put("status", HttpStatus.OK);
             response.put("data", personaDto);

@@ -27,7 +27,7 @@ public class Persona {
     @Column (name="perNombre_arl", nullable = false, length = 280)
     private String arl;
     @Column(name="perFecha_nacimiento", nullable = false)
-    private LocalDateTime fechaNacimiento;
+    private LocalDate fechaNacimiento;
     @Column(name="perMunicipio", nullable = false, length = 280)
     private String municipio;
     private String departamento;
